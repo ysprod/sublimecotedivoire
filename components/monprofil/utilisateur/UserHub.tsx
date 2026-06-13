@@ -1,6 +1,4 @@
 'use client';
-import ErrorState from "@/components/monprofil/ErrorState";
-import { useMonProfil } from "@/hooks/carteduciel/useMonProfil";
 import { cx } from "@/lib/functions";
 import { motion, useReducedMotion } from "framer-motion";
 import {
@@ -32,7 +30,7 @@ export const ConsultantCta = memo(function ConsultantCta() {
       className="text-center relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8 shadow-sm border border-indigo-100"
     >
       <h2 className="text-xl sm:text-2xl font-black text-gray-900">
-        DEVENEZ CONSULTANT SUR MON ÉTOILE
+        DEVENEZ CONSULTANT SUR MON DATAKWABA
       </h2>
       <p className="mt-4 text-base text-gray-700 max-w-2xl mx-auto font-medium">
         Vous êtes Maître, Guide Spirituel, Coach, TradiPraticien, Guérisseur de l'âme, Prêtre ou Prêtresse...
@@ -210,16 +208,8 @@ export const IdentityPill = memo(function IdentityPill({
 });
 
 const UserHub = memo(function UserHub() {
-  const {
-    processedData,
-    fullName,
-    grade,
-    dateNaissanceLabel,
-    heureNaissance,
-    lieuNaissance,
-  } = useMonProfil();
-
-  if (!processedData) return <ErrorState />;
+  
+ 
 
   return (
     <div className="relative min-h-screen ">
@@ -244,13 +234,7 @@ const UserHub = memo(function UserHub() {
           {/* Grille principale */}
           <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
             {/* Colonne gauche - Identité */}
-            <IdentityOverview
-              fullName={fullName}
-              grade={grade}
-              dateNaissanceLabel={dateNaissanceLabel}
-              heureNaissance={heureNaissance}
-              lieuNaissance={lieuNaissance}
-            />
+          
 
             {/* Colonne droite - CTA */}
             <ConsultantCta />

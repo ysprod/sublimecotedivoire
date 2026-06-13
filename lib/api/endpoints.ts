@@ -1,14 +1,5 @@
 export const endpoints = {
-  // Admin Books
-  adminBooks: {
-    list: '/admin/books',
-    byId: (id: string) => `/books/${id}`,
-  },
-  // Books
-  books: {
-    byId: (id: string) => `/books/${id}`,
-  },
-  // Root
+  
   root: '/',
 
   // Authentication

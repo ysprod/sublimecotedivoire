@@ -36,7 +36,7 @@ select::placeholder {
   /* ----------------------------------------------------------
      ACCENT 1 — Or Stellaire (CTA, boutons, éléments premium)
     Or patiné naturel, éloigné d'un doré saturé.
-     Évoque les étoiles, la valeur et la noblesse spirituelle.
+     Évoque les DATAKWABA, la valeur et la noblesse spirituelle.
      HEX #C2913B | RGB (194, 145, 59)
      Contraste texte sombre sur or : 4.8:1 ✓ WCAG AA
      Contraste or sur fond sombre #0C0B1D : 8.1:1 ✓ WCAG AAA
@@ -92,7 +92,7 @@ select::placeholder {
 
   /* ----------------------------------------------------------
      TEXTES — MODE SOMBRE
-     Crème stellaire : chaleur de la lueur des étoiles.
+     Crème stellaire : chaleur de la lueur des DATAKWABA.
      Contraste sur fond sombre #0C0B1D : 18.1:1 ✓ WCAG AAA
   ---------------------------------------------------------- */
   --text-dark:       #EDE7D9; /* Corps de texte principal dark */

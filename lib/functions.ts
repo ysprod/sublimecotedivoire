@@ -344,7 +344,7 @@ export function readStoredReviews(storageKey: string): PractitionerReview[] {
         author:
           typeof entry?.author === "string" && entry.author.trim()
             ? entry.author.trim()
-            : "Membre Mon Etoile",
+            : "Membre DATAKWABA",
         rating: normalizeReviewRating(Number(entry?.rating ?? 5)),
         comment: typeof entry?.comment === "string" ? entry.comment.trim() : "",
         createdAt: Number(entry?.createdAt ?? Date.now()),

@@ -5,16 +5,16 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   const mediumId = params.id;
   
   const consultant = await getConsultantInfoById(mediumId);
-  const consultantName = consultant.spiritualName || consultant.fullName || consultant.username || "Consultant Mon Étoile";
-  const consultantDesc = consultant.presentation || consultant.bio || "Découvrez la guidance personnalisée de votre consultant Mon Étoile.";
+  const consultantName = consultant.spiritualName || consultant.fullName || consultant.username || "Consultant Mon DATAKWABA";
+  const consultantDesc = consultant.presentation || consultant.bio || "Découvrez la guidance personnalisée de votre consultant Mon DATAKWABA.";
   const consultantPhoto = consultant.photo || consultant.profilePicture || consultant.avatar || null;
 
   const image = consultantPhoto
-    ? (consultantPhoto.startsWith("http") ? consultantPhoto : `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.monetoile.org"}${consultantPhoto}`)
-    : `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.monetoile.org"}/og/voyance-message.png`;
+    ? (consultantPhoto.startsWith("http") ? consultantPhoto : `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.datakwaba.com"}${consultantPhoto}`)
+    : `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.datakwaba.com"}/og/voyance-message.png`;
 
-  const url = `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.monetoile.org"}/star/voyance/messages/${mediumId}`;
-  const title = `Conversation avec ${consultantName} | Mon Étoile`;
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.datakwaba.com"}/star/voyance/messages/${mediumId}`;
+  const title = `Conversation avec ${consultantName} | Mon DATAKWABA`;
   const description = consultantDesc;
 
   return {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
           alt: `Photo de ${consultantName}`,
         },
       ],
-      siteName: "Mon Étoile",
+      siteName: "Mon DATAKWABA",
       locale: "fr_FR",
     },
     twitter: {

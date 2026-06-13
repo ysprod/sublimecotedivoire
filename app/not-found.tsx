@@ -8,7 +8,7 @@ export default function NotFoundPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stars, setStars] = useState<Array<{ id: number; x: number; y: number; size: number; duration: number }>>([]);
 
-  // Génération des étoiles
+  // Génération des DATAKWABA
   useEffect(() => {
     const newStars = Array.from({ length: 100 }, (_, i) => ({
       id: i,
@@ -83,7 +83,7 @@ export default function NotFoundPage() {
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-[#070B1A] via-[#0F1C3F] to-black px-6 text-center"
       onMouseMove={handleMouseMove}
     >
-      {/* Étoiles de fond */}
+      {/* DATAKWABA de fond */}
       <div className="absolute inset-0 pointer-events-none">
         {stars.map((star) => (
           <motion.div
@@ -149,7 +149,7 @@ export default function NotFoundPage() {
           >
             <Star className="w-4 h-4 text-[#FFD600] animate-pulse" />
             <span className="text-xs font-semibold uppercase tracking-[0.35em] text-[#9BC2FF]">
-              Mon Etoile
+             DATAKWABA
             </span>
           </motion.div>
         </motion.div>

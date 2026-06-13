@@ -122,28 +122,28 @@ export const GRADE_NAMES: Record<Grade, string> = {
  */
 export const GRADE_MESSAGES: Record<Grade, { welcome: string; congratulations: string }> = {
   [Grade.NEOPHYTE]: {
-    welcome: `Bienvenue sur Mon Étoile ! Vous débutez votre parcours spirituel en tant que Néophyte.
+    welcome: `Bienvenue sur Mon DATAKWABA ! Vous débutez votre parcours spirituel en tant que Néophyte.
 
 Ce grade marque l'entrée dans l'univers de la connaissance de soi et des sciences ancestrales. Prenez le temps de découvrir les outils, d'explorer les ressources et de vous familiariser avec votre espace personnel.
 
 Votre chemin commence ici, dans l'ouverture, la curiosité et l'accueil des premiers enseignements.`,
     congratulations: `Vous êtes désormais Néophyte.
 
-C'est le point de départ de votre aventure initiatique. Observez, explorez, et laissez-vous guider par votre étoile intérieure. Chaque découverte, chaque question, chaque pas compte sur ce chemin d'éveil.`
+C'est le point de départ de votre aventure initiatique. Observez, explorez, et laissez-vous guider par votre DATAKWABA intérieure. Chaque découverte, chaque question, chaque pas compte sur ce chemin d'éveil.`
   },
   [Grade.ASPIRANT]: {
     welcome: `En créant votre compte, vous avez franchi le seuil d'un temple virtuel dédié à la connaissance de soi et aux savoirs fondamentaux de la spiritualité africaine.
 
 Ici, les sciences ancestrales ne se limitent pas à l'observation des phénomènes : elles forment un langage sacré qui relie l'invisible au visible, l'âme au corps, le destin aux actes.
 
-Votre étoile est votre guide. Elle brille dans le ciel, mais elle s'exprime aussi en vous, car ce qui est en haut reflète ce qui est en bas, et ce que révèlent les astres trouve écho dans votre vie intérieure.
+Votre DATAKWABA est votre guide. Elle brille dans le ciel, mais elle s'exprime aussi en vous, car ce qui est en haut reflète ce qui est en bas, et ce que révèlent les astres trouve écho dans votre vie intérieure.
 
 Votre chemin se déploie à travers 10 grades initiatiques, 10 étapes symboliques qui marquent l'approfondissement de votre conscience et votre évolution.`,
     congratulations: `Vous venez d'atteindre le deuxième degré : Aspirant.
 
 C'est le tout premier pas sur le chemin initiatique, le moment où votre curiosité s'éveille et où la quête de connaissance commence à illuminer votre vie.
 
-Être Aspirant, c'est ouvrir votre regard sur vous-même et sur l'univers, accueillir les enseignements des sciences ancestrales et sentir la guidance de votre étoile intérieure.
+Être Aspirant, c'est ouvrir votre regard sur vous-même et sur l'univers, accueillir les enseignements des sciences ancestrales et sentir la guidance de votre DATAKWABA intérieure.
 
 Chaque question que vous vous posez, chaque expérience que vous vivez, est une pierre posée sur le chemin de votre éveil.`
   },
@@ -151,7 +151,7 @@ Chaque question que vous vous posez, chaque expérience que vous vivez, est une 
     welcome: '',
     congratulations: `Vous avez atteint le degré 2 : Contemplateur.
 
-À présent, votre regard ne se limite plus à ce qui est visible : vous apprenez à observer avec attention, à percevoir les subtilités de votre monde intérieur et les messages de votre étoile.
+À présent, votre regard ne se limite plus à ce qui est visible : vous apprenez à observer avec attention, à percevoir les subtilités de votre monde intérieur et les messages de votre DATAKWABA.
 
 Être Contemplateur, c'est écouter le silence, discerner les signes et accueillir la sagesse qui se révèle dans vos expériences. Chaque observation, chaque réflexion, devient un outil pour mieux comprendre vos cycles, vos forces et vos responsabilités.`
   },
@@ -159,7 +159,7 @@ Chaque question que vous vous posez, chaque expérience que vous vivez, est une 
     welcome: '',
     congratulations: `Vous avez atteint le degré 3 : Conscient.
 
-À ce stade, votre regard s'élargit : vous ne vous contentez plus d'observer, vous commencez à comprendre et à intégrer les leçons que la vie et votre étoile vous offrent.
+À ce stade, votre regard s'élargit : vous ne vous contentez plus d'observer, vous commencez à comprendre et à intégrer les leçons que la vie et votre DATAKWABA vous offrent.
 
 Être Conscient, c'est assumer votre pouvoir intérieur et reconnaître la responsabilité qui accompagne chaque choix. Vos pensées, vos actions et vos émotions deviennent des instruments de votre évolution.`
   },
@@ -169,7 +169,7 @@ Chaque question que vous vous posez, chaque expérience que vous vivez, est une 
 
 À présent, vos expériences, vos observations et votre conscience commencent à se lier et à s'harmoniser. Vous apprenez à donner un sens à vos apprentissages et à intégrer vos découvertes dans votre vie quotidienne.
 
-Être Intégrateur, c'est assembler les pièces de votre être, comprendre vos forces et vos limites, et laisser votre étoile guider vos choix avec équilibre et discernement.`
+Être Intégrateur, c'est assembler les pièces de votre être, comprendre vos forces et vos limites, et laisser votre DATAKWABA guider vos choix avec équilibre et discernement.`
   },
   [Grade.TRANSMUTANT]: {
     welcome: '',
@@ -177,13 +177,13 @@ Chaque question que vous vous posez, chaque expérience que vous vivez, est une 
 
 À ce niveau, vos expériences et vos compréhensions commencent à se transformer profondément : ce que vous viviez comme épreuves devient énergie, ce qui semblait limité devient opportunité.
 
-Être Transmutant, c'est changer ce qui est intérieur pour refléter la lumière de votre étoile. Vous apprenez à transformer vos forces et vos fragilités en instruments de croissance et d'évolution.`
+Être Transmutant, c'est changer ce qui est intérieur pour refléter la lumière de votre DATAKWABA. Vous apprenez à transformer vos forces et vos fragilités en instruments de croissance et d'évolution.`
   },
   [Grade.ALIGNE]: {
     welcome: '',
     congratulations: `Vous avez atteint le degré 6 : Aligné.
 
-À ce stade, vos pensées, vos émotions et vos actions commencent à résonner en harmonie. Votre étoile intérieure guide vos choix, et vous agissez désormais avec cohérence et intégrité.
+À ce stade, vos pensées, vos émotions et vos actions commencent à résonner en harmonie. Votre DATAKWABA intérieure guide vos choix, et vous agissez désormais avec cohérence et intégrité.
 
 Être Aligné, c'est vivre en accord avec votre essence, laisser la sagesse guider vos décisions et incarner vos valeurs dans chaque geste.`
   },
@@ -191,7 +191,7 @@ Chaque question que vous vous posez, chaque expérience que vous vivez, est une 
     welcome: '',
     congratulations: `Vous avez atteint le degré 7 : Éveillé.
 
-À présent, votre conscience s'élargit : vous percevez avec clarté les liens entre le ciel, la terre et votre être intérieur. Votre étoile brille plus fort, et votre compréhension de vous-même et du monde devient profonde et lucide.
+À présent, votre conscience s'élargit : vous percevez avec clarté les liens entre le ciel, la terre et votre être intérieur. Votre DATAKWABA brille plus fort, et votre compréhension de vous-même et du monde devient profonde et lucide.
 
 Être Éveillé, c'est voir au-delà des apparences, reconnaître vos forces et vos responsabilités, et incarner la sagesse que vous avez acquise.`
   },
@@ -201,13 +201,13 @@ Chaque question que vous vous posez, chaque expérience que vous vivez, est une 
 
 Votre parcours initiatique vous a conduit à une compréhension profonde de vous-même et du monde. Vous possédez désormais la sagesse qui éclaire vos choix, et vos actions reflètent l'harmonie entre connaissance, intuition et discernement.
 
-Être Sage, c'est partager la lumière de votre étoile sans attendre de reconnaissance, guider les autres par votre exemple et incarner la vérité que vous avez cultivée.`
+Être Sage, c'est partager la lumière de votre DATAKWABA sans attendre de reconnaissance, guider les autres par votre exemple et incarner la vérité que vous avez cultivée.`
   },
   [Grade.MAITRE_DE_SOI]: {
     welcome: '',
     congratulations: `Vous avez atteint le degré 9 : Maître de Soi.
 
-Ce dernier palier marque l'harmonie totale entre votre ciel intérieur, votre monde terrestre et votre conscience éveillée. Vous avez intégré toutes les leçons de votre chemin initiatique, et votre étoile brille désormais dans toute sa puissance.
+Ce dernier palier marque l'harmonie totale entre votre ciel intérieur, votre monde terrestre et votre conscience éveillée. Vous avez intégré toutes les leçons de votre chemin initiatique, et votre DATAKWABA brille désormais dans toute sa puissance.
 
 Être Maître de Soi, c'est incarner pleinement votre destinée, rayonner la sagesse ancestrale et guider les autres sur le chemin de l'éveil. Votre parcours initiatique atteint son accomplissement suprême.`
   }

@@ -221,7 +221,7 @@ const LoadingFallbackComponent = () => {
               WebkitTextFillColor: 'transparent'
             }}
           >
-            Mon Etoile
+         DATAKWABA
           </motion.h2>
 
           <motion.p

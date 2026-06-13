@@ -885,4 +885,4 @@ GradeCard affiche les 3 nouveaux choix
 ---
 
 **Dernière mise à jour** : 15 février 2026  
-**Auteur** : Système de développement Mon Étoile
+**Auteur** : Système de développement Mon DATAKWABA

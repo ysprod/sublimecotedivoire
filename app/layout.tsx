@@ -11,12 +11,12 @@ import "./globals.css";
 // ============================================================================
 
 const SITE_CONFIG = {
-  name: "Mon Étoile",
-  url: "https://www.monetoile.org",
-  description: "✨ Découvrez votre destinée avec Mon Étoile : consultations de guidance authentiques, analyses astrologiques personnalisées, numérologie avancée et guidance spirituelle par des experts certifiés. Révélez votre potentiel cosmique dès maintenant",
+  name: "DATAKWABA",
+  url: "https://www.datakwaba.com",
+  description: "✨ Découvrez votre destinée avec Mon DATAKWABA : consultations de guidance authentiques, analyses astrologiques personnalisées, numérologie avancée et guidance spirituelle par des experts certifiés. Révélez votre potentiel cosmique dès maintenant",
   twitterHandle: "@MonEtoileApp",
   ogImage: "/logo.png",
-  ogImageAlt: "Mon Étoile - Plateforme Spirituelle",
+  ogImageAlt: "DATAKWABA",
   ogImageWidth: 512,
   ogImageHeight: 512,
 } as const;
@@ -176,7 +176,7 @@ SchemaScript.displayName = 'SchemaScript';
 
 const RootMain = memo(function RootMain({ children }: { children: React.ReactNode }) {
   return (
-    <main id="main-content" className="relative" role="main" aria-label="MON ETOILE">
+    <main id="main-content" className="relative" role="main" aria-label="DATAKWABA">
       {children}
     </main>
   );

@@ -6,7 +6,7 @@
 
 ## 🎯 Qu'est-ce que c'est en 30 secondes
 
-Admin interface pour configurer les 9 grades initiatiques de Mon Étoile.  
+Admin interface pour configurer les 9 grades initiatiques de Mon DATAKWABA.  
 Chaque grade peut accéder à N'IMPORTE QUELS choix de consultations du projet.
 
 ```

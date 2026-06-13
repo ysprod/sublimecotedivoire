@@ -1,7 +1,7 @@
 import { Role } from '@/lib/interfaces';
 import { useAuthStore } from '@/lib/store/auth.store';
 import { useScroll, useTransform } from 'framer-motion';
-import { FileText, LayoutDashboard, MessageCircle, Stars, User, Wallet } from 'lucide-react';
+import { MessageCircle, User } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -97,15 +97,9 @@ export function useHeaderState() {
 
   // Menu items avec mémoïsation
   const navItems = useMemo(() => [
-    ...(hasRole(Role.SUPER_ADMIN) || hasRole(Role.ADMIN) ? [
-      { href: "/admin", label: "Admin", icon: LayoutDashboard }
-    ] : []),
-    { href: "/about", label: "A propos", icon: Stars },
-    { href: "/star/monprofil", label: "Mon Profil", icon: User },
-    { href: "/star/consultations", label: "Mes Consultations", icon: FileText },
-    { href: "/star/messagerie", label: "Messagerie", icon: MessageCircle },
-    { href: "/star/wallet", label: "Mon Panier", icon: Wallet },
-  ], [hasRole]);
+    { href: "/star/monprofil", label: "Profil", icon: User },
+    { href: "/star/messagerie", label: "Inbox", icon: MessageCircle },
+  ], []);
 
   const hasMountedUser = mounted && Boolean(user);
 

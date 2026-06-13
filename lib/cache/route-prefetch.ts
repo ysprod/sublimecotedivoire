@@ -1,5 +1,4 @@
 import { api } from '@/lib/api/client';
-import { getBooks } from '@/lib/api/services/books.service';
 import { consultationsService } from '@/lib/api/services/consultations.service';
 import { notificationsService } from '@/lib/api/services/notifications.service';
 import { getConsultationsByRubrique } from '@/lib/api/services/rubriques.service';
@@ -47,15 +46,6 @@ const prefetchRegistry: PrefetchEntry[] = [
     },
   },
   {
-    route: '/star/livres',
-    prefetch: async (queryClient) => {
-      await queryClient.prefetchQuery({
-        queryKey: QUERY_KEYS.BOOKS,
-        queryFn: getBooks,
-      });
-    },
-  },
-  {
     route: '/star/notifications',
     requiresAuth: true,
     prefetch: async (queryClient) => {
@@ -85,17 +75,8 @@ const prefetchRegistry: PrefetchEntry[] = [
       });
     },
   },
-  {
-    route: '/admin/books',
-    requiresAuth: true,
-    prefetch: async (queryClient) => {
-      await queryClient.prefetchQuery({
-        queryKey: QUERY_KEYS.BOOKS,
-        queryFn: getBooks,
-      });
-    },
-  },
-  
+
+
 ];
 
 export function normalizePrefetchHref(href: string): string | null {

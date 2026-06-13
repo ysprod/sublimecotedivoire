@@ -242,7 +242,7 @@ const RegisterForm: React.FC = () => {
 
                   <Image
                     src="/logo.png"
-                    alt="Mon Étoile"
+                    alt="Mon DATAKWABA"
                     fill
                     sizes="(max-width: 768px) 120px, 160px"
                     className="object-contain p-3"
@@ -365,7 +365,7 @@ const RegisterForm: React.FC = () => {
         </div>
 
         <p className="mt-2 text-center text-xs mb-16 text-gray-400">
-          © 2026 Mon Étoile. Tous droits réservés.
+          © 2026 Mon DATAKWABA. Tous droits réservés.
         </p>
       </div>
     </div>

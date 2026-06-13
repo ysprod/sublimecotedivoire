@@ -295,7 +295,7 @@ const HeroSection = memo(() => (
       className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 mb-6 shadow-sm"
     >
       <Sparkles className="w-4 h-4 text-indigo-500" />
-      <span className="text-xs font-semibold text-indigo-600 tracking-wide">MON ETOILE PREMIUM</span>
+      <span className="text-xs font-semibold text-indigo-600 tracking-wide">DATAKWABA</span>
       <Moon className="w-3.5 h-3.5 text-indigo-400" />
     </motion.div>
 

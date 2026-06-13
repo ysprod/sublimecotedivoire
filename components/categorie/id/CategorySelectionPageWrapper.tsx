@@ -111,7 +111,7 @@ export const RubriqueCard = memo(
             if (t.includes('monde') || t.includes('voyage') || t.includes('globe')) return Globe;
             if (t.includes('plume') || t.includes('écriture') || t.includes('ecriture')) return Feather;
             if (t.includes('pierre') || t.includes('cristal') || t.includes('gemme')) return Gem;
-            if (t.includes('étoile') || t.includes('etoile')) return Star;
+            if (t.includes('DATAKWABA') || t.includes('etoile')) return Star;
             if (t.includes('spirituel') || t.includes('spiritualité')) return Sparkles;
             if (t.includes('protection') || t.includes('bouclier')) return Shield;
             if (t.includes('argent') || t.includes('finance') || t.includes('abondance')) return TrendingUp;

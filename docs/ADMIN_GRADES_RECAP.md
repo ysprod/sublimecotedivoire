@@ -2,7 +2,7 @@
 
 ## 📋 Résumé du Système
 
-J'ai créé un système complet de gestion des grades initiatiques pour l'interface admin de Mon Étoile, basé sur la structure existante de `/admin/categories`.
+J'ai créé un système complet de gestion des grades initiatiques pour l'interface admin de Mon DATAKWABA, basé sur la structure existante de `/admin/categories`.
 
 ## 🎯 Fonctionnalités Principales
 
@@ -282,5 +282,5 @@ Un système complet, élégant et fonctionnel pour gérer les 9 grades initiatiq
 ---
 
 **Créé le :** 14 février 2026  
-**Auteur :** Système de développement Mon Étoile  
+**Auteur :** Système de développement Mon DATAKWABA  
 **Statut :** ✅ Implémentation frontend complète

@@ -590,4 +590,4 @@ async function migrateGrades() {
 
 ## Support
 
-Pour toute question technique, contacter l'équipe backend Mon Étoile.
+Pour toute question technique, contacter l'équipe backend Mon DATAKWABA.

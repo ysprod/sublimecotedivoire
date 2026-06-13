@@ -284,8 +284,8 @@ export function usePractitionerReviews(mediumId: string) {
     if (typeof window === "undefined") return;
 
     const shareUrl = window.location.href;
-    const shareTitle = `Consultez ${mediumName} sur Mon Etoile`;
-    const shareText = `Découvrez ${mediumName}, consultant spirituel sur Mon Etoile.`;
+    const shareTitle = `Consultez ${mediumName} sur DATAKWABA`;
+    const shareText = `Découvrez ${mediumName}, consultant spirituel sur DATAKWABA`;
 
     try {
       if (navigator.share) {

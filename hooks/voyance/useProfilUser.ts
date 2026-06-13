@@ -1,14 +1,8 @@
 import { api } from "@/lib/api/client";
-import { getRubriqueCinqEtoiles } from '@/lib/api/services/rubriques.service';
-import { QUERY_KEYS } from '@/lib/cache/queryClient';
 import type { User } from '@/lib/interfaces';
 import { useAuthStore } from "@/lib/store/auth.store";
-import { GradeConfig } from "@/lib/types/grade-config.types";
-import { getGradeName, Grade } from "@/lib/types/grade.types";
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Compass, LucideIcon, Stars } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 
 
@@ -43,8 +37,8 @@ export const useProfilHighlightCards = () => [
   },
   {
     id: "cinq-portes",
-    title: "LES 5 PORTES DE MON ÉTOILE",
-    subtitle: "Forces de Mon Étoile",
+    title: "LES 5 PORTES DE MON DATAKWABA",
+    subtitle: "Forces de Mon DATAKWABA",
     icon: Stars,
     color: "from-red-600 to-red-600",
     gradient: "from-red-100/80 to-red-100/80 dark:from-red-900/40 dark:to-red-900/40",

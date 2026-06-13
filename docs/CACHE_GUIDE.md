@@ -1,4 +1,4 @@
-# 🚀 Guide de Cache - Mon Étoile
+# 🚀 Guide de Cache - Mon DATAKWABA
 
 Ce document explique comment utiliser le système de cache multi-niveaux mis en place pour optimiser les performances du site.
 

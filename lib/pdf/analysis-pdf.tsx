@@ -246,8 +246,8 @@ export const AnalysisDocument: React.FC<AnalysisDocumentProps> = ({ analyse }) =
             </View>
 
             <View style={styles.footer}>
-              <Text style={styles.footerText}>Mon Etoile — Intelligence Astrologique</Text>
-              <Text style={styles.footerText}>© {new Date().getFullYear()} Mon Etoile. Tous droits réservés.</Text>
+              <Text style={styles.footerText}>DATAKWABA</Text>
+              <Text style={styles.footerText}>© {new Date().getFullYear()} DATAKWABA Tous droits réservés.</Text>
               <Text style={styles.pageNumber}>Page {idx + 1} / {sections.length}</Text>
             </View>
           </Page>

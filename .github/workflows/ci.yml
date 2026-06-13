@@ -2,85 +2,47 @@ name: Deploy datakwaba.com to VPS
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
-
-permissions:
-  contents: read
+    branches: [ main ]  # Déclenche le déploiement quand tu pousses sur main
+  workflow_dispatch:    # Permet de lancer manuellement le déploiement depuis l'onglet Actions
 
 jobs:
-  build_and_deploy:
+  deploy:
     runs-on: ubuntu-latest
 
-    env:
-      NODE_ENV: production
-
     steps:
-      - name: "📥 Checkout du code source"
+      - name: 📥 Checkout du code source
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: "⚙️ Configuration de Node.js"
+      - name: ⚙️ Configuration de Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      - name: "🔁 Cache .next et node modules"
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.npm
-            .next/cache
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: "📦 Installation des dépendances"
+      - name: 📦 Installation des dépendances
         run: npm ci
 
-      - name: "🏗️ Build du projet Next.js"
+      - name: 🏗️ Build du projet Next.js
         run: npm run build
 
-      - name: "🔐 Ajouter l'hôte VPS à known_hosts"
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-        shell: bash
-
-      - name: "🔎 Vérifier les secrets requis"
-        run: |
-          if [ -z "${{ secrets.VPS_HOST }}" ] || [ -z "${{ secrets.VPS_USER }}" ] || [ -z "${{ secrets.VPS_SSH_KEY }}" ]; then
-            echo "Missing one of the required secrets: VPS_HOST, VPS_USER, VPS_SSH_KEY"
-            exit 1
-          fi
-        shell: bash
-
-      - name: "🚀 Déploiement vers le VPS via rsync"
-        uses: burnett01/rsync-deployments@v7.0.1
+      - name: 🚀 Déploiement vers le VPS via rsync
+        uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avz --delete --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='.next/cache' --exclude='.env*' --exclude='*.log'
+          switches: -avz --delete --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='.next/cache'
           path: ./
           remote_path: /var/www/datakwaba.com/
           remote_host: ${{ secrets.VPS_HOST }}
           remote_user: ${{ secrets.VPS_USER }}
           remote_key: ${{ secrets.VPS_SSH_KEY }}
 
-      - name: "🔄 Redémarrage de l'application sur le VPS"
+      - name: 🔄 Redémarrage de l'application sur le VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            set -e
             cd /var/www/datakwaba.com
-            npm ci --omit=dev
-            # Try to restart existing PM2 process or start it if missing
-            if pm2 describe datakwaba-front > /dev/null 2>&1; then
-              pm2 restart datakwaba-front
-            else
-              pm2 start npm --name "datakwaba-front" -- start -- --port 3002
-            fi
+            npm ci --omit=dev  # Installe uniquement les dépendances de production
+            pm2 restart datakwaba-front || pm2 start npm --name "datakwaba-front" -- start -- --port 3002
             pm2 save

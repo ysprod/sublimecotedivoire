@@ -2,7 +2,7 @@
 
 ## Vue d'ensemble
 
-Cette implémentation ajoute deux systèmes majeurs à la plateforme Mon Étoile :
+Cette implémentation ajoute deux systèmes majeurs à la plateforme Mon DATAKWABA :
 
 1. **Système de Grades Initiatiques** : 9 degrés d'évolution spirituelle
 2. **Système de Profils Utilisateurs** : 3 types d'abonnement (Basique, Premium, Intégral)
@@ -36,7 +36,7 @@ Cette implémentation ajoute deux systèmes majeurs à la plateforme Mon Étoile
 ### Composants UI
 
 3. **`components/profil/GradeBadge.tsx`**
-   - Badge principal affichant le grade actuel avec icône étoile animée
+   - Badge principal affichant le grade actuel avec icône DATAKWABA animée
    - Barres de progression vers le grade suivant
    - Statistiques (consultations, rituels, livres)
    - Couleurs dégradées par grade (9 palettes différentes)

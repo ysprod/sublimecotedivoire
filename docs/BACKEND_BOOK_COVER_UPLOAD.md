@@ -173,7 +173,7 @@ sudo chmod -R 755 /var/www/uploads
 ```bash
 # .env du backend NestJS
 UPLOAD_DIR=/var/www/uploads/books
-PUBLIC_UPLOAD_URL=https://api.monetoile.org/uploads
+PUBLIC_UPLOAD_URL=https://api.datakwaba.com/uploads
 ```
 
 ---
@@ -228,9 +228,9 @@ Le frontend s'attend à recevoir un champ `coverImage` (string URL) dans l'objet
   "price": 5000,
   "pageCount": 250,
   "category": "Spiritualité",
-  "author": "Mon Étoile",
+  "author": "Mon DATAKWABA",
   "isActive": true,
-  "coverImage": "https://api.monetoile.org/uploads/books/a1b2c3d4-e5f6.jpg",
+  "coverImage": "https://api.datakwaba.com/uploads/books/a1b2c3d4-e5f6.jpg",
   "createdAt": "2026-02-18T10:00:00.000Z"
 }
 ```
