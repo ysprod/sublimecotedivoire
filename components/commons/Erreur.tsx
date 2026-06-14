@@ -2,7 +2,7 @@
 import { memo } from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
-import { ERROR_MESSAGE } from "@/libs/constants";
+import { ERROR_MESSAGE } from "@/lib/libs/constants";
 
 interface ErreurProps {
     message: string | null;

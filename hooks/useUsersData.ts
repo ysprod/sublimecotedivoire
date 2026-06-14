@@ -1,7 +1,7 @@
-import { getRandomCount } from './../libs/functions';
+import { getRandomCount } from '@/lib/libs/functions';
 import { useState, useEffect, useCallback } from "react";
-import { ConnexionHistory } from "@/libs/interface";
-import { fetchData } from "@/libs/functions";
+import { ConnexionHistory } from "@/lib/libs/interface";
+import { fetchData } from "@/lib/libs/functions";
 
 interface UseUsersDataResult {
   histories: ConnexionHistory[];

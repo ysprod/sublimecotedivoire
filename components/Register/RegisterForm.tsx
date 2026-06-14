@@ -3,7 +3,7 @@ import { memo } from 'react';
 
 import { RegisterField } from './RegisterField';
 import { useRegisterForm } from '@/hooks/useRegisterForm';
-import { APP_NAME } from '@/libs/constants';
+import { APP_NAME } from '@/lib/libs/constants';
 import Link from 'next/link';
  
 

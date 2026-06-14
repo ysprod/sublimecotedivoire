@@ -1,7 +1,7 @@
 'use client';
 import { memo } from 'react';
 import { FaBed, FaMoneyBillWave } from 'react-icons/fa';
-import type { Etablissement } from '@/libs/interface';
+import type { Etablissement } from '@/lib/libs/interface';
 
 const EtablissementBadges = memo(({ etablissement }: { etablissement: Etablissement }) => (
     <div className="flex flex-wrap items-center gap-2 mt-3">

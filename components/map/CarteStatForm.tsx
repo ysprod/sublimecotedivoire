@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { Space, Modal, Form, InputNumber, Button } from 'antd';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { Filtre } from '@/libs/interface';
-import { defaultFiltre } from '@/libs/constants';
+import { Filtre } from '@/lib/libs/interface';
+import { defaultFiltre } from '@/lib/libs/constants';
 
 interface Props {
     isFilterModalOpen: boolean;

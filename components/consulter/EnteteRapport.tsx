@@ -1,11 +1,11 @@
 'use client';
 import { motion } from "framer-motion";
-import { fadeInUp, RAPPORTS } from "@/libs/constants";
+import { fadeInUp, RAPPORTS } from "@/lib/libs/constants";
 import Navigation from "./Navigation";
-import { CartoFiltre, MenuItem } from "@/libs/interface";
+import { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { memo, useMemo } from "react";
 import EtablissementsDataNavigation from "./EtablissementDataNavigation";
-import { valeurEntier } from "@/libs/functions";
+import { valeurEntier } from "@/lib/libs/functions";
 
 interface MenuDiambraProps {
     tpsglobal?: number | string;

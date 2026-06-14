@@ -1,8 +1,8 @@
 import {
     API_HEADERS_EXTENDED, DEFAULT_PAGINATION_COUNT, MAX_PAGINATION_COUNT, METHOD_NOT_ALLOWED, METHOD_NOT_ALLOWED_OPTIONS
-} from '@/libs/constants';
-import { logError, simulateNetworkDelay } from '@/libs/functions';
-import { generateMockEtablissements } from '@/libs/mockEtablissements';
+} from '@/lib/libs/constants';
+import { logError, simulateNetworkDelay } from '@/lib/libs/functions';
+import { generateMockEtablissements } from '@/lib/libs/mockEtablissements';
 import { NextResponse } from 'next/server';
 
 type ApiResponse<T = unknown> = {

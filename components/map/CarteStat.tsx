@@ -1,8 +1,8 @@
 'use client';
 import * as React from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { ConfigSort, DataStatistique, FilterType } from '@/libs/interface';
-import { defaultFiltre } from '@/libs/constants';
+import { ConfigSort, DataStatistique, FilterType } from '@/lib/libs/interface';
+import { defaultFiltre } from '@/lib/libs/constants';
 import CarteStatForm from './CarteStatForm';
 import FiltreZone from './FiltreZone';
 import LaCarte from './LaCarte';

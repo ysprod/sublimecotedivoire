@@ -1,8 +1,8 @@
 'use client';
 import { motion } from "framer-motion";
 import { memo, useEffect } from "react";
-import type { CartoFiltre, MenuItem } from "@/libs/interface";
-import { DATA_LOADING, fadeInUp } from "@/libs/constants";
+import type { CartoFiltre, MenuItem } from "@/lib/libs/interface";
+import { DATA_LOADING, fadeInUp } from "@/lib/libs/constants";
 import { useEtablissementsData } from "@/hooks/useEtablissementsData";
 import HistoriqueLoader from "../connexions/HistoriqueLoader";
 import InfoStat from "../consulter/InfoStat";

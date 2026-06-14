@@ -1,7 +1,7 @@
 'use client';
 import { memo } from "react";
-import type { TabType } from "@/libs/interface";
-import { COLOR_CLASSES, TAB_ETAB_CONFIG } from "@/libs/constants";
+import type { TabType } from "@/lib/libs/interface";
+import { COLOR_CLASSES, TAB_ETAB_CONFIG } from "@/lib/libs/constants";
 
 interface EtablissementsDataFiltreProps {
     handleTabChange: (tab: TabType) => void;

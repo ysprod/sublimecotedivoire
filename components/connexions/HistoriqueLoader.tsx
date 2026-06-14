@@ -1,7 +1,7 @@
 'use client';
 import { memo } from 'react';
 import Loader from '../commons/Loader';
-import { DATA_LOADING } from '@/libs/constants';
+import { DATA_LOADING } from '@/lib/libs/constants';
 
 interface HistoriqueLoaderProps {
     texte?: string;
@@ -20,7 +20,5 @@ const HistoriqueLoader = memo(({ texte = DATA_LOADING }: HistoriqueLoaderProps) 
         </div>
     );
 });
-
-HistoriqueLoader.displayName = "HistoriqueLoader";
 
 export default HistoriqueLoader;

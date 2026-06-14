@@ -1,6 +1,6 @@
 'use client';
 import { FiClock, FiCalendar, FiMapPin, FiHardDrive, FiLogOut, FiInfo } from 'react-icons/fi';
-import { ConnexionHistory } from '@/libs/interface';
+import { ConnexionHistory } from '@/lib/libs/interface';
 import { memo } from 'react';
 
 const InfoConnexion = memo(({ history }: { history: ConnexionHistory }) => (
@@ -80,7 +80,5 @@ const InfoConnexion = memo(({ history }: { history: ConnexionHistory }) => (
         </div>
     </div>
 ));
-
-InfoConnexion.displayName = 'InfoConnexion';
 
 export default InfoConnexion;

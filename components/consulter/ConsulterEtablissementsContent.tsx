@@ -1,11 +1,11 @@
 'use client';
-import { fadeInUp } from "@/libs/constants";
-import type { CartoFiltre, MenuItem } from "@/libs/interface";
+import { fadeInUp } from "@/lib/libs/constants";
+import type { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { memo, useMemo } from "react";
 import EtablissementsData from "./EtablissementsData";
 import EnteteEtabDataFiltre from "./EnteteEtabDataFiltre";
-import { valeurEntier } from "@/libs/functions";
+import { valeurEntier } from "@/lib/libs/functions";
 import { useSubMenuData } from "@/hooks/useSubMenuData";
 
 interface EtablissementsFiltreProps {

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { Etablissement } from "@/libs/interface";
-import { fetchData } from "@/libs/functions";
-import { ERROR_MESSAGE } from "@/libs/constants";
+import { Etablissement } from "@/lib/libs/interface";
+import { fetchData } from "@/lib/libs/functions";
+import { ERROR_MESSAGE } from "@/lib/libs/constants";
 
 interface UseEtablissementsDataResult {
   etablissements: Etablissement[];

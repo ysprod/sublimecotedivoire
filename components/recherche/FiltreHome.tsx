@@ -1,13 +1,13 @@
 'use client';
 import { motion } from "framer-motion";
 import { memo, useCallback, useMemo, useState } from "react";
-import type { CartoFiltre, MenuItem } from "@/libs/interface";
-import { fadeInUp, filtremoov } from "@/libs/constants";
+import type { CartoFiltre, MenuItem } from "@/lib/libs/interface";
+import { fadeInUp, filtremoov } from "@/lib/libs/constants";
 import EnteteRapport from "./EnteteRapport";
 import BackButton from "./BackButton";
 import EtablissementsDataFiltre from "./EtablissementsDataFiltre";
 import { useSubMenuData } from "@/hooks/useSubMenuData";
-import { valeurEntier } from "@/libs/functions";
+import { valeurEntier } from "@/lib/libs/functions";
 import EtablissementsData from "./EtablissementsData";
 
 interface EtablissementsFiltreProps {

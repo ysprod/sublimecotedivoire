@@ -1,4 +1,4 @@
-import { CartoFiltre } from "@/libs/interface";
+import { CartoFiltre } from "@/lib/libs/interface";
 import { useState, useCallback, useMemo } from "react";
 
 export interface ConsulterFiltreFormProps {

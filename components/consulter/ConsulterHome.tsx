@@ -1,6 +1,6 @@
 "use client";
-import { fadeInUp } from "@/libs/constants";
-import { CartoFiltre, MenuItem } from "@/libs/interface";
+import { fadeInUp } from "@/lib/libs/constants";
+import { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { memo, useCallback } from "react";
 import Bandeau from "../commons/Bandeau";

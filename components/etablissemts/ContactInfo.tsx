@@ -1,5 +1,5 @@
 'use client';
-import { truncateEmail } from '@/libs/functions';
+import { truncateEmail } from '@/lib/libs/functions';
 import { memo } from 'react';
 import { FaPhone, FaEnvelope } from 'react-icons/fa';
 

@@ -4,7 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import DropdownButton from './DropdownButton';
 import DropdownMenu from './Dropdownmenu';
-import { User } from '@/libs/interface';
+import { User } from '@/lib/libs/interface';
 
 interface UserDropdownButtonProps {
   user: User;

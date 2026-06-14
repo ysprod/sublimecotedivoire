@@ -3,8 +3,8 @@ export const dynamic = "force-dynamic";
 import { ErrorBoundary } from "@/components/layout/ErrorBoundary";
 import SecuredHeader from "@/components/layout/ProtectedLayout/SecuredHeader";
 import { SecuredHeaderSuspense } from "@/components/layout/ProtectedLayout/SecuredHeaderSuspense";
-import SecuredMain from "@/components/layout/ProtectedLayout/SecuredMain";
 import { SecuredMainSuspense } from "@/components/layout/ProtectedLayout/SecuredMainSuspense";
+import SecuredMain from "@/components/layout/ProtectedLayout/SecuredMain";
 
 interface ProtectedLayoutProps {
   children: React.ReactNode;

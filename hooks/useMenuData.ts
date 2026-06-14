@@ -1,5 +1,5 @@
-import { getRandomCount } from "@/libs/functions";
-import { MenuItem } from "@/libs/interface";
+import { getRandomCount } from "@/lib/libs/functions";
+import { MenuItem } from "@/lib/libs/interface";
 import { useCallback, useState } from "react";
 
 const createMenuItem = (

@@ -115,8 +115,8 @@ export const useProfilHighlightCards = (): HighlightCardType[] => [
   },
   {
     id: "cinq-portes",
-    title: "LES 5 PORTES DE MON DATAKWABA",
-    subtitle: "Forces de Mon DATAKWABA",
+    title: "LES 5 PORTES DE DATAKWABA",
+    subtitle: "Forces de DATAKWABA",
     icon: Stars,
     color: "from-red-600 to-red-600",
     gradient: "from-red-100/80 to-red-100/80 dark:from-red-900/40 dark:to-red-900/40",

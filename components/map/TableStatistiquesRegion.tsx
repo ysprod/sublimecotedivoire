@@ -1,6 +1,6 @@
 "use client";
 import { Table } from 'antd';
-import { DataStatistique } from '@/libs/interface';
+import { DataStatistique } from '@/lib/libs/interface';
 import * as React from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Image from "next/image";

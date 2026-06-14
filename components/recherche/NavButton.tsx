@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import clsx from "clsx";
 import Image from "next/image";
 import { memo } from "react";
-import type { MenuItem } from "@/libs/interface";
-import { buttonAnimation } from "@/libs/constants";
+import type { MenuItem } from "@/lib/libs/interface";
+import { buttonAnimation } from "@/lib/libs/constants";
 
 interface NavigationProps {
     item: MenuItem;

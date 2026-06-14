@@ -1,7 +1,7 @@
 "use client";
 import { useMenuData } from "@/hooks/vert/useMenuData";
-import { fadeInUp } from "@/libs/constants";
-import { MenuItem } from "@/libs/interface";
+import { fadeInUp } from "@/lib/libs/constants";
+import { MenuItem } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { ZoomIn } from "lucide-react";
 import Image from "next/image";
@@ -32,20 +32,25 @@ export default function TourismDashboard() {
       </motion.div>
 
       <CacheLink href="/recherche" >
-        <motion.div
-          animate={{ y: [0, -10, 0] }}
-          transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-          className="relative z-10 flex justify-center mt-4"
-        >
-          <Image
-            src="/carteverte.png"
-            alt="Touristes en Côte d'Ivoire"
-            width={400}
-            height={400}
-            className="drop-shadow-2xl sm:w-128 sm:h-128"
-          />
-        </motion.div>
 
+ <motion.div
+          initial={{ opacity: 0, scale: 0.92, y: 18 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 0.45, duration: 0.7, type: "spring", stiffness: 100 }}
+          className="mt-8 flex w-full justify-center sm:mt-10"
+        >
+          <div className="relative flex justify-center">
+            <div className="absolute inset-0 rounded-full bg-orange-300/20 blur-3xl" />
+            <Image
+              src="/carteverte.png"
+              alt="Tourisme en Côte d'Ivoire"
+              width={260}
+              height={260}
+              priority
+              className="relative h-auto w-[240px] drop-shadow-2xl sm:w-[260px] md:w-[300px]"
+            />
+          </div>
+        </motion.div> 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

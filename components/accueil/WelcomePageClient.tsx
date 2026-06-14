@@ -6,6 +6,7 @@ import CacheLink from "../commons/CacheLink";
 import Bandeau from "../commons/Bandeau";
 
 export default function TourismDashboard() {
+
   return (
     <div className="relative  mx-auto flex w-full max-w-5xl px-4 flex-col items-center justify-center text-center">
       <Bandeau />
@@ -62,7 +63,8 @@ export default function TourismDashboard() {
           </motion.button>
         </motion.div>
       </CacheLink>
-      <br /> <br /> <br /> <br />
+
+      <br /> <br />
     </div>
   );
 }

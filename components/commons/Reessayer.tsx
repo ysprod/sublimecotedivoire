@@ -1,5 +1,5 @@
 'use client';
-import { RETRY_MESSAGE } from "@/libs/constants";
+import { RETRY_MESSAGE } from "@/lib/libs/constants";
 import React, { memo } from "react";
 
 type ErrorRetryProps = {

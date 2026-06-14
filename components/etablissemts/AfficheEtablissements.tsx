@@ -1,7 +1,7 @@
 'use client';
 import { useEtablissements } from "@/hooks/useEtablissements";
-import { TAB_ETAB_CONFIG } from "@/libs/constants";
-import type { Etablissement, MenuItem, TabType } from "@/libs/interface";
+import { TAB_ETAB_CONFIG } from "@/lib/libs/constants";
+import type { Etablissement, MenuItem, TabType } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { memo, useCallback, useMemo, useState } from "react";
 import ConsulterListeEtablissement from "./ConsulterListeEtablissement";

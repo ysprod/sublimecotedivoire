@@ -1,7 +1,7 @@
 'use client';
-import { MenuItem } from "@/libs/interface";
+import { MenuItem } from "@/lib/libs/interface";
 import { useMemo, memo } from "react";
-import { STAT_LABEL_MAP } from "@/libs/constants";
+import { STAT_LABEL_MAP } from "@/lib/libs/constants";
 
 interface InfoStatProps {
     item: MenuItem;

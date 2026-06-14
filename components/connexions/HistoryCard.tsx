@@ -1,7 +1,7 @@
 'use client';
 import { FiUser } from 'react-icons/fi';
 import { motion } from 'framer-motion';
-import { ConnexionHistory } from '@/libs/interface';
+import { ConnexionHistory } from '@/lib/libs/interface';
 import Image from 'next/image';
 import { memo } from 'react';
 import InfoConnexion from './InfoConnexion';

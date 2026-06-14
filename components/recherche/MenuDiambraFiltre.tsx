@@ -4,8 +4,8 @@ import { memo, useCallback } from "react";
 import EnteteFiltre from "./EnteteFiltre";
 import BackButton from "./BackButton";
 import MenuItemCard from "../consulter/MenuItemCard";
-import { CartoFiltre, MenuItem } from "@/libs/interface";
-import { fadeInUp } from "@/libs/constants";
+import { CartoFiltre, MenuItem } from "@/lib/libs/interface";
+import { fadeInUp } from "@/lib/libs/constants";
 
 interface MenuDiambraFiltreProps {
   carto: CartoFiltre;

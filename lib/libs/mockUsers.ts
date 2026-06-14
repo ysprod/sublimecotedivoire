@@ -1,4 +1,4 @@
-import { ConnexionHistory } from '@/libs/interface';
+import { ConnexionHistory } from '@/lib/libs/interface';
 
 const ivoirianFirstNames = ['Koffi', 'Ama', 'Yao', 'Mariam', 'Jean', 'Fatou'];
 const ivoirianLastNames = ['Kouassi', 'Traoré', 'Yao', 'Konaté', 'Bamba', 'Diop'];
@@ -41,7 +41,6 @@ const citiesCI: { city: string; coords: [number, number] }[] = [
     { city: 'ABIDJAN', coords: [5.320357, -4.016107] },
     { city: 'YAMOUSSOKRO', coords: [6.8200066, -5.2776034] },
 ];
-
 
 export const generateMockUsers = (count: number): ConnexionHistory[] => {
     return Array.from({ length: count }, (_, i) => {

@@ -3,7 +3,7 @@ import { memo, SetStateAction, useCallback } from 'react';
 import { FiUser, FiChevronDown } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { User } from '@/libs/interface';
+import { User } from '@/lib/libs/interface';
 
 interface DropdownButtonProps {
     user: User;

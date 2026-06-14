@@ -1,8 +1,8 @@
 'use client';
 import * as React from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { DataStatistique, FilterType, Filtre } from '@/libs/interface';
-import { getCarteColor } from '@/libs/functions';
+import { DataStatistique, FilterType, Filtre } from '@/lib/libs/interface';
+import { getCarteColor } from '@/lib/libs/functions';
 import MapCarte from './MapCarte';
 
 interface Props {

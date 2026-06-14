@@ -1,7 +1,7 @@
 'use client';
-import { fadeInUp } from "@/libs/constants";
-import { formatMoisFiltre } from "@/libs/functions";
-import { CartoFiltre } from "@/libs/interface";
+import { fadeInUp } from "@/lib/libs/constants";
+import { formatMoisFiltre } from "@/lib/libs/functions";
+import { CartoFiltre } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { memo } from "react";
 

@@ -1,6 +1,6 @@
 "use client";
 import { useMenuData } from "@/hooks/useMenuData";
-import { CartoFiltre } from "@/libs/interface";
+import { CartoFiltre } from "@/lib/libs/interface";
 import { memo } from "react";
 import ConsulterEtablissementsFiltre from "./ConsulterEtablissementsFiltre";
 import ConsulterHome from "./ConsulterHome";

@@ -1,6 +1,6 @@
 'use client';
-import { fadeInUp } from "@/libs/constants";
-import type { CartoFiltre, MenuItem } from "@/libs/interface";
+import { fadeInUp } from "@/lib/libs/constants";
+import type { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { memo, useCallback, useEffect, useState } from "react";
 import BackButton from "../recherche/BackButton";

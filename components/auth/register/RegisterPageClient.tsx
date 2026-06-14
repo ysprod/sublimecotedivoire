@@ -242,7 +242,7 @@ const RegisterForm: React.FC = () => {
 
                   <Image
                     src="/logo.png"
-                    alt="Mon DATAKWABA"
+                    alt="DATAKWABA"
                     fill
                     sizes="(max-width: 768px) 120px, 160px"
                     className="object-contain p-3"
@@ -355,17 +355,8 @@ const RegisterForm: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-6 text-center">
-          <CacheLink
-            href="/terms"
-            className="text-xs text-blue-700 hover:underline transition-colors"
-          >
-            Conditions générales d'utilisation
-          </CacheLink>
-        </div>
-
         <p className="mt-2 text-center text-xs mb-16 text-gray-400">
-          © 2026 Mon DATAKWABA. Tous droits réservés.
+          © 2026 DATAKWABA. Tous droits réservés.
         </p>
       </div>
     </div>

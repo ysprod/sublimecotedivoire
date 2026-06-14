@@ -1,8 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 import { useCallback, memo } from "react";
-import type { CartoFiltre, MenuItem } from "@/libs/interface";
-import { navAnimation } from "@/libs/constants";
+import type { CartoFiltre, MenuItem } from "@/lib/libs/interface";
+import { navAnimation } from "@/lib/libs/constants";
 import NavButton from "../recherche/NavButton";
 
 interface NavigationProps {

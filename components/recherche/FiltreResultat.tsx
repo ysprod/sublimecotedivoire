@@ -1,6 +1,6 @@
 'use client';
 import { memo, useCallback, useState } from "react";
-import type { CartoFiltre, DataStatistique, MenuItem, OptionValue } from "@/libs/interface";
+import type { CartoFiltre, DataStatistique, MenuItem, OptionValue } from "@/lib/libs/interface";
 import MenuDiambraFiltre from "./MenuDiambraFiltre";
 import RechercheFiltreHome from "./RechercheFiltreHome";
 

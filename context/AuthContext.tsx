@@ -1,9 +1,9 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { User } from '@/libs/interface';
-import { mockUser } from '@/libs/mockdata';
-import { getRandomUserImage } from '@/libs/functions';
+import { User } from '@/lib/libs/interface';
+import { mockUser } from '@/lib/libs/mockdata';
+import { getRandomUserImage } from '@/lib/libs/functions';
 
 interface AuthContextType {
   isAuthenticated: boolean | null;

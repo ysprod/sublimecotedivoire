@@ -1,6 +1,6 @@
 'use client';
 
-import { Etablissement } from "@/libs/interface";
+import { Etablissement } from "@/lib/libs/interface";
 import TypeIcon from "./TypeIcon";
 import { memo } from "react";
 

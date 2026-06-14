@@ -1,28 +1,17 @@
 "use client";
-import DiambraWrapper from "@/components/commons/DiambraWrapper";
 import Loader from "@/components/commons/Loader";
-import dynamic from "next/dynamic";
-import { memo } from "react";
+import { ComponentType, lazy, memo, Suspense } from "react";
 
-const MemoizedLoader = memo(() => <Loader />);
-MemoizedLoader.displayName = "MemoizedLoader";
-
-const LazyConnexions = dynamic(
+const LazyConnexions = lazy<ComponentType>(
   () => import("@/components/connexions/ConnexionHistory")
-    .then((module) => {
-      const Component = module.default || module;
-      const MemoizedComponent = memo(Component);
-      MemoizedComponent.displayName = "MemoizedConnexions";
-      return MemoizedComponent;
-    }), { loading: () => <MemoizedLoader />, ssr: false }
 );
 
-const Principale = memo(() => (
-    <DiambraWrapper>
+const Principale = memo(function Principale() {
+  return (
+    <Suspense fallback={<Loader />}>
       <LazyConnexions />
-    </DiambraWrapper> 
-));
-
-Principale.displayName = "Principale";
+    </Suspense>
+  );
+});
 
 export default Principale;

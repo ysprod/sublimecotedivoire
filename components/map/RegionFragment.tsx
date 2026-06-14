@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Marker } from 'react-map-gl/mapbox';
 import { Tooltip } from 'antd';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { DataStatistique, FilterType } from '@/libs/interface';
+import { DataStatistique, FilterType } from '@/lib/libs/interface';
 import RegionPopup from './RegionPopup';
 
 interface Props {

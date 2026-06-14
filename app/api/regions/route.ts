@@ -1,8 +1,8 @@
 import {
     API_HEADERS_EXTENDED, API_INTERNAL_ERROR, ERROR_RESPONSE_OPTIONS, METHOD_NOT_ALLOWED, METHOD_NOT_ALLOWED_OPTIONS
-} from '@/libs/constants';
-import { logError, simulateNetworkDelay } from '@/libs/functions';
-import { regionsCoteIvoireMock } from '@/libs/mockdata';
+} from '@/lib/libs/constants';
+import { logError, simulateNetworkDelay } from '@/lib/libs/functions';
+import { regionsCoteIvoireMock } from '@/lib/libs/mockdata';
 import { NextResponse } from 'next/server';
 
 type ApiResponse<T = typeof regionsCoteIvoireMock> = {

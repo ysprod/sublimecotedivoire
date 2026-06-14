@@ -6,24 +6,16 @@ import { memo } from "react";
 import { Providers, RootPortals, RootSkipLink } from "./providers";
 import "./globals.css";
 
-// ============================================================================
-// CONSTANTES & CONFIGURATION
-// ============================================================================
-
 const SITE_CONFIG = {
   name: "DATAKWABA",
   url: "https://www.datakwaba.com",
-  description: "✨ Découvrez votre destinée avec Mon DATAKWABA : consultations de guidance authentiques, analyses astrologiques personnalisées, numérologie avancée et guidance spirituelle par des experts certifiés. Révélez votre potentiel cosmique dès maintenant",
-  twitterHandle: "@MonEtoileApp",
+  description: "✨ DATAKWABA ✨",
+  twitterHandle: "@DatakwabaApp",
   ogImage: "/logo.png",
   ogImageAlt: "DATAKWABA",
   ogImageWidth: 512,
   ogImageHeight: 512,
 } as const;
-
-// ============================================================================
-// FONTS
-// ============================================================================
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
@@ -47,34 +39,26 @@ const inter = Inter({
   ],
 });
 
-// ============================================================================
-// COMPOSANTS MÉMOÏSÉS POUR LES MÉTA-DONNÉES
-// ============================================================================
-
 const RootHeadMeta = memo(function RootHeadMeta() {
   return (
     <>
-      {/* PWA / Mobile */}
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="application-name" content={SITE_CONFIG.name} />
 
-      {/* Open Graph */}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={SITE_CONFIG.name} />
-      <meta property="og:title" content={`${SITE_CONFIG.name} — Votre Guide Spirituel`} />
+      <meta property="og:title" content={`${SITE_CONFIG.name} —`} />
       <meta property="og:description" content={SITE_CONFIG.description} />
       <meta property="og:url" content={SITE_CONFIG.url} />
       <meta property="og:image" content={SITE_CONFIG.ogImage} />
       <meta property="og:image:alt" content={SITE_CONFIG.ogImageAlt} />
       <meta property="og:image:width" content={SITE_CONFIG.ogImageWidth.toString()} />
       <meta property="og:image:height" content={SITE_CONFIG.ogImageHeight.toString()} />
-
-      {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content={SITE_CONFIG.twitterHandle} />
       <meta name="twitter:creator" content={SITE_CONFIG.twitterHandle} />
-      <meta name="twitter:title" content={`${SITE_CONFIG.name} — Votre Guide Spirituel`} />
+      <meta name="twitter:title" content={`${SITE_CONFIG.name} —`} />
       <meta name="twitter:description" content={SITE_CONFIG.description} />
       <meta name="twitter:image" content={SITE_CONFIG.ogImage} />
       <meta name="twitter:image:alt" content={SITE_CONFIG.ogImageAlt} />
@@ -125,7 +109,7 @@ const SchemaScript = memo(function SchemaScript() {
         "@id": `${SITE_CONFIG.url}/#website`,
         name: SITE_CONFIG.name,
         url: SITE_CONFIG.url,
-        description: "Plateforme pour guidance, astrologie, numérologie et guidance personnalisée",
+        description: "DATAKWABA ANALYTICS",
         inLanguage: "fr-FR",
         potentialAction: {
           "@type": "SearchAction",
@@ -140,9 +124,9 @@ const SchemaScript = memo(function SchemaScript() {
         url: SITE_CONFIG.url,
         logo: { "@type": "ImageObject", url: `${SITE_CONFIG.url}/logo.png`, width: 512, height: 512 },
         sameAs: [
-          "https://twitter.com/MonEtoileApp",
-          "https://www.facebook.com/monetoile",
-          "https://www.instagram.com/monetoile",
+          "https://twitter.com/DatakwabaApp",
+          "https://www.facebook.com/datakwaba",
+          "https://www.instagram.com/datakwaba",
         ],
         contactPoint: { "@type": "ContactPoint", contactType: "customer support", availableLanguage: ["French", "English"] },
       },
@@ -150,7 +134,7 @@ const SchemaScript = memo(function SchemaScript() {
         "@type": "WebPage",
         "@id": `${SITE_CONFIG.url}/#webpage`,
         url: SITE_CONFIG.url,
-        name: `${SITE_CONFIG.name} - Votre Guide Spirituel`,
+        name: `${SITE_CONFIG.name} -`,
         description: SITE_CONFIG.description,
         isPartOf: { "@id": `${SITE_CONFIG.url}/#website` },
         about: { "@id": `${SITE_CONFIG.url}/#organization` },
@@ -167,12 +151,6 @@ const SchemaScript = memo(function SchemaScript() {
     />
   );
 });
-
-SchemaScript.displayName = 'SchemaScript';
-
-// ============================================================================
-// COMPOSANT PRINCIPAL LAYOUT
-// ============================================================================
 
 const RootMain = memo(function RootMain({ children }: { children: React.ReactNode }) {
   return (

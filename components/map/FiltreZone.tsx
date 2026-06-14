@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Tooltip, Select, Space, Button } from 'antd';
 import { SortAscendingOutlined, FilterOutlined } from '@ant-design/icons';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { ConfigSort, FilterType } from '@/libs/interface';
+import { ConfigSort, FilterType } from '@/lib/libs/interface';
 
 interface Props {
     filterType: FilterType;

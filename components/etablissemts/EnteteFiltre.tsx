@@ -1,5 +1,5 @@
 'use client';
-import { CartoFiltre } from "@/libs/interface";
+import { CartoFiltre } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { memo } from "react";
 

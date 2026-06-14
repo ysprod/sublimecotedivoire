@@ -4,7 +4,7 @@ import SelectInput from "../commons/SelectInput";
 import ValidateButton from "../commons/ValidateButton";
 import { memo, useCallback } from "react";
 import { Input } from "antd";
-import type { CartoFiltre, OptionValue } from "@/libs/interface";
+import type { CartoFiltre, OptionValue } from "@/lib/libs/interface";
 import { useConsulterFiltreForm } from "@/hooks/useConsulterFiltreForm";
 
 interface FiltreProps {

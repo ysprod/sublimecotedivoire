@@ -1,7 +1,7 @@
 'use client';
 import { motion } from "framer-motion";
 import clsx from "clsx";
-import type { MenuItem } from "@/libs/interface";
+import type { MenuItem } from "@/lib/libs/interface";
 import Image from "next/image";
 import { memo, useCallback } from "react";
 import FormattedTitle from "./FormattedTile";

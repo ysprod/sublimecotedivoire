@@ -1,6 +1,6 @@
 'use client';
 import { memo } from "react";
-import { CartoFiltre, DataStatistique, OptionValue } from "@/libs/interface";
+import { CartoFiltre, DataStatistique, OptionValue } from "@/lib/libs/interface";
 import FiltreForm from "./FiltreForm";
 import CarteStat from "../map/CarteStat";
 

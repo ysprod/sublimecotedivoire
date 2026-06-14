@@ -1,12 +1,12 @@
 'use client';
 import { motion } from "framer-motion";
-import { fadeInUp, RAPPORTS } from "@/libs/constants";
+import { fadeInUp, RAPPORTS } from "@/lib/libs/constants";
 import EnteteFiltre from "./EnteteFiltre";
 import Navigation from "./Navigation";
-import type { CartoFiltre, MenuItem } from "@/libs/interface";
+import type { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { memo, useMemo } from "react";
 import EtablissementsDataNavigation from "../consulter/EtablissementDataNavigation";
-import { valeurEntier } from "@/libs/functions";
+import { valeurEntier } from "@/lib/libs/functions";
 
 interface MenuDiambraProps {
     carto: CartoFiltre;

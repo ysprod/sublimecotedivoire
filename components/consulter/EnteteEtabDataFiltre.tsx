@@ -1,8 +1,8 @@
 'use client';
 import { motion } from "framer-motion";
 import { memo } from "react";
-import type { MenuItem } from "@/libs/interface";
-import { DATA_LOADING, fadeInUp } from "@/libs/constants";
+import type { MenuItem } from "@/lib/libs/interface";
+import { DATA_LOADING, fadeInUp } from "@/lib/libs/constants";
 import AfficheEtablissements from "../etablissemts/AfficheEtablissements";
 import HistoriqueLoader from "../connexions/HistoriqueLoader";
 import { useEtablissementsData } from "@/hooks/useEtablissementsData";

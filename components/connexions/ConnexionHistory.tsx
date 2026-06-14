@@ -1,6 +1,6 @@
 'use client';
 import { FiClock, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { ConnexionHistory } from '@/libs/interface';
+import { ConnexionHistory } from '@/lib/libs/interface';
 import HistoryCard from './HistoryCard';
 import { useState, useEffect, memo } from 'react';
 import { useUsersData } from '@/hooks/useUsersData';

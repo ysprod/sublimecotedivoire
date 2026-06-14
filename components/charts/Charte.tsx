@@ -1,8 +1,8 @@
 'use client';
 import { motion } from "framer-motion";
-import { MenuItem } from "@/libs/interface";
+import { MenuItem } from "@/lib/libs/interface";
 import PieChart from "./PieChart";
-import { fadeInUp } from "@/libs/constants";
+import { fadeInUp } from "@/lib/libs/constants";
 import { memo } from "react";
 
 interface CharteProps {
@@ -16,7 +16,5 @@ const Charte = memo(({ menuItems }: CharteProps) => {
         </motion.div>
     );
 });
-
-Charte.displayName = "Charte";
 
 export default Charte;

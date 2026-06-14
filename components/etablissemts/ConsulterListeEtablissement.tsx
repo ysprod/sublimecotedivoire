@@ -1,7 +1,7 @@
 'use client';
 import { usePagination } from "@/hooks/usePagination";
-import { fadeInUp } from "@/libs/constants";
-import type { Etablissement } from "@/libs/interface";
+import { fadeInUp } from "@/lib/libs/constants";
+import type { Etablissement } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { memo } from "react";

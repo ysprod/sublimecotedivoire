@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Popup } from 'react-map-gl/mapbox';
 import { Typography } from 'antd';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { DataStatistique } from '@/libs/interface';
+import { DataStatistique } from '@/lib/libs/interface';
 
 const { Title, Text } = Typography;
 

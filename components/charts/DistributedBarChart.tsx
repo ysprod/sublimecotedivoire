@@ -1,8 +1,8 @@
 'use client';
 import React, { useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
-import { MenuItem } from '@/libs/interface';
-import { CHART_LOADING } from '@/libs/constants';
+import { MenuItem } from '@/lib/libs/interface';
+import { CHART_LOADING } from '@/lib/libs/constants';
 
 const ApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,

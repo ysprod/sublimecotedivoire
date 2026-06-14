@@ -1,5 +1,5 @@
 'use client';
-import { Owner } from '@/libs/interface';
+import { Owner } from '@/lib/libs/interface';
 import { memo } from 'react';
 import { FaUserTie, FaPhone, FaIdCard } from 'react-icons/fa';
 

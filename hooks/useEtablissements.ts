@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { CartoFiltre } from "@/libs/interface";
-import { initialCarto } from "@/libs/constants";
+import { CartoFiltre } from "@/lib/libs/interface";
+import { initialCarto } from "@/lib/libs/constants";
 import { useRegionsDepartements } from "./useRegionsDepartements";
 
 interface AppState {

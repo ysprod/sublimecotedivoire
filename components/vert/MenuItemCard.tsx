@@ -1,6 +1,6 @@
 'use client';
-import { TITLE_SPLIT_REGEX } from "@/libs/constants";
-import type { MenuItem } from "@/libs/interface";
+import { TITLE_SPLIT_REGEX } from "@/lib/libs/constants";
+import type { MenuItem } from "@/lib/libs/interface";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import Image from "next/image";

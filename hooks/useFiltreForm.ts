@@ -1,5 +1,5 @@
-import { CURRENT_YEAR } from "@/libs/constants";
-import { CartoFiltre } from "@/libs/interface";
+import { CURRENT_YEAR } from "@/lib/libs/constants";
+import { CartoFiltre } from "@/lib/libs/interface";
 import { useState, useMemo, useCallback } from "react";
 
 export const useFiltreForm = (carto: CartoFiltre, updateCarto: (updates: Partial<CartoFiltre>) => void) => {

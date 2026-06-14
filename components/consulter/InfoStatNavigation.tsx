@@ -1,5 +1,5 @@
 'use client';
-import type { MenuItem } from "@/libs/interface";
+import type { MenuItem } from "@/lib/libs/interface";
 import { memo, useCallback } from "react";
 import ConsulterNavButton from "./ConsulterNavButton";
 

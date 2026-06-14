@@ -1,9 +1,9 @@
 import {
   API_HEADERS, API_INTERNAL_ERROR, ERROR_RESPONSE_OPTIONS, METHOD_NOT_ALLOWED, METHOD_NOT_ALLOWED_OPTIONS, RESPONSE_CACHE_CONTROL,
-} from "@/libs/constants";
-import { logError, simulateNetworkDelay } from "@/libs/functions";
-import { ErrorApiResponse } from "@/libs/interface";
-import { regionsData, departementData } from "@/libs/mockdata";
+} from "@/lib/libs/constants";
+import { logError, simulateNetworkDelay } from "@/lib/libs/functions";
+import { ErrorApiResponse } from "@/lib/libs/interface";
+import { departementData, regionsData } from "@/lib/libs/mockdata";
 import { NextResponse } from "next/server";
 
 type ApiResponseData = {

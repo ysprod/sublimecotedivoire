@@ -1,6 +1,6 @@
 'use client';
 import { memo, useState } from 'react';
-import type { Etablissement } from '@/libs/interface';
+import type { Etablissement } from '@/lib/libs/interface';
 import { MdLocationCity, MdDirections } from 'react-icons/md';
 import ContactInfo from './ContactInfo';
 import LegalInfo from './LegalInfo';

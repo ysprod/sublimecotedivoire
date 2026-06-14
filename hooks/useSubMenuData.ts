@@ -1,4 +1,4 @@
-import { MenuItem } from "@/libs/interface";
+import { MenuItem } from "@/lib/libs/interface";
 import { useCallback, useState, useMemo } from "react";
 
 const ETABLISSEMENT_TYPES = [

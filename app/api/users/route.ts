@@ -1,10 +1,10 @@
 import {
     API_HEADERS_EXTENDED, DEFAULT_PAGINATION_COUNT, ERROR_RESPONSE_OPTIONS, MAX_PAGINATION_COUNT,
     METHOD_NOT_ALLOWED
-} from '@/libs/constants';
-import { logError, simulateNetworkDelay } from '@/libs/functions';
-import type { ConnexionHistory } from '@/libs/interface';
-import { generateMockUsers } from '@/libs/mockUsers';
+} from '@/lib/libs/constants';
+import { logError, simulateNetworkDelay } from '@/lib/libs/functions';
+import type { ConnexionHistory } from '@/lib/libs/interface';
+import { generateMockUsers } from '@/lib/libs/mockUsers';
 import { NextResponse } from 'next/server';
 
 type ApiResponse<T = ConnexionHistory[]> = {

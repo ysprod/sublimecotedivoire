@@ -1,4 +1,4 @@
-import { DataStatistique } from '@/libs/interface';
+import { DataStatistique } from '@/lib/libs/interface';
 import { useState, useEffect } from 'react';
 
 interface UseRegionsResult {

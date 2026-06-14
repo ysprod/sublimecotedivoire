@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { DepartementDataType, RegionsDataType, Region, Departement, OptionValue } from "@/libs/interface";
+import { DepartementDataType, RegionsDataType, Region, Departement, OptionValue } from "@/lib/libs/interface";
 import { useCacheData } from "./useCacheData";
 
 interface RegionsDepartementsState {

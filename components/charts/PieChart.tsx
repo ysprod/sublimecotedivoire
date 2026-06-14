@@ -1,9 +1,9 @@
 'use client';
-import { MenuItem } from "@/libs/interface";
-import dynamic from "next/dynamic";
+import { CHART_LOADING } from "@/lib/libs/constants";
+import { MenuItem } from "@/lib/libs/interface";
 import { ApexOptions } from "apexcharts";
+import dynamic from "next/dynamic";
 import { memo, useMemo } from "react";
-import { CHART_LOADING } from "@/libs/constants";
 
 const Chart = dynamic(() => import("react-apexcharts"), {
     ssr: false,
@@ -78,7 +78,5 @@ const PieChart = memo(({ menuItems }: { menuItems: MenuItem[] }) => {
     );
 
 });
-
-PieChart.displayName = "PieChart";
 
 export default PieChart;

@@ -1,4 +1,4 @@
-import { CartoFiltre, ColorType } from '@/libs/interface';
+import { CartoFiltre, ColorType } from '@/lib/libs/interface';
 import { Filtre } from "./interface";
 
 export const APP_NAME = "DATAKWABA ANALYTICS";

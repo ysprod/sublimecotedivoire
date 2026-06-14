@@ -1,8 +1,8 @@
 'use client';
 import { motion } from "framer-motion";
 import { memo, useMemo } from "react";
-import { MenuItem } from "@/libs/interface";
-import { fadeInUp } from "@/libs/constants";
+import { MenuItem } from "@/lib/libs/interface";
+import { fadeInUp } from "@/lib/libs/constants";
 import Charte from "../charts/Charte";
 import DistributedBarChart from "../charts/DistributedBarChart";
 import InfoStat from "./InfoStat";
