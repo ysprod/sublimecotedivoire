@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// ─── JWT helpers (edge-compatible, no Node.js APIs) ────────────────────────
 type DecodedToken = {
   exp: number;
   role?: string;
