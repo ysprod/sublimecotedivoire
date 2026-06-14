@@ -10,16 +10,16 @@ export function getRootMetadata() {
       template: "%s | DATAKWABA",
     },
     description:
-      "✨ Découvrez votre destinée avec DATAKWABA : consultations de guidance authentiques, analyses astrologiques personnalisées, numérologie avancée et guidance spirituelle par des experts certifiés. Révélez votre potentiel cosmique dès maintenant",
+      "✨ DATAKWABA",
     metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://www.datakwaba.com"),
     openGraph: {
       type: "website",
       locale: "fr_FR",
       url: "/",
       siteName: "DATAKWABA",
-      title: "DATAKWABA ✨ Votre Destinée Révélée",
+      title: "DATAKWABA",
       description:
-        "🔮 Consultations spirituelles professionnelles • Analyses astrologiques détaillées • Guidance authentique • Révélez votre potentiel cosmique avec nos experts certifiés.",
+        "🔮   DATAKWABA",
       images: [
         { url: "/og-image.jpg", width: 1200, height: 630, alt: "DATAKWABA", type: "image/jpeg" },
         { url: "/og-image-square.jpg", width: 800, height: 800, alt: "DATAKWABA Logo", type: "image/jpeg" },
@@ -27,10 +27,10 @@ export function getRootMetadata() {
     },
     twitter: {
       card: "summary_large_image",
-      site: "@MonEtoileApp",
-      creator: "@MonEtoileApp",
-      title: "DATAKWABA ✨ Guidance & Astrologie Africaines",
-      description: "🔮 Votre guide spirituel personnalisé. Consultations professionnelles, analyses astrologiques et guidance cosmique.",
+      site: "@DatakwabaApp",
+      creator: "@DatakwabaApp",
+      title: "DATAKWABA ✨  ",
+      description: "🔮 DATAKWABA",
       images: ["/twitter-image.jpg"],
     },
     icons: {

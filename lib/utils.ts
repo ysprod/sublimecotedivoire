@@ -1,4 +1,3 @@
-// User details utilities
 export function safeString(v: unknown) {
   if (v === null || v === undefined) return "—";
   const s = String(v);

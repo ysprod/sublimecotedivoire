@@ -1,10 +1,45 @@
 'use client';
-import { motion } from "framer-motion";
-import clsx from "clsx";
 import type { MenuItem } from "@/lib/libs/interface";
+import clsx from "clsx";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { memo, useCallback } from "react";
-import FormattedTitle from "./FormattedTile";
+import { memo, useCallback } from "react"; 
+import { STAT_LABEL_MAP } from "@/lib/libs/constants";
+import { useMemo } from "react";
+
+interface InfoStatProps {
+    item: MenuItem;
+    tpsglobal?: number;
+    inverse?: boolean;
+}
+
+const FormattedTitle = memo(({ item, inverse = false, tpsglobal = 1 }: InfoStatProps) => {
+
+    const formattedTitle = useMemo(() => {
+        if (!item.title) return null;
+
+        const match = item.title.match(/^(\d+)\s(.+)$/);
+        if (!match) return item.title;
+
+        const numberPart = match[1];
+        const textPart = match[2];
+        const modifiedText = STAT_LABEL_MAP[tpsglobal] || "";
+
+        return (
+            <>
+                <span className="text-gray-900">{inverse ? numberPart : textPart}</span>
+                <br />
+                <div>
+                    <span className="text-blue-600 font-bold">{inverse ? textPart : numberPart}</span>
+                    {!inverse && modifiedText && (<span className="text-blue-600 font-bold"> {modifiedText}</span>)}
+                </div>
+            </>
+        );
+
+    }, [item.title, inverse, tpsglobal]);
+
+    return formattedTitle || <span className="text-gray-800">non spécifié</span>;
+}); 
 
 interface InfoStatProps {
   item: MenuItem;

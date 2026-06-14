@@ -20,12 +20,11 @@ function getApiUploadPattern() {
 const apiUploadPattern = getApiUploadPattern();
 
 const nextConfig = {
-    // Cache busting : buildId unique à chaque build
-    generateBuildId: async () => {
-      return crypto.randomBytes(8).toString('hex');
-    },
+  generateBuildId: async () => {
+    return crypto.randomBytes(8).toString('hex');
+  },
   reactStrictMode: true,
-  
+
   images: {
     remotePatterns: [
       ...(apiUploadPattern ? [apiUploadPattern] : []),
@@ -67,7 +66,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000, // 1 an de cache pour les images optimisées
   },
-  
+
   // Headers de sécurité + cache optimisés
   async headers() {
     // En-têtes de sécurité appliqués à toutes les routes
@@ -108,7 +107,6 @@ const nextConfig = {
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
         ],
       },
-      // Pas de cache pour les routes API
       {
         source: '/api/:path*',
         headers: [
@@ -124,7 +122,7 @@ const nextConfig = {
       },
     ];
   },
-  
+
   // Experimental features pour performances
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion', 'recharts', 'date-fns', '@react-pdf/renderer'],

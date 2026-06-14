@@ -1,8 +1,7 @@
 import { api } from '@/lib/api/client';
  
 import { notificationsService } from '@/lib/api/services/notifications.service';
-import { getConsultationsByRubrique } from '@/lib/api/services/rubriques.service';
- 
+  
 import type { User } from '@/lib/interfaces';
 import type { QueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from './queryClient';
@@ -30,16 +29,7 @@ const prefetchRegistry: PrefetchEntry[] = [
       });
     },
   },
-  {
-    route: '/star/monprofil',
-    requiresAuth: true,
-    prefetch: async (queryClient) => {
-      await queryClient.prefetchQuery({
-        queryKey: QUERY_KEYS.CONSULTATIONS_BY_RUBRIQUE('694acf59bd12675f59e7a7f2'),
-        queryFn: () => getConsultationsByRubrique('694acf59bd12675f59e7a7f2'),
-      });
-    },
-  },
+  
   
 
 

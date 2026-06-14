@@ -27,9 +27,7 @@ function isTokenExpired(token: string): boolean {
 
 
 // ─── Route sets (computed once at module level) ─────────────────────────────
-const AUTH_PAGES = new Set(['/auth/login', '/auth/register']);
 const AUTH_ACTIONS = new Set(['/auth/logout']);
-const PROTECTED_PREFIXES = ['/admin'] as const;
 
 // ─── Security headers applied to every response ────────────────────────────
 const SECURITY_HEADERS: Record<string, string> = {

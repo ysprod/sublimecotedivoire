@@ -10,7 +10,6 @@ const config: Config = {
     extend: {
       colors: {
         // ─── PRIMAIRE : Indigo Nuit ──────────────────────────
-        // Identitaire dominant, voûte céleste, contemplation
         primary: {
           DEFAULT: '#1E154A',
           light:   '#2E2366',
@@ -72,13 +71,9 @@ const config: Config = {
       },
 
       backgroundImage: {
-        // Fond général mode clair : parchemin chaud
         'lux-light': 'linear-gradient(135deg, #F4F1EC 0%, #EAE5DB 100%)',
-        // Fond général mode sombre : nuit cosmique
         'lux-dark':  'linear-gradient(135deg, #0C0B1D 0%, #141228 100%)',
-        // Dégradé identitaire spirituel
         'cosmic':    'linear-gradient(135deg, #1E154A 0%, #5C3D8F 50%, #2E2366 100%)',
-        // Or stellaire — dégradé CTA premium
         'gold-cta':  'linear-gradient(135deg, #C2913B 0%, #D4A85A 50%, #9E7428 100%)',
       },
     },
