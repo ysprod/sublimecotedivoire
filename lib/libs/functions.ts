@@ -83,7 +83,153 @@ export const logError = (error: unknown) => {
 
 export const handleLoadError = (error: Error, info: React.ErrorInfo) => console.error("Erreur :", error, info)
 
-export  const truncateEmail = (email: string,maxEmailLength:number) => {
+export const truncateEmail = (email: string, maxEmailLength: number) => {
   if (email.length <= maxEmailLength) return email;
   return `${email.substring(0, maxEmailLength - 3)}...`;
+};
+
+// Ajoute ceci dans ton fichier libs/functions.ts
+
+// Types pour les tendances
+export type TrendType = "croissance" | "baisse" | "stable";
+
+export interface TrendResult {
+  trend: TrendType;
+  value: number; // Pourcentage de variation
+  icon: "trending-up" | "trending-down" | "minus";
+  color: string;
+  description: string;
+}
+
+/**
+ * Génère une tendance aléatoire avec des valeurs réalistes
+ * @param options Configuration optionnelle
+ * @returns Objet tendance complet
+ */
+export const getRandomTrend = (options?: {
+  bias?: "positive" | "negative" | "neutral";
+  minValue?: number;
+  maxValue?: number;
+}): TrendResult => {
+  const { bias = "neutral", minValue = 2, maxValue = 35 } = options || {};
+
+  // Probabilité selon le biais
+  let probs = { croissance: 0.33, baisse: 0.33, stable: 0.34 };
+
+  if (bias === "positive") {
+    probs = { croissance: 0.7, baisse: 0.15, stable: 0.15 };
+  } else if (bias === "negative") {
+    probs = { croissance: 0.15, baisse: 0.7, stable: 0.15 };
+  }
+
+  const rand = Math.random();
+  let trend: TrendType;
+
+  if (rand < probs.croissance) {
+    trend = "croissance";
+  } else if (rand < probs.croissance + probs.baisse) {
+    trend = "baisse";
+  } else {
+    trend = "stable";
+  }
+
+  // Valeur de tendance (pourcentage)
+  let value = 0;
+  if (trend !== "stable") {
+    value = getRandomCount(minValue, maxValue);
+  }
+
+  // Configuration selon la tendance
+  const config = {
+    croissance: {
+      icon: "trending-up" as const,
+      color: "#22C55E",
+      description: `+${value}% par rapport au mois dernier`
+    },
+    baisse: {
+      icon: "trending-down" as const,
+      color: "#EF4444",
+      description: `-${value}% par rapport au mois dernier`
+    },
+    stable: {
+      icon: "minus" as const,
+      color: "#6B7280",
+      description: "Stable par rapport au mois dernier"
+    }
+  };
+
+  return {
+    trend,
+    value,
+    icon: config[trend].icon,
+    color: config[trend].color,
+    description: config[trend].description
+  };
+};
+
+/**
+ * Génère une tendance simplifiée (juste le type et la valeur)
+ * Version plus légère pour les cas simples
+ */
+export const getRandomTrendSimple = (): { trend: TrendType; value: number } => {
+  const trend = getRandomTrend();
+  return { trend: trend.trend, value: trend.value };
+};
+
+/**
+ * Génère un tableau de tendances pour plusieurs périodes
+ * Utile pour les graphiques d'évolution
+ */
+export const getTrendHistory = (months: number = 6): TrendResult[] => {
+  const history: TrendResult[] = [];
+  let lastTrend: TrendType | null = null;
+
+  for (let i = 0; i < months; i++) {
+    // Éviter plus de 3 fois la même tendance consécutive
+    let trend: TrendResult;
+    do {
+      trend = getRandomTrend({ bias: "neutral" });
+    } while (lastTrend === trend.trend && Math.random() > 0.4);
+
+    history.push(trend);
+    lastTrend = trend.trend;
+  }
+
+  return history;
+};
+
+/**
+ * Calcule la tendance basée sur des valeurs réelles (utile pour les données API)
+ */
+export const calculateTrend = (oldValue: number, newValue: number): TrendResult => {
+  if (oldValue === 0) return getRandomTrend({ bias: "neutral" });
+
+  const percentChange = ((newValue - oldValue) / oldValue) * 100;
+  const roundedChange = Math.round(Math.abs(percentChange));
+
+  if (percentChange > 5) {
+    return {
+      trend: "croissance",
+      value: roundedChange,
+      icon: "trending-up",
+      color: "#22C55E",
+      description: `+${roundedChange}% par rapport à la période précédente`
+    };
+  } else if (percentChange < -5) {
+    return {
+      trend: "baisse",
+      value: roundedChange,
+      icon: "trending-down",
+      color: "#EF4444",
+      description: `-${roundedChange}% par rapport à la période précédente`
+    };
+  } else {
+    return {
+      trend: "stable",
+      value: 0,
+      icon: "minus",
+      color: "#6B7280",
+      description: "Stable par rapport à la période précédente"
+    };
+  }
 };

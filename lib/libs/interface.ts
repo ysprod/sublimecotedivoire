@@ -24,6 +24,11 @@ export interface MenuItem {
   tpsglobal?: number;
   page?: number;
   blackicon?: string;
+  trend?: {
+            value: number;
+            direction: "stable" | "up" | "down";
+            label?: string;
+        };
 }
 
 export interface Region {
