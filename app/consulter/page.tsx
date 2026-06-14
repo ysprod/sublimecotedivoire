@@ -1,12 +1,9 @@
 "use client";
-import React, { useMemo } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import dynamic from "next/dynamic";
 import DiambraWrapper from "@/components/commons/DiambraWrapper";
-import ErrorFallback from "@/components/commons/ErrorFallback";
 import Loader from "@/components/commons/Loader";
 import { usePrincipale } from "@/hooks/usePrincipale";
-import { handleLoadError } from "@/libs/functions";
+import dynamic from "next/dynamic";
+import React from "react";
 
 const MemoizedLoader = React.memo(() => <Loader />);
 
@@ -25,16 +22,12 @@ const MenuDiambra = dynamic(
 
 const Principale = () => {
     const props = usePrincipale();
-
-    const errorBoundaryHandler = useMemo(() => (error: Error, info: { componentStack: string }) => handleLoadError(error, info), []);
-
+ 
     return (
-        <ErrorBoundary FallbackComponent={ErrorFallback} onError={() => errorBoundaryHandler}>
-            <DiambraWrapper>
+             <DiambraWrapper>
                 <MenuDiambra {...props} />
             </DiambraWrapper>
-        </ErrorBoundary>
-    );
+     );
 };
 
 Principale.displayName = "Principale";

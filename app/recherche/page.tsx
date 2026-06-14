@@ -1,12 +1,10 @@
 "use client";
 import DiambraWrapper from "@/components/commons/DiambraWrapper";
-import ErrorFallback from "@/components/commons/ErrorFallback";
 import Loader from "@/components/commons/Loader";
 import { usePrincipale } from "@/hooks/usePrincipale";
 import dynamic from "next/dynamic";
 import React, { useEffect } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-
+ 
 const Filtre = dynamic(() => import("@/components/recherche/Filtre"), { loading: () => <Loader />, ssr: false });
 
 const Principale = () => {
@@ -31,12 +29,10 @@ const Principale = () => {
   }, []);
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <DiambraWrapper>
+       <DiambraWrapper>
         <Filtre {...props} />
       </DiambraWrapper>
-    </ErrorBoundary>
-  );
+   );
 };
 
 export default React.memo(Principale); 

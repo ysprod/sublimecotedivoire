@@ -1,10 +1,8 @@
 "use client";
-import { memo } from "react";
-import dynamic from "next/dynamic";
-import { ErrorBoundary } from "react-error-boundary";
 import DiambraWrapper from "@/components/commons/DiambraWrapper";
-import ErrorFallback from "@/components/commons/ErrorFallback";
 import Loader from "@/components/commons/Loader";
+import dynamic from "next/dynamic";
+import { memo } from "react";
 
 const MemoizedLoader = memo(() => <Loader />);
 MemoizedLoader.displayName = "MemoizedLoader";
@@ -20,11 +18,9 @@ const LazyConnexions = dynamic(
 );
 
 const Principale = memo(() => (
-  <ErrorBoundary FallbackComponent={ErrorFallback}>
     <DiambraWrapper>
       <LazyConnexions />
-    </DiambraWrapper>
-  </ErrorBoundary>
+    </DiambraWrapper> 
 ));
 
 Principale.displayName = "Principale";
