@@ -4,7 +4,6 @@ import { clearClientApplicationState } from '@/lib/cache/clientState';
 import { config } from '@/lib/config';
 import { Role } from '@/lib/interfaces';
 import { useAuthStore } from '@/lib/store/auth.store';
-import { useMonEtoileStore } from '@/lib/store/monetoile.store';
 import type { LoginDto, Permission, RegisterDto } from '@/lib/types/auth.types';
 import { logger } from '@/lib/utils/logger';
 import { useRouter } from 'next/navigation';
@@ -164,7 +163,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   /**
    * Déconnexion utilisateur avec nettoyage complet
    */
-  const clearBlogArticles = useMonEtoileStore((s) => s.clearBlogArticles);
  
 
   const logout = useCallback(async (): Promise<void> => {
@@ -183,12 +181,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
       } catch { }
       setAccessToken(null);
-      clearBlogArticles();
       persistLogout();
       await clearClientApplicationState();
       setIsLoading(false);
     }
-  }, [clearBlogArticles, logoutStore, persistLogout]);
+  }, [ logoutStore, persistLogout]);
 
   /**
    * Rafraîchit les données utilisateur depuis l'API

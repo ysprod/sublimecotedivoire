@@ -1,17 +1,17 @@
 // hooks/categorie/useCategoryClientViewChoix.ts
-import { buildCategoryChoicePath, getCreatedConsultationDestination } from "@/hooks/categorie/categoryConsultation.shared";
+import { buildCategoryChoicePath } from "@/hooks/categorie/categoryConsultation.shared";
 import { useToast } from "@/hooks/categorie/useToast";
 import { api } from "@/lib/api/client";
 import { getChoicesWithCount } from "@/lib/api/services/rubriques.service";
 import {
-  Consultation, ConsultationStatus, ConsultationType, GRADE_LEVEL, User,
-  type ConsultationChoice, type Rubrique,
+    Consultation, ConsultationStatus, ConsultationType, GRADE_LEVEL, User,
+    type ConsultationChoice, type Rubrique,
 } from "@/lib/interfaces";
 import { useAuthStore } from "@/lib/store/auth.store";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export type ShareState = 'idle' | 'copied' | 'shared' | 'error';
 export type ButtonStatus = 'CONSULTER' | 'RÉPONSE EN ATTENTE' | "VOIR L'ANALYSE" | "VOIR LA RÉPONSE";
@@ -116,8 +116,7 @@ export function useCategoryClientViewChoix() {
     const updateUser = useAuthStore((s) => s.updateUser);
     const category = useMonEtoileStore((s) => s.category);
     const setRubriqueEnCours = useMonEtoileStore((s) => s.setRubriqueEnCours);
-    const setCurrentGrade = useMonEtoileStore((s) => s.setCurrentGrade);
-    const setChoixConsultationEnCours = useMonEtoileStore((s) => s.setChoixConsultationEnCours);
+     const setChoixConsultationEnCours = useMonEtoileStore((s) => s.setChoixConsultationEnCours);
 
     const rubriqueId = searchParams?.get("rubriqueId") || "";
     
@@ -161,9 +160,7 @@ export function useCategoryClientViewChoix() {
         if (shouldUpdateUserStore(user, freshUser)) {
             updateUser(freshUser);
         }
-        const nextGrade = resolveUserGrade(freshUser);
-        setCurrentGrade(nextGrade);
-    }, [freshUser, user, updateUser, setCurrentGrade]);
+      }, [freshUser, user, updateUser,  ]);
 
     const resolvedGrade = useMemo(
         () => resolveUserGrade(freshUser ?? user) ?? "NEOPHYTE",
@@ -295,15 +292,7 @@ export function useCategoryClientViewChoix() {
                 if (participants === "AVEC_TIERS" || participants === "POUR_TIERS") {
                     return buildFormPath(category._id, "form", choiceId);
                 }
-                if (participants === "SOLO") {
-                    return getCreatedConsultationDestination({
-                        categoryId: category._id,
-                        consultationId,
-                        rubriqueId,
-                        choiceId,
-                        consultationType: rubriqueCourante.typeconsultation || null,
-                    });
-                }
+              
                 return buildFormPath(category._id, "form", choiceId);
             })();
 

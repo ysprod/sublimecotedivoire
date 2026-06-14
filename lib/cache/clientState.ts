@@ -35,11 +35,7 @@ export async function clearClientApplicationState() {
   clearPersistedQueryCache();
 
   useAuthStore.getState().logout();
-  useMonEtoileStore.getState().clearConsultationChoices();
-  useMonEtoileStore.getState().clearGrades();
-  useMonEtoileStore.getState().setCurrentGrade(null);
-  useMonEtoileStore.getState().clearBlogArticles();
-
+   
   try {
     useMonEtoileStore.persist.clearStorage();
   } catch {

@@ -1,8 +1,8 @@
 import { api } from '@/lib/api/client';
-import { consultationsService } from '@/lib/api/services/consultations.service';
+ 
 import { notificationsService } from '@/lib/api/services/notifications.service';
 import { getConsultationsByRubrique } from '@/lib/api/services/rubriques.service';
-import { walletService } from '@/lib/api/services/wallet.service';
+ 
 import type { User } from '@/lib/interfaces';
 import type { QueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from './queryClient';
@@ -19,32 +19,7 @@ type PrefetchEntry = {
 };
 
 const prefetchRegistry: PrefetchEntry[] = [
-  {
-    route: '/star/consultations',
-    requiresAuth: true,
-    prefetch: async (queryClient) => {
-      await queryClient.prefetchQuery({
-        queryKey: QUERY_KEYS.CONSULTATIONS_MY,
-        queryFn: () => consultationsService.getMine(),
-      });
-    },
-  },
-  {
-    route: '/star/wallet',
-    requiresAuth: true,
-    prefetch: async (queryClient) => {
-      await Promise.all([
-        queryClient.prefetchQuery({
-          queryKey: QUERY_KEYS.WALLET_TRANSACTIONS,
-          queryFn: () => walletService.getTransactions(),
-        }),
-        queryClient.prefetchQuery({
-          queryKey: QUERY_KEYS.WALLET_UNUSED_OFFERINGS,
-          queryFn: () => walletService.getUnusedOfferings(),
-        }),
-      ]);
-    },
-  },
+  
   {
     route: '/star/notifications',
     requiresAuth: true,
@@ -65,16 +40,7 @@ const prefetchRegistry: PrefetchEntry[] = [
       });
     },
   },
-  {
-    route: '/admin/consultations',
-    requiresAuth: true,
-    prefetch: async (queryClient) => {
-      await queryClient.prefetchQuery({
-        queryKey: ['consultations', 'assigned', 1, 100],
-        queryFn: () => consultationsService.getAssigned(1, 100),
-      });
-    },
-  },
+  
 
 
 ];
@@ -131,7 +97,7 @@ export function prefetchRouteData(
   return pending;
 }
 
-export function prefetchConsultationFrontData(queryClient: QueryClient, consultationId: string): Promise<void> {
+export function prefetchConsultationFrontData(queryClient: QueryClient, consultationId: string): any {
   const normalizedId = consultationId.trim();
   if (!normalizedId) {
     return Promise.resolve();
@@ -142,19 +108,7 @@ export function prefetchConsultationFrontData(queryClient: QueryClient, consulta
     return existing;
   }
 
-  const pending = queryClient
-    .prefetchQuery({
-      queryKey: QUERY_KEYS.CONSULTATION_FRONT_DATA(normalizedId),
-      queryFn: () => consultationsService.getFrontData(normalizedId),
-      staleTime: 1000 * 60,
-    })
-    .catch(() => undefined)
-    .finally(() => {
-      inFlightConsultationPrefetches.delete(normalizedId);
-    });
-
-  inFlightConsultationPrefetches.set(normalizedId, pending);
-  return pending;
+ 
 }
 
 export function prefetchAdminUserDetail(queryClient: QueryClient, userId: string): Promise<void> {

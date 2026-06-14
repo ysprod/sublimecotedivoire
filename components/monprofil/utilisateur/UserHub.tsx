@@ -22,33 +22,7 @@ const staggerContainer = {
     transition: { staggerChildren: 0.08, delayChildren: 0.1 }
   }
 };
-
-export const ConsultantCta = memo(function ConsultantCta() {
-  return (
-    <motion.div
-      variants={fadeInUp}
-      className="text-center relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8 shadow-sm border border-indigo-100"
-    >
-      <h2 className="text-xl sm:text-2xl font-black text-gray-900">
-        DEVENEZ CONSULTANT SUR MON DATAKWABA
-      </h2>
-      <p className="mt-4 text-base text-gray-700 max-w-2xl mx-auto font-medium">
-        Vous êtes Maître, Guide Spirituel, Coach, TradiPraticien, Guérisseur de l'âme, Prêtre ou Prêtresse...
-      </p>
-      <ul className="mt-6 space-y-2 max-w-xl mx-auto text-left text-gray-600 text-base font-normal list-disc list-inside">
-        <li>Publiez votre présentation.</li>
-        <li>Recevez des consultations.</li>
-        <li>Faites évoluer votre activité dans un environnement professionnel et crédible.</li>
-      </ul>
-      <a
-        href="/star/medium/inscription"
-        className="mt-8 inline-block rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-3 text-base font-bold text-white shadow-md transition-all hover:shadow-lg"
-      >
-        S'INSCRIRE
-      </a>
-    </motion.div>
-  );
-});
+ 
 
 // ==================== IDENTITY OVERVIEW PREMIUM ====================
 export const IdentityOverview = memo(function IdentityOverview({
@@ -233,11 +207,7 @@ const UserHub = memo(function UserHub() {
 
           {/* Grille principale */}
           <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-            {/* Colonne gauche - Identité */}
           
-
-            {/* Colonne droite - CTA */}
-            <ConsultantCta />
           </div>
         </motion.div>
       </div>

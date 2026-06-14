@@ -6,8 +6,7 @@ import { ConsultationChoice } from '../interfaces';
 import type { GradeConfig } from '@/lib/types/grade-config.types';
 
 
-import type { BlogArticle } from '@/lib/api/services/blog.service';
-
+ 
 import type { CategorieAdmin, Consultation } from '@/lib/interfaces';
 
 import type { Rubrique } from '@/lib/interfaces';
@@ -22,10 +21,7 @@ interface MonEtoileStore {
   currentGrade: string | null;
   setCurrentGrade: (grade: string | null) => void;
   // Blog articles
-  blogArticles: BlogArticle[];
-  setBlogArticles: (articles: BlogArticle[]) => void;
-  clearBlogArticles: () => void;
-  // Catégorie courante
+   // Catégorie courante
   category: CategorieAdmin | null;
   setCategory: (category: CategorieAdmin | null) => void;
   clearCategory: () => void;
@@ -49,9 +45,7 @@ export const useMonEtoileStore = create<MonEtoileStore>()(
       currentGrade: null,
       setCurrentGrade: (grade) => set({ currentGrade: grade }),
       blogArticles: [],
-      setBlogArticles: (articles) => set({ blogArticles: articles }),
-      clearBlogArticles: () => set({ blogArticles: [] }),
-      category: null,
+       category: null,
       setCategory: (category) => set({ category }),
       clearCategory: () => set({ category: null }),
       rubriqueEnCours: null,
@@ -65,8 +59,7 @@ export const useMonEtoileStore = create<MonEtoileStore>()(
         consultationChoices: state.consultationChoices,
         grades: state.grades,
         currentGrade: state.currentGrade,
-        blogArticles: state.blogArticles,
-        category: state.category,
+         category: state.category,
         rubriqueEnCours: state.rubriqueEnCours,
         choixConsultationEnCours: state.choixConsultationEnCours,
       }),

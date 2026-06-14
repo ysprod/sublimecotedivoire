@@ -1,6 +1,5 @@
 import { api } from "@/lib/api/client";
-import { isFreeCinqPortesConsultation } from "@/lib/consultations/isFreeCinqPortes";
-import { buildCategoryConsultationPath, buildConsultationSearchParams } from "@/lib/consultations/navigation";
+import { buildConsultationSearchParams } from "@/lib/consultations/navigation";
 import { mapFormDataToBackend } from "@/lib/functions";
 import type { CategorieAdmin, ConsultationChoice, EnrichedChoice, Rubrique, User } from "@/lib/interfaces";
 
@@ -19,14 +18,6 @@ type CreateCategoryConsultationParams = {
     extraPayload?: Record<string, unknown>;
 };
 
-type ConsultationDestinationParams = {
-    categoryId: string;
-    consultationId: string;
-    rubriqueId?: string | null;
-    choiceId?: string | null;
-    consultationType?: string | null;
-    refreshToken?: string | number | null;
-};
 
 export type CategoryContextInfo = {
     rubrique?: Rubrique;
@@ -168,26 +159,4 @@ export async function createCategoryConsultation({
     return consultationId;
 }
 
-export function getCreatedConsultationDestination({
-    categoryId,
-    consultationId,
-    rubriqueId,
-    choiceId,
-    consultationType,
-}: ConsultationDestinationParams): string {
-    const isFreeCinqPortes = isFreeCinqPortesConsultation({
-        rubriqueId,
-        type: consultationType,
-    });
-
-    if (isFreeCinqPortes) {
-        const searchParams = new URLSearchParams({ retour: "cinqportes" });
-        return `/star/consultations/${consultationId}?${searchParams.toString()}`;
-    }
-
-    return buildCategoryConsultationPath(categoryId, "consulter", {
-        consultationId,
-        rubriqueId,
-        choiceId,
-    });
-}
+ 
