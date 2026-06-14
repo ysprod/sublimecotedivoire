@@ -5,7 +5,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { ThemeProvider } from "next-themes";
 import { memo, ReactNode, Suspense, useEffect, useMemo, useState } from 'react';
-import ClientProviders from "@/components/layout/ClientProviders/ClientProviders";
+import ClientProviders from "@/components/layout/ClientProviders";
 
 const QUERY_PERSIST_CONFIG = {
     maxAge: 1000 * 60 * 60 * 24, // 24 heures
