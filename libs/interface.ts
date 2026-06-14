@@ -7,7 +7,6 @@ export type ErrorApiResponse = {
   details?: string;
 };
 
-
 export type DepartementDataType = {
   [regionId: string]: {
     [departementId: string]: Departement;
