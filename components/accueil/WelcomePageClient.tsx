@@ -3,44 +3,13 @@ import { motion } from "framer-motion";
 import { ZoomIn } from "lucide-react";
 import Image from "next/image";
 import CacheLink from "../commons/CacheLink";
-
+import Bandeau from "../commons/Bandeau";
 
 export default function TourismDashboard() {
   return (
-    <div className="relative z-10 mx-auto flex w-full max-w-5xl px-4 flex-col items-center justify-center text-center">
-      <motion.div
-        initial={{ opacity: 0, y: -24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, type: "spring", stiffness: 90 }}
-        className="flex w-full flex-col items-center"
-      >
-        <motion.div
-          initial={{ scale: 0.88, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.15, duration: 0.6, type: "spring", stiffness: 120 }}
-          className="relative flex justify-center"
-        >
-          <Image
-            src="/logos.png"
-            alt="Tourisme Côte d'Ivoire"
-            width={900}
-            height={240}
-            priority
-            className="relative h-auto w-[320px] object-contain sm:w-[320px] md:w-[480px]"
-          />
-        </motion.div>
+    <div className="relative  mx-auto flex w-full max-w-5xl px-4 flex-col items-center justify-center text-center">
+      <Bandeau />
 
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="flex justify-center"
-        >
-          <span className="max-w-2xl text-center text-[12px] font-extrabold uppercase leading-relaxed tracking-[0.14em] text-orange-700 sm:text-xs md:text-sm">
-            Plateforme Nationale de Centralisation des Données du Tourisme et des Loisirs
-          </span>
-        </motion.div>
-      </motion.div>
       <CacheLink href="/vert" className="w-full sm:w-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.92, y: 18 }}
@@ -67,7 +36,6 @@ export default function TourismDashboard() {
           transition={{ delay: 0.6, duration: 0.65 }}
           className="mt-8 flex w-full justify-center sm:mt-10"
         >
-
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
@@ -92,21 +60,9 @@ export default function TourismDashboard() {
               className="absolute inset-0 -translate-x-full bg-gradient-to-r from-white/20 via-white/10 to-transparent"
             />
           </motion.button>
-
         </motion.div>
       </CacheLink>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.6 }}
-        className="mt-10 w-full pt-2 text-center sm:mt-14 sm:pt-4"
-      >
-        <div className="mx-auto mb-4 h-px w-28 bg-gradient-to-r from-transparent via-orange-300 to-transparent sm:w-36" />
-        <p className="px-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-500 sm:text-xs">
-          République de Côte d&apos;Ivoire — Ministère du Tourisme et des Loisirs
-        </p>
-        <br></br> <br></br> <br></br> <br></br>
-      </motion.div>
+      <br /> <br /> <br /> <br />
     </div>
   );
 }
