@@ -62,7 +62,7 @@ const RootSkipLink = memo(function RootSkipLink() {
         focus:text-white focus:rounded-2xl focus:shadow-2xl focus:font-bold focus:text-sm
         focus:outline-none focus:ring-4 focus:ring-[#9BC2FF] dark:focus:ring-[#162A56]"
         >
-            Aller au contenu principal
+            Aller au contenu principal.
         </a>
     );
 });

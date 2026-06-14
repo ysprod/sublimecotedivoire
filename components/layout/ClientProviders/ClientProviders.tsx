@@ -69,6 +69,7 @@ export function ServiceWorkerInitializer() {
   return null;
 }
 
+
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
 
   return (
