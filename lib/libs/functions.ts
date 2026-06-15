@@ -88,9 +88,6 @@ export const truncateEmail = (email: string, maxEmailLength: number) => {
   return `${email.substring(0, maxEmailLength - 3)}...`;
 };
 
-// Ajoute ceci dans ton fichier libs/functions.ts
-
-// Types pour les tendances
 export type TrendType = "croissance" | "baisse" | "stable";
 
 export interface TrendResult {
@@ -101,11 +98,6 @@ export interface TrendResult {
   description: string;
 }
 
-/**
- * Génère une tendance aléatoire avec des valeurs réalistes
- * @param options Configuration optionnelle
- * @returns Objet tendance complet
- */
 export const getRandomTrend = (options?: {
   bias?: "positive" | "negative" | "neutral";
   minValue?: number;
@@ -113,7 +105,6 @@ export const getRandomTrend = (options?: {
 }): TrendResult => {
   const { bias = "neutral", minValue = 2, maxValue = 35 } = options || {};
 
-  // Probabilité selon le biais
   let probs = { croissance: 0.33, baisse: 0.33, stable: 0.34 };
 
   if (bias === "positive") {
@@ -133,13 +124,11 @@ export const getRandomTrend = (options?: {
     trend = "stable";
   }
 
-  // Valeur de tendance (pourcentage)
   let value = 0;
   if (trend !== "stable") {
     value = getRandomCount(minValue, maxValue);
   }
 
-  // Configuration selon la tendance
   const config = {
     croissance: {
       icon: "trending-up" as const,
@@ -167,19 +156,11 @@ export const getRandomTrend = (options?: {
   };
 };
 
-/**
- * Génère une tendance simplifiée (juste le type et la valeur)
- * Version plus légère pour les cas simples
- */
 export const getRandomTrendSimple = (): { trend: TrendType; value: number } => {
   const trend = getRandomTrend();
   return { trend: trend.trend, value: trend.value };
 };
 
-/**
- * Génère un tableau de tendances pour plusieurs périodes
- * Utile pour les graphiques d'évolution
- */
 export const getTrendHistory = (months: number = 6): TrendResult[] => {
   const history: TrendResult[] = [];
   let lastTrend: TrendType | null = null;
@@ -198,9 +179,6 @@ export const getTrendHistory = (months: number = 6): TrendResult[] => {
   return history;
 };
 
-/**
- * Calcule la tendance basée sur des valeurs réelles (utile pour les données API)
- */
 export const calculateTrend = (oldValue: number, newValue: number): TrendResult => {
   if (oldValue === 0) return getRandomTrend({ bias: "neutral" });
 

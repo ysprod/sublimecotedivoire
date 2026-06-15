@@ -1,11 +1,10 @@
 import { api } from '@/lib/api/client';
- 
+
 import { notificationsService } from '@/lib/api/services/notifications.service';
-  
+
 import type { User } from '@/lib/interfaces';
 import type { QueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from './queryClient';
-
 
 const inFlightDataPrefetches = new Map<string, Promise<void>>();
 const inFlightConsultationPrefetches = new Map<string, Promise<void>>();
@@ -18,7 +17,6 @@ type PrefetchEntry = {
 };
 
 const prefetchRegistry: PrefetchEntry[] = [
-  
   {
     route: '/star/notifications',
     requiresAuth: true,
@@ -29,10 +27,6 @@ const prefetchRegistry: PrefetchEntry[] = [
       });
     },
   },
-  
-  
-
-
 ];
 
 export function normalizePrefetchHref(href: string): string | null {
@@ -97,8 +91,6 @@ export function prefetchConsultationFrontData(queryClient: QueryClient, consulta
   if (existing) {
     return existing;
   }
-
- 
 }
 
 export function prefetchAdminUserDetail(queryClient: QueryClient, userId: string): Promise<void> {

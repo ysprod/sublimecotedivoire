@@ -6,7 +6,7 @@ import { fadeInUp, filtremoov } from "@/lib/libs/constants";
 import EnteteRapport from "./EnteteRapport";
 import BackButton from "./BackButton";
 import EtablissementsDataFiltre from "./EtablissementsDataFiltre";
-import { useSubMenuData } from "@/hooks/useSubMenuData";
+import { useSubMenuData } from "@/hooks/datakwaba/useSubMenuData";
 import { valeurEntier } from "@/lib/libs/functions";
 import EtablissementsData from "./EtablissementsData";
 

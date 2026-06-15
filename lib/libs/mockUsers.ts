@@ -106,6 +106,7 @@ export const generateMockUsers = (count: number): ConnexionHistory[] => {
                 vpn: Math.random() > 0.8
             };
         }
+        
         return session;
     });
 };

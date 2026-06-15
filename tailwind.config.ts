@@ -9,24 +9,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ─── PRIMAIRE : Indigo Nuit ──────────────────────────
         primary: {
           DEFAULT: '#1E154A',
           light:   '#2E2366',
           dark:    '#130D32',
         },
 
-        // ─── SECONDAIRE : Améthyste ─────────────────────────
-        // Pierre spirituelle, sagesse et transformation
         secondary: {
           DEFAULT: '#5C3D8F',
           light:   '#7350A8',
           dark:    '#452E6E',
         },
 
-        // ─── ACCENT OR : Or Stellaire ───────────────────────
-        // CTA, boutons, éléments premium — or patiné naturel
-        // Remplace l'ancien doré fluo par un ton plus sophistiqué et lisible
         accent: {
           gold:         '#C2913B',
           'gold-light': '#D4A85A',
@@ -37,8 +31,6 @@ const config: Config = {
           'violet-dark':  '#4E7AAE',
         },
 
-        // ─── PASTELS SOPHISTIQUÉS ───────────────────────────
-        // Touches décoratives désaturées, badges, survols
         pastel: {
           rose:    '#C9A0AC', // Rose mûre — chaleur douce
           emerald: '#6B9E94', // Sauge — nature & guérison

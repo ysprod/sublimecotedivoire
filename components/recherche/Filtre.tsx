@@ -2,8 +2,8 @@
 import { memo } from "react";
 import type { CartoFiltre, OptionValue } from "@/lib/libs/interface";
 import FiltreHome from "./FiltreHome";
-import { useMenuData } from "@/hooks/useMenuData";
-import { useRegions } from "@/hooks/useRegions";
+import { useMenuData } from "@/hooks/datakwaba/useMenuData";
+import { useRegions } from "@/hooks/datakwaba/useRegions";
 import { DATA_LOADING } from "@/lib/libs/constants";
 import Erreur from "../commons/Erreur";
 import Reessayer from "../commons/Reessayer";

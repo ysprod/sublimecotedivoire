@@ -1,5 +1,5 @@
-import { Etablissement } from "./interface";
 import { regionsData, departementData } from "./mockdata";
+import { Etablissement } from "./interface";
 
 const typesEtablissements = [
     { type: "Hôtel", classifications: ["1 étoile", "2 étoiles", "3 étoiles", "4 étoiles", "5 étoiles"] },

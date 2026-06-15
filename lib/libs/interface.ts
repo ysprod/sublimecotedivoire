@@ -105,7 +105,6 @@ export interface ConnexionHistory {
   sessionId: string;
   status: 'succes' | 'echec' | 'expiré';
   duration?: number;
-
   login: {
     timestamp: number;
     date: string;

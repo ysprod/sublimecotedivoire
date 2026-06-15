@@ -4,34 +4,6 @@ export enum UserType {
   INTEGRAL = 'INTEGRAL',
 }
 
-export type Category = 'animal' | 'vegetal' | 'beverage';
-export type StepType = 'selection' | 'form' | 'offering' | 'processing' | 'success' | 'confirm';
-export type GenerationStep = 'loading' | 'success' | 'error';
-export type SortOrder = "newest" | "oldest" | "amount_high" | "amount_low";
-export type HoroscopeTypeId = 'mensuel' | 'annuel';
-export type ReviewFeedbackTone = "success" | "error";
-
-export interface Section {
-  titre: string;
-  contenu: string;
-}
-
-export interface FormErrors {
-  [key: string]: string;
-}
-
-export interface FormData {
-  nom: string;
-  prenoms: string;
-  dateNaissance: string;
-  paysNaissance: string;
-  villeNaissance: string;
-  heureNaissance: string;
-  country?: string;
-  phone?: string;
-  gender?: string;
-}
-
 export interface Rubrique {
   id?: string;
   _id?: string;
@@ -41,33 +13,6 @@ export interface Rubrique {
   createdAt?: string;
   updatedAt?: string;
   categorieId?: string;
-  pdfFile?: string;
-  prompt?: string;
-  gradeId?: string;
-}
-
-export interface Metadata {
-  processingTime: number;
-  tokensUsed: number;
-  model: string;
-  cached: boolean;
-}
-
-export interface Stats {
-  totalTransactions: number;
-  totalSpent: number;
-}
-
-export interface Payment {
-  id: string;
-  reference: string;
-  amount: number;
-  status: 'pending' | 'completed' | 'failed' | 'cancelled';
-  method: string;
-  customerName: string;
-  customerPhone: string;
-  createdAt: string;
-  completedAt?: string;
 }
 
 export interface User {
@@ -122,8 +67,6 @@ export interface User {
   booksRead?: number;
   lastGradeUpdate?: Date | string;
   userType?: UserType;
-  subscriptionStartDate?: Date | string;
-  subscriptionEndDate?: Date | string;
   premiumRubriqueId?: string;
   nomconsultant?: string;
   [key: string]: unknown;
@@ -166,22 +109,4 @@ export enum Permission {
   MANAGE_ROLES = 'MANAGE_ROLES',
   MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS',
   SYSTEM_CONFIG = 'SYSTEM_CONFIG'
-}
-
-export interface ProcessedUserData {
-  _id?: string;
-  name: string;
-  birthDate: string;
-  prenoms: string;
-  nom: string;
-  phone: string;
-  dateNaissance: string;
-  lieuNaissance: string;
-  heureNaissance: string;
-  country: string;
-  role: string;
-  premium: boolean;
-  credits: number;
-  totalConsultations: number;
-  rating: number;
 }

@@ -25,11 +25,8 @@ function isTokenExpired(token: string): boolean {
   return decoded.exp < Math.floor(Date.now() / 1000);
 }
 
-
-// ─── Route sets (computed once at module level) ─────────────────────────────
 const AUTH_ACTIONS = new Set(['/auth/logout']);
 
-// ─── Security headers applied to every response ────────────────────────────
 const SECURITY_HEADERS: Record<string, string> = {
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',

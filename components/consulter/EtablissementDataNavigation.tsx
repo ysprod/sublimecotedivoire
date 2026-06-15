@@ -4,7 +4,7 @@ import { memo, useMemo } from "react";
 import { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { navAnimation } from "@/lib/libs/constants";
 import InfoStatNavigation from "./InfoStatNavigation";
-import { useSubMenuData } from "@/hooks/useSubMenuData";
+import { useSubMenuData } from "@/hooks/datakwaba/useSubMenuData";
 
 interface MenuDiambraProps {
     setSelectedMenuItem: (item: MenuItem | null) => void;

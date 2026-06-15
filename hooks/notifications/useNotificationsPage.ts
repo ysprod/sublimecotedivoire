@@ -45,7 +45,7 @@ export function useNotificationsPage({ page = 1, limit = 20, filter: initialFilt
     if (notification.metadata?.url) {
       url = notification.metadata.url.startsWith('/star') ? notification.metadata.url : `/star${notification.metadata.url.startsWith('/') ? '' : '/'}${notification.metadata.url}`;
     } else if (
-      (notification.type === 'CONSULTATION_RESULT' || notification.type === 'CONSULTATION_ASSIGNED') &&
+      (notification.type === 'CONSULTATION_RESULT' ) &&
       notification.metadata?.consultationId
     ) {
       url = `/star/consultations/${notification.metadata.consultationId}`;

@@ -2,7 +2,7 @@
 import { memo } from "react";
 import dynamic from "next/dynamic";
 import Loader from "@/components/commons/Loader";
-import { usePrincipale } from "@/hooks/usePrincipale";
+import { usePrincipale } from "@/hooks/datakwaba/usePrincipale";
 
 const Filtre = dynamic(
   () => import("@/components/recherche/Filtre"),

@@ -1,5 +1,4 @@
-export const endpoints = {
-  
+export const endpoints = {  
   root: '/',
 
   // Authentication
@@ -51,7 +50,6 @@ export const endpoints = {
     stats: '/payments/stats',
   },
 
-  // Notifications
   notifications: {
     list: '/notifications',
     unread: '/notifications/unread',
@@ -61,47 +59,14 @@ export const endpoints = {
     markAllAsRead: '/notifications/read-all',
     preferences: '/notifications/preferences',
   },
-
-  // Grades
-  grades: {
-    info: '/grades/info',
-    myProgress: '/grades/progress',
-    userProgress: (userId: string) => `/grades/progress/${userId}`,
-    checkGrade: (userId: string) => `/grades/check/${userId}`,
-    incrementConsultations: '/grades/increment-consultations',
-    incrementRituels: '/grades/increment-rituels',
-    incrementBooks: '/grades/increment-books',
-    welcomeMessage: '/grades/welcome-message',
-  },
-
-  // Admin Grades
-  adminGrades: {
-    list: '/admin/grades',
-    enriched: '/admin/grades/enriched',
-    byId: (id: string) => `/admin/grades/${id}`,
-    byName: (grade: string) => `/admin/grades/by-name/${grade}`,
-    reorderChoices: (id: string) => `/admin/grades/${id}/reorder-choices`,
-    nextGrade: (id: string) => `/admin/grades/${id}/next-grade`,
-    consultationChoices: '/admin/consultation-choices',
-  },
-
-  // User Access (Profils)
+  
   userAccess: {
     mySubscription: '/user-access/subscription-info',
     checkAccess: (rubriqueId: string) => `/user-access/check-access/${rubriqueId}`,
     activatePremium: '/user-access/activate-premium',
     activateIntegral: '/user-access/activate-integral',
     cancelSubscription: '/user-access/cancel-subscription',
-  },
-
-  // Blog
-  blog: {
-    list: '/blog',
-    byId: (id: string) => `/blog/${id}`,
-    create: '/blog',
-    update: (id: string) => `/blog/${id}`,
-    delete: (id: string) => `/blog/${id}`,
-  },
+  }, 
 };
 
 export default endpoints;

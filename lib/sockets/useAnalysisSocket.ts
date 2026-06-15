@@ -16,7 +16,6 @@ export function useAnalysisSocket(
   useEffect(() => {
     if (!consultationId) return;
     if (!socket) {
-      // Toujours utiliser le domaine public en production
       const baseURL = config.api.baseURL;
       if (typeof window !== 'undefined') {
         let wsURL = '';

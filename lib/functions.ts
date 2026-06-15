@@ -63,7 +63,6 @@ export function processUserData(userData: User | null): User | null {
     credits: userData.credits ?? 0,
     totalConsultations: userData.totalConsultations ?? 0,
     rating: userData.rating ?? 0,
-    nomconsultant: userData.nomconsultant||userData.username,
     ...userData
   };
 }
@@ -100,13 +99,11 @@ export function getStableRubriqueId(r: Rubrique): string {
   return `rub_${h.toString(16)}`; // stable
 }
 
-
 export const formatNumber = (num: number): string => {
   if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
   if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
   return num.toString();
 };
-
 
 /** @deprecated Use safeTrim instead */
 export function safeText(v: unknown) {
@@ -156,9 +153,6 @@ export function buildUrl(pathname: string, params: Record<string, string | undef
   const qs = sp.toString();
   return qs ? `${pathname}?${qs}` : pathname;
 }
-
-
-
 
 export function formatDateFRTiret(iso?: string) {
   if (!iso) return "—";
@@ -227,7 +221,6 @@ export function buildTocFromMarkdown(md: string): TocItem[] {
   return items.slice(0, 18);
 }
 
-
 export function fmtDuration(ms: number) {
   const s = Math.max(0, Math.round(ms / 1000));
   const m = Math.floor(s / 60);
@@ -235,7 +228,6 @@ export function fmtDuration(ms: number) {
   if (m <= 0) return `${r}s`;
   return `${m}m ${String(r).padStart(2, '0')}s`;
 }
-
 
 export function createReviewId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -271,8 +263,6 @@ export function readStoredReviews(storageKey: string): any[] {
     return [];
   }
 }
-
-
 
 export function toMediaUrl(pathLike?: string | null) {
   if (!pathLike) return null;
@@ -331,9 +321,6 @@ export function toYouTubeThumbnailUrl(rawUrl?: string | null) {
   return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
 }
 
-
-
-
 export function getPageNumbers(page: number, total: number) {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
   const set = new Set<number>();
@@ -355,13 +342,9 @@ export function getPageNumbers(page: number, total: number) {
   return out;
 }
 
- 
-
 export function makeExcerpt(content: string, max = 160) {
   return content.length <= max ? content : content.slice(0, max).trimEnd() + '…';
 }
-
- 
 
 export function clamp(s: string, max = 140) {
   const t = cleanText(s);

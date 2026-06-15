@@ -57,9 +57,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const persistUser = useAuthStore((s) => s.updateUser);
   const persistLogout = useAuthStore((s) => s.logout);
 
-
-
-
   /**
    * Initialise l'authentification au montage du composant
    * Vérifie le token et récupère les données utilisateur

@@ -67,7 +67,6 @@ export const notificationsService = {
     // Peut être implémenté côté backend plus tard
     return {
       consultationReady: true,
-      newKnowledge: true,
       systemUpdates: true,
       promotions: false,
       emailNotifications: true,
