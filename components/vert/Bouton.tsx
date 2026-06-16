@@ -7,7 +7,7 @@ import CacheLink from "../commons/CacheLink";
 export default function Bouton() {
 
     return (
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-4xl p-2">
             <CacheLink href="/recherche" >
                 <motion.div
                     initial={{ opacity: 0, scale: 0.92, y: 18 }}
@@ -27,11 +27,12 @@ export default function Bouton() {
                         />
                     </div>
                 </motion.div>
+
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="text-center"
+                    className="text-center mb-16"
                 >
                     <motion.button
                         whileHover={{ scale: 1.08 }}
@@ -50,7 +51,6 @@ export default function Bouton() {
                     </motion.button>
                 </motion.div>
             </CacheLink>
-            <br /><br /><br />
         </div>
     );
 }

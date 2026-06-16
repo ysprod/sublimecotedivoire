@@ -35,7 +35,7 @@ export default function TourismDashboard() {
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.65 }}
-          className="mt-8 flex w-full justify-center sm:mt-10"
+          className="mt-8 flex w-full justify-center sm:mt-10 mb-16"
         >
           <motion.button
             whileHover={{ scale: 1.03 }}
@@ -63,8 +63,6 @@ export default function TourismDashboard() {
           </motion.button>
         </motion.div>
       </CacheLink>
-      <br /> 
-      <br />
     </div>
   );
 }

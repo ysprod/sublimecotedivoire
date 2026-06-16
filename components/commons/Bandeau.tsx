@@ -5,7 +5,7 @@ import CacheLink from "./CacheLink";
 
 const Bandeau = memo(function Bandeau() {
     return (
-        <div className="mx-auto flex w-full max-w-8xl flex-col items-center justify-center text-center">
+        <div className="mx-auto flex w-full max-w-8xl flex-col p-2 items-center justify-center text-center">
             <CacheLink href="/" className="w-full sm:w-auto mb-4">
                 <div className="flex w-full flex-col items-center">
                     <div className="relative flex justify-center">
