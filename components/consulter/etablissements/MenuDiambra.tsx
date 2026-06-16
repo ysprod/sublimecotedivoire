@@ -8,11 +8,12 @@ import {
   BedDouble, Building2, Globe, Home, Hotel, MapPin, Minus, TrendingDown, TrendingUp, User,
   UserRound, Users,
 } from "lucide-react";
-import { memo, useCallback, useEffect, useMemo, useState, useTransition } from "react";
-import Bandeau from "../commons/Bandeau";
-import BackButton from "../recherche/BackButton";
+import { memo, useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
+
 import ConsulterEtablissementsContent from "./ConsulterEtablissementsContent";
 import EnteteRapport from "./EnteteRapport";
+import Bandeau from "@/components/commons/Bandeau";
+import BackButton from "@/components/recherche/BackButton";
 
 interface MenuItemCardProps {
   item: MenuItem;
@@ -70,99 +71,6 @@ const TrendIndicator = memo(({ trend }: { trend: TrendData }) => {
   );
 });
 
-const MenuItemCard = memo(({
-  item,
-  onClick,
-  className,
-  showTrend = true
-}: MenuItemCardProps) => {
-  const getDefaultTrend = useCallback((item: MenuItem): TrendData => {
-    const defaultTrends: Record<string, TrendData> = {
-      'HÔTELS': { value: 5.2, direction: 'up', label: 'secteur en croissance' },
-      'RÉSIDENCES': { value: 3.8, direction: 'up', label: 'demande croissante' },
-      'MAISONS': { value: -2.1, direction: 'down', label: 'légère baisse' },
-      'ÉTABLISSEMENTS': { value: 4.5, direction: 'up', label: 'expansion continue' },
-      'CLIENTS': { value: 7.3, direction: 'up', label: 'hausse de fréquentation' },
-      'HOMMES': { value: 2.1, direction: 'up', label: 'légère progression' },
-      'FEMMES': { value: 8.5, direction: 'up', label: 'forte progression' },
-      'NATIONAUX': { value: 3.2, direction: 'up', label: 'tourisme local' },
-      'ETRANGERS': { value: 12.4, direction: 'up', label: 'reprise tourisme' }
-    };
-
-    for (const [key, trend] of Object.entries(defaultTrends)) {
-      if (item.title?.includes(key)) {
-        return trend;
-      }
-    }
-
-    return {
-      value: Math.random() * 10 - 5,
-      direction: Math.random() > 0.5 ? 'up' : 'down',
-      label: 'vs période précédente'
-    };
-  }, []);
-
-  const trend = useMemo<TrendData | null>(() => {
-    if (!showTrend) return null;
-
-    if (item.trend) {
-      return item.trend;
-    }
-
-    return getDefaultTrend(item);
-  }, [item, showTrend, getDefaultTrend]);
-  const defaultRenderTitle = useCallback((title: string) => {
-    const [numberPart, ...textParts] = title.split(TITLE_SPLIT_REGEX);
-    const formattedNumber = parseInt(numberPart)?.toLocaleString('fr-FR') || numberPart;
-
-    return (
-      <div className="flex flex-col items-center justify-center text-center">
-        <span className="text-2xl font-bold text-blue-600">{formattedNumber}</span>
-        {textParts.length > 0 && (
-          <span className="text-gray-700 text-sm font-medium mt-1">
-            {textParts.join(' ')}
-          </span>
-        )}
-      </div>
-    );
-  }, []);
-
-  const handleClick = useCallback(() => {
-    onClick(item);
-  }, [item, onClick]);
-
-  return (
-    <button
-      onClick={handleClick}
-      className={clsx(
-        "p-4 flex flex-col items-center justify-center transition-all duration-300",
-        "bg-white rounded-xl shadow-md hover:shadow-xl focus:outline-none",
-        "focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-        "border border-gray-100 hover:border-blue-200",
-        className
-      )}
-      aria-label={`Accéder à ${item.title}`}
-    >
-      <div className="relative">
-        {getIconComponent(item.title!, item.blackicon?.includes('black'))}
-      </div>
-
-      {item.title && (
-        <div className="text-center min-h-[60px] flex flex-col items-center mt-2">
-          {defaultRenderTitle(item.title)}
-        </div>
-      )}
-
-      {trend && <TrendIndicator trend={trend} />}
-
-      {!trend && showTrend && (
-        <div className="text-xs text-gray-400 mt-2">
-          Données non disponibles
-        </div>
-      )}
-    </button>
-  );
-});
 
 const createMenuItem = (
   baseTitle: string,
@@ -223,15 +131,15 @@ const useMenuData = () => {
           trend: getTrend(totalEtablissements, previousTotalEtablissements)
         },
         {
-          ...createMenuItem("CLIENTS", clientsCount, "/icons/lesclients.png", 1, "/icons/lesclients.png"),
+          ...createMenuItem("CLIENTS", clientsCount, "/icons/clients.png", 1, "/icons/clients.png"),
           trend: getTrend(clientsCount, previousClientsCount)
         },
         {
-          ...createMenuItem("HOMMES", hommesCount, "/icons/client.png", 2, "/icons/client.png"),
+          ...createMenuItem("HOMMES", hommesCount, "/icons/homme.png", 2, "/icons/homme.png"),
           trend: getTrend(hommesCount, previousHommesCount)
         },
         {
-          ...createMenuItem("FEMMES", femmesCount, "/icons/cliente.png", 3, "/icons/cliente.png"),
+          ...createMenuItem("FEMMES", femmesCount, "/icons/femme.png", 3, "/icons/femme.png"),
           trend: getTrend(femmesCount, previousFemmesCount)
         },
         {
@@ -262,20 +170,16 @@ interface TrendData {
   label?: string;
 }
 
-const MenuDiambra = memo(() => {
+const MenuDiambra2 = memo(() => {
   const {
-    shouldShowDataNavigation,showfiltreconsulter, carto,
-    updateCarto,    setshouldShowDataNavigation,    setShowfiltreconsulter, 
+    shouldShowDataNavigation, carto,
+    updateCarto, setshouldShowDataNavigation, setShowfiltreconsulter,
   } = usePrincipale();
 
   const { mainmenutitems } = useMenuData();
   const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
 
-  useEffect(() => {
-    if (selectedMenuItem && !shouldShowDataNavigation) {
-      setshouldShowDataNavigation(true);
-    }
-  }, [selectedMenuItem, shouldShowDataNavigation, setshouldShowDataNavigation]);
+
 
   useEffect(() => {
     return () => {
@@ -285,12 +189,6 @@ const MenuDiambra = memo(() => {
 
   const [isPending, startTransition] = useTransition();
 
-  const handleButtonClick = useCallback((item: MenuItem) => {
-    startTransition(() => {
-      setShowfiltreconsulter(true);
-      updateCarto({ tpsglobal: item.tpsglobal });
-    });
-  }, [setShowfiltreconsulter, updateCarto]);
 
   const handleBackClick = useCallback(() => {
     startTransition(() => {
@@ -306,11 +204,7 @@ const MenuDiambra = memo(() => {
     });
   }, [selectedMenuItem, shouldShowDataNavigation, setshouldShowDataNavigation, setShowfiltreconsulter]);
 
-  useEffect(() => {
-    if (selectedMenuItem && !shouldShowDataNavigation) {
-      setshouldShowDataNavigation(true);
-    }
-  }, [selectedMenuItem, shouldShowDataNavigation, setshouldShowDataNavigation]);
+
 
   useEffect(() => {
     return () => {
@@ -318,47 +212,133 @@ const MenuDiambra = memo(() => {
     };
   }, []);
 
+  useEffect(() => {
+    setSelectedMenuItem(mainmenutitems.MAIN_MENU_ITEMS[0]);
+    setShowfiltreconsulter(true);
+    updateCarto({ tpsglobal: selectedMenuItem?.tpsglobal });
+    setshouldShowDataNavigation(true);
+  }, [selectedMenuItem, setShowfiltreconsulter, updateCarto, mainmenutitems.MAIN_MENU_ITEMS, setshouldShowDataNavigation]);
+
   return (
     <div className="flex flex-col w-full max-w-3xl mx-auto">
       <Bandeau />
-      {showfiltreconsulter ? (
-        <div className="grid grid-cols-1 gap-2 p-4 max-w-6xl mx-auto" >
-          <BackButton onClick={handleBackClick} />
-          <EnteteRapport
-            tpsglobal={carto.tpsglobal}
-            shouldShowDataNavigation={shouldShowDataNavigation}
-            setSelectedMenuItem={setSelectedMenuItem}
-            selectedMenuItem={selectedMenuItem}
-            mainmenutitems={mainmenutitems.MAIN_MENU_ITEMS}
-            updateCarto={updateCarto}
-          />
-          <ConsulterEtablissementsContent
-            carto={carto}
-            mainmenutitems={mainmenutitems.MAIN_MENU_ITEMS}
-            selectedMenuItem={selectedMenuItem}
-            setSelectedMenuItem={setSelectedMenuItem}
-          />
-        </div>
-      ) : (
-        <div className="flex flex-col w-full max-w-3xl mx-auto">
-          <div className="grid grid-cols-1 gap-8 max-w-6xl mx-auto"  >
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-              {mainmenutitems.MAIN_MENU_ITEMS.map((item: MenuItem) => (
-                <MenuItemCard key={item.tpsglobal} item={item} onClick={handleButtonClick} />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-      
+      <div className="grid grid-cols-1 gap-2 p-4 max-w-6xl mx-auto" >
+        <BackButton onClick={handleBackClick} />
+        <EnteteRapport
+          tpsglobal={carto.tpsglobal}
+          shouldShowDataNavigation={shouldShowDataNavigation}
+          setSelectedMenuItem={setSelectedMenuItem}
+          selectedMenuItem={selectedMenuItem}
+          mainmenutitems={mainmenutitems.MAIN_MENU_ITEMS}
+          updateCarto={updateCarto}
+        />
+        <ConsulterEtablissementsContent
+          carto={carto}
+          mainmenutitems={mainmenutitems.MAIN_MENU_ITEMS}
+          selectedMenuItem={selectedMenuItem}
+          setSelectedMenuItem={setSelectedMenuItem}
+        />
+      </div>
+
+    </div>
+  );
+});
+
+
+// ============ COMPOSANT PRINCIPAL ============
+const MenuDiambra = memo(() => {
+  const {
+    shouldShowDataNavigation,
+    carto,
+    updateCarto,
+    setshouldShowDataNavigation,
+    setShowfiltreconsulter,
+  } = usePrincipale();
+
+  const { mainmenutitems } = useMenuData();
+  const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const isInitialized = useRef(false);
+
+  // Mémorisation des callbacks
+  const handleBackClick = useCallback(() => {
+    startTransition(() => {
+      if (selectedMenuItem) {
+        setSelectedMenuItem(null);
+        return;
+      }
+      if (shouldShowDataNavigation) {
+        setshouldShowDataNavigation(false);
+        return;
+      }
+      setShowfiltreconsulter(false);
+    });
+  }, [selectedMenuItem, shouldShowDataNavigation, setshouldShowDataNavigation, setShowfiltreconsulter]);
+
+  const handleMenuItemSelect = useCallback((item: MenuItem | null) => {
+    setSelectedMenuItem(item);
+  }, []);
+
+  // Initialisation unique
+  useEffect(() => {
+    if (!isInitialized.current && mainmenutitems.MAIN_MENU_ITEMS.length > 0) {
+      isInitialized.current = true;
+      const firstItem = mainmenutitems.MAIN_MENU_ITEMS[0];
+      setSelectedMenuItem(firstItem);
+      setShowfiltreconsulter(true);
+      updateCarto({ tpsglobal: firstItem.tpsglobal });
+      setshouldShowDataNavigation(true);
+    }
+  }, [mainmenutitems.MAIN_MENU_ITEMS, setShowfiltreconsulter, updateCarto, setshouldShowDataNavigation]);
+
+  // Nettoyage
+  useEffect(() => {
+    return () => {
+      isInitialized.current = false;
+    };
+  }, []);
+
+  // Mémorisation des props pour éviter les re-rendus
+  const enteteProps = useMemo(() => ({
+    tpsglobal: carto.tpsglobal,
+    shouldShowDataNavigation,
+    setSelectedMenuItem: handleMenuItemSelect,
+    selectedMenuItem,
+    mainmenutitems: mainmenutitems.MAIN_MENU_ITEMS,
+    updateCarto
+  }), [carto.tpsglobal, shouldShowDataNavigation, selectedMenuItem, mainmenutitems.MAIN_MENU_ITEMS, updateCarto, handleMenuItemSelect]);
+
+  const contentProps = useMemo(() => ({
+    carto,
+    mainmenutitems: mainmenutitems.MAIN_MENU_ITEMS,
+    selectedMenuItem,
+    setSelectedMenuItem: handleMenuItemSelect
+  }), [carto, mainmenutitems.MAIN_MENU_ITEMS, selectedMenuItem, handleMenuItemSelect]);
+
+  // Éviter le rendu si pas de données
+  if (mainmenutitems.MAIN_MENU_ITEMS.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-col w-full max-w-3xl mx-auto">
+      <Bandeau />
+      <div className="grid grid-cols-1 gap-2 p-4 max-w-6xl mx-auto">
+        <BackButton onClick={handleBackClick} />
+        <EnteteRapport {...enteteProps} />
+        <ConsulterEtablissementsContent {...contentProps} />
+      </div>
       {isPending && (
         <div className="fixed bottom-4 right-4 bg-black/50 text-white p-2 rounded">
           Chargement...
         </div>
       )}
-      <br /><br /><br />
     </div>
   );
 });
+
+MenuDiambra.displayName = "MenuDiambra";
+
+
 
 export default MenuDiambra;

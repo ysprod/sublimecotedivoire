@@ -37,6 +37,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'randomuser.me',
+        port: '',
+        pathname: '/api/portraits/**',  // ou '/**' pour toutes les images
+      },
+      {
+        protocol: 'https',
         hostname: 'datakwaba.com',
         port: '',
         pathname: '/uploads/**',
@@ -59,6 +65,13 @@ const nextConfig = {
         hostname: 'placehold.co',
         port: '',
         pathname: '/**',
+      },
+      // NOUVEAU : Ajout de randomuser.me
+      {
+        protocol: 'https',
+        hostname: 'randomuser.me',
+        port: '',
+        pathname: '/**',   // Spécifique aux portraits
       },
     ],
     formats: ['image/avif', 'image/webp'],

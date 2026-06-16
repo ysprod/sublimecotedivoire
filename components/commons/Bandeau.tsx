@@ -12,8 +12,8 @@ const Bandeau = memo(function Bandeau() {
                         <Image
                             src="/logos.png"
                             alt="Tourisme Côte d'Ivoire"
-                            width={480}
-                            height={128}
+                            width={960}
+                            height={256}
                             priority
                             sizes="(max-width: 640px) 320px, (max-width: 768px) 320px, 480px"
                             className="h-auto w-[320px] object-contain sm:w-[320px] md:w-[480px]"

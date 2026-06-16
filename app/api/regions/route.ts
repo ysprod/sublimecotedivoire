@@ -32,7 +32,6 @@ const createApiResponse = {
 
     error: (error: unknown): NextResponse => {
         logError(error);
-
         return NextResponse.json(
             {
                 success: false, error: API_INTERNAL_ERROR, timestamp: new Date().toISOString()
@@ -46,7 +45,6 @@ export async function GET() {
         if (process.env.NODE_ENV === 'development') {
             await simulateNetworkDelay();
         }
-
         return createApiResponse.success(regionsCoteIvoireMock);
     } catch (error) {
         return createApiResponse.error(error);

@@ -30,7 +30,6 @@ const createApiResponse = {
         logError(error);
 
         const errorMessage = customMessage || "Erreur lors de la récupération des établissements";
-
         const response: ApiResponse = {
             success: false, error: errorMessage, timestamp: new Date().toISOString()
         };
@@ -52,7 +51,6 @@ export async function GET(request: Request) {
         const data = generateMockEtablissements(count);
 
         return createApiResponse.success(data, count);
-
     } catch (error) {
         return createApiResponse.error(error);
     }

@@ -8,7 +8,6 @@ export default function NotFoundPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stars, setStars] = useState<Array<{ id: number; x: number; y: number; size: number; duration: number }>>([]);
 
-  // Génération des DATAKWABA
   useEffect(() => {
     const newStars = Array.from({ length: 100 }, (_, i) => ({
       id: i,
@@ -19,8 +18,7 @@ export default function NotFoundPage() {
     }));
     setStars(newStars);
   }, []);
-
-  // Suivi de la souris pour l'effet de parallaxe
+  
   const handleMouseMove = (e: React.MouseEvent) => {
     setMousePosition({
       x: (e.clientX / window.innerWidth - 0.5) * 20,

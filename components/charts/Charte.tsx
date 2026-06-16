@@ -1,9 +1,7 @@
 'use client';
-import { motion } from "framer-motion";
 import { MenuItem } from "@/lib/libs/interface";
-import PieChart from "./PieChart";
-import { fadeInUp } from "@/lib/libs/constants";
 import { memo } from "react";
+import PieChart from "./PieChart";
 
 interface CharteProps {
     menuItems: MenuItem[];
@@ -11,9 +9,9 @@ interface CharteProps {
 
 const Charte = memo(({ menuItems }: CharteProps) => {
     return (
-        <motion.div className="w-full bg-white p-2 md:p-4 m-4 max-w-4xl mx-auto" {...fadeInUp}>
+        <div className="w-full bg-white p-2 md:p-4 m-4 max-w-4xl mx-auto" >
             <PieChart menuItems={menuItems} />
-        </motion.div>
+        </div>
     );
 });
 

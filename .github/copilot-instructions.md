@@ -176,7 +176,6 @@ NEXT_PUBLIC_SERVICE_ID=
      return <div>{data}</div>;
    }
    ```
-
 ### Add a new admin page
 3. Page is automatically wrapped in `AdminShell` (sidebar + auth guards)
 Keep changes focused and test auth flows when modifying `middleware.ts`, `AuthContext`, or API client interceptors.

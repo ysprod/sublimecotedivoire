@@ -45,7 +45,6 @@ const RootHeadMeta = memo(function RootHeadMeta() {
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="application-name" content={SITE_CONFIG.name} />
-
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={SITE_CONFIG.name} />
       <meta property="og:title" content={`${SITE_CONFIG.name} —`} />
@@ -67,10 +66,6 @@ const RootHeadMeta = memo(function RootHeadMeta() {
 });
 
 RootHeadMeta.displayName = 'RootHeadMeta';
-
-// ============================================================================
-// SCRIPTS OPTIMISÉS
-// ============================================================================
 
 const ThemeScript = memo(function ThemeScript() {
   return (

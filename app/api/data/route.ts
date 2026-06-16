@@ -19,13 +19,11 @@ type SuccessApiResponse = ApiResponseData & {
 const createApiResponse = {
   success: (data: ApiResponseData, cacheControl = RESPONSE_CACHE_CONTROL): NextResponse => {
     const responseData: SuccessApiResponse = { ...data, timestamp: new Date().toISOString(), };
-
     return NextResponse.json(responseData, { headers: { ...API_HEADERS, "Cache-Control": cacheControl, }, });
   },
 
   error: (error: unknown): NextResponse => {
     logError(error);
-
     const errorData: ErrorApiResponse = {
       error: API_INTERNAL_ERROR, details: error instanceof Error ? error.message : undefined,
     };

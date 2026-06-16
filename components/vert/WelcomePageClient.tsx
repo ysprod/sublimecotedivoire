@@ -1,8 +1,9 @@
 "use client";
 import { getRandomCount, getRandomTrendSimple, TrendType } from "@/lib/libs/functions";
 import clsx from "clsx";
-import { Building2, LucideIcon, Minus, TrendingDown, TrendingUp, Users } from "lucide-react";
+import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { memo, useCallback, useState } from "react";
 import Bandeau from "../commons/Bandeau";
 import Bouton from "./Bouton";
@@ -13,7 +14,8 @@ interface MenuItem {
   count: number;
   trend: TrendType;
   trendValue: number;
-  icon: LucideIcon;
+  iconSrc: string; // Changé: chemin vers l'image PNG
+  iconAlt: string; // Ajouté: texte alternatif
   color: string;
   bgColor: string;
   description: string;
@@ -53,15 +55,25 @@ const TrendIndicator = memo(({ trend }: { trend: TrendData }) => {
   const Icon = config.icon;
 
   return (
+    <>
     <div className={clsx(
-      "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium mt-2",
+      "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium",
       config.bgColor,
       config.color
     )}>
       <Icon size={14} />
       <span>{trend.value > 0 ? '+' : ''}{trend.value}%</span>
-      <span className="text-gray-600">{trend.label}</span>
     </div>
+    <div className={clsx(
+      "flex items-center text-xs font-medium uppercase",
+     
+      config.color
+    )}>
+    
+      <span className="text-gray-500 text-[10px]"><br/>{trend.label}</span>
+    </div>
+    </>
+    
   );
 });
 
@@ -70,41 +82,50 @@ const CATEGORY_STYLES = {
     color: "text-blue-600",
     bgColor: "bg-white",
     borderColor: "border-blue-200",
-    iconColor: "#00040b"
+    iconContainerBg: "bg-white"
   },
   clients: {
     color: "text-purple-600",
     bgColor: "bg-white",
     borderColor: "border-purple-200",
-    iconColor: "#030006"
+    iconContainerBg: "bg-white"
   }
 };
 
 const StatCard = memo(({ item, onClick }: StatCardProps) => {
-  const Icon = item.icon;
-
-  // Convertir les données de tendance pour TrendIndicator
   const trendData: TrendData = {
     direction: item.trend === "croissance" ? "croissance" : item.trend === "baisse" ? "baisse" : "stable",
     value: item.trendValue,
-    label: item.trend === "croissance" ? "de croissance" : item.trend === "baisse" ? "de baisse" : "stable"
+    label: item.trend === "croissance" ? "en hausse par rapport à hier" : item.trend === "baisse" ? "en baisse par rapport à hier" : "stable par rapport à hier"
   };
+
+  const style = item.id === "etablissements" ? CATEGORY_STYLES.etablissements : CATEGORY_STYLES.clients;
 
   return (
     <button
       onClick={() => onClick(item)}
       className={`
-        group relative overflow-hidden bg-white p-6 
-        hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-        flex flex-col items-center text-center
+        group relative overflow-hidden bg-white p-6  
+        hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+        flex flex-col items-center text-center  hover:shadow-xl
       `}
     >
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500" />
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500" />
 
       <div className="relative z-10 flex flex-col items-center w-full">
         <div className="flex items-center justify-center mb-4">
-          <div className={`p-3 rounded-xl ${CATEGORY_STYLES[item.id === "etablissements" ? "etablissements" : "clients"]?.bgColor || "bg-gray-50"}`}>
-            <Icon className={`w-24 h-24 ${item.color}`} strokeWidth={1.5} />
+          <div className={clsx(
+            "p-3  transition-all duration-300 group-hover:scale-105",
+            style.iconContainerBg
+          )}>
+            <Image
+              src={item.iconSrc}
+              alt={item.iconAlt}
+              width={80}
+              height={80}
+              className="w-24 h-24 object-contain"
+              priority={false}
+            />
           </div>
         </div>
 
@@ -115,13 +136,12 @@ const StatCard = memo(({ item, onClick }: StatCardProps) => {
             </span>
           </div>
           <p className="text-sm font-medium text-gray-600 uppercase tracking-wide">
-            {item.title}
-          </p>
+            {item.title}<br />
+            <span className="text-xs"> SUR TOUTE L'ETENDUE DU TERRITOIRE</span>
+           
+          </p> 
         </div>
-
-        <div className="mt-4 pt-4 border-t border-gray-100 w-full">
-          <TrendIndicator trend={trendData} />
-        </div>
+        <TrendIndicator trend={trendData} />
       </div>
     </button>
   );
@@ -147,7 +167,8 @@ const generateDashboardData = (): MenuItem[] => {
       count: totalEtablissements,
       trend: etablissementsTrend.trend,
       trendValue: etablissementsTrend.value,
-      icon: Building2,
+      iconSrc: "/icons/batiment.png", // Chemin vers votre image PNG
+      iconAlt: "Icône établissements",
       color: "text-black",
       bgColor: "bg-white",
       description: "Hôtels, résidences et maisons d'hôtes"
@@ -158,7 +179,8 @@ const generateDashboardData = (): MenuItem[] => {
       count: clientsCount,
       trend: clientsTrend.trend,
       trendValue: clientsTrend.value,
-      icon: Users,
+      iconSrc: "/icons/lesclients.png", // Chemin vers votre image PNG
+      iconAlt: "Icône clients",
       color: "text-black",
       bgColor: "bg-white",
       description: "Touristes et visiteurs"
@@ -170,7 +192,11 @@ export default function TourismDashboard() {
   const router = useRouter();
   const [dashboardData] = useState(() => generateDashboardData());
 
-  const handleCardClick = useCallback((item: MenuItem) => {
+  const handleCardClick = useCallback((item: MenuItem) => {    
+    if (item.id === "etablissements") {
+      router.push(`/consulter/etablissements/?tpsglobal=${item.id}`);
+      return;
+    }
     router.push(`/consulter/?tpsglobal=${item.id}`);
   }, [router]);
 

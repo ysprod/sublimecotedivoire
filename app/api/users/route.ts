@@ -36,7 +36,6 @@ const createApiResponse = {
 
     error: (error: unknown, customMessage?: string): NextResponse => {
         logError(error);
-
         const response: ApiResponse = {
             success: false,
             error: customMessage || "Erreur lors de la récupération des utilisateurs",
@@ -72,7 +71,6 @@ export async function GET(request: Request) {
 
         const mockUsers = generateMockUsers(userCount);
         return createApiResponse.success(mockUsers, userCount);
-
     } catch (error) {
         return createApiResponse.error(error);
     }

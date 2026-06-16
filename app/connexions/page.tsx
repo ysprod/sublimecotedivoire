@@ -7,6 +7,7 @@ const LazyConnexions = lazy<ComponentType>(
 );
 
 const Principale = memo(function Principale() {
+  
   return (
     <Suspense fallback={<Loader />}>
       <LazyConnexions />
