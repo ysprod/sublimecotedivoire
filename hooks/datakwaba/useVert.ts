@@ -86,7 +86,7 @@ export const useVert = () => {
 
             const basePath = item.id === "etablissements"
                 ? "/consulter/etablissements"
-                : "/consulter";
+                : "/consulter/clients";
 
             router.push(`${basePath}?${searchParams.toString()}`);
         });
