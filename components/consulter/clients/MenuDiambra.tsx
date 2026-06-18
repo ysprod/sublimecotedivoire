@@ -1,6 +1,5 @@
 'use client';
 import Charte from "@/components/charts/Charte";
-import DistributedBarChart from "@/components/charts/DistributedBarChart";
 import Bandeau from "@/components/commons/Bandeau";
 import BackButton from "@/components/recherche/BackButton";
 import { usePrincipale } from "@/hooks/datakwaba/clients/usePrincipale";
@@ -128,7 +127,7 @@ const DetailedStats = memo(({
 });
 
 const MenuDiambra = memo(() => {
-  const { handleBackClick, submenutitems, tpsglobal, mainMenuItem } = usePrincipale();
+  const { handleBackClick, submenutitems, tpsglobal, mainMenuItem,handleClick } = usePrincipale();
 
   const clientItems = useMemo(() => {
     return submenutitems.filter(item =>
@@ -159,6 +158,7 @@ const MenuDiambra = memo(() => {
               item={mainMenuItem}
               inverse
               tpsglobal={tpsglobal}
+               onClick={handleClick}
             />
           </div>
         )}
@@ -170,6 +170,7 @@ const MenuDiambra = memo(() => {
                 key={`${item.title}-${item.tpsglobal}`}
                 item={item}
                 tpsglobal={tpsglobal}
+                onClick={handleClick}
               />
             ))}
           </div>
@@ -192,7 +193,6 @@ const MenuDiambra = memo(() => {
 
         <div className="w-full max-w-3xl space-y-6">
           <Charte menuItems={submenutitems} />
-          <DistributedBarChart menuItems={submenutitems} />
         </div>
       </div>
     </div>

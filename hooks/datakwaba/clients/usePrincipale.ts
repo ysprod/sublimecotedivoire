@@ -4,6 +4,7 @@ import { initialCarto } from "@/lib/libs/constants";
 import { useRegionsDepartements } from "../useRegionsDepartements";
 import { getRandomCount, valeurEntier } from "@/lib/libs/functions";
 import { useSubMenuData } from "../useSubMenuData";
+import { useRouter } from "next/navigation";
  
  const createMenuItem = (
    baseTitle: string,
@@ -64,6 +65,7 @@ interface AppState {
 }
 
 export function usePrincipale() {
+  const router = useRouter();
 
   const { loading, errorMessage, regionsData, departementData, regions, regionOptions,
     loadRegionsAndDepartements, getDepartementsForRegion } = useRegionsDepartements();
@@ -107,6 +109,20 @@ export function usePrincipale() {
   const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
 
  
+  const handleClick = useCallback((item: MenuItem) => {
+  
+    setSelectedMenuItem(item);
+    if (item.tpsglobal === 200) {
+      router.push(`/consulter/hotels/?tpsglobal=${item.tpsglobal}`);
+      return;
+    }
+     if (item.tpsglobal === 100) {
+      router.push(`/consulter/residences/?tpsglobal=${item.tpsglobal}`);
+      return;
+    }
+  
+    router.push(`/consulter/hotes/?tpsglobal=${item.tpsglobal}`);
+  }, []);
 
   
 
@@ -114,7 +130,6 @@ export function usePrincipale() {
     window.history.back();
   }, []); 
  
- const tpsglobal = useMemo(() => valeurEntier(carto.tpsglobal), [carto.tpsglobal]);
 
   const mymainMenuItem = useMemo(() => (
     mainmenutitems.MAIN_MENU_ITEMS.find(item => item.tpsglobal === carto.tpsglobal) ?? mainmenutitems.MAIN_MENU_ITEMS[0]
@@ -143,6 +158,6 @@ export function usePrincipale() {
     handleBackClick,
     submenutitems,
     mymainMenuItem,mainMenuItem,
-
+handleClick
   };
 }

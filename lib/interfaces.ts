@@ -16,14 +16,7 @@ export interface Rubrique {
 }
 
 export interface User {
-  photo?: string;
-  presentation?: string;
-  domains?: string[];
-  methods?: string[];
-  experience?: string[];
-  poster?: string;
-  video?: string;
-  aspectsTexte: string;
+  photo?: string;   
   _id?: string;
   nom: string;
   prenoms: string;
@@ -109,4 +102,14 @@ export enum Permission {
   MANAGE_ROLES = 'MANAGE_ROLES',
   MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS',
   SYSTEM_CONFIG = 'SYSTEM_CONFIG'
+}
+
+export interface MenuItem {
+    id: string;
+    title: string;
+    count: number;
+    iconSrc: string;
+    iconAlt?: string;
+    trend: 'croissance' | 'baisse' | 'stable';
+    trendValue: number;
 }

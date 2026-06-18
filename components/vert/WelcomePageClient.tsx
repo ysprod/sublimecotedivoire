@@ -10,12 +10,12 @@ export default function TourismDashboard() {
   return (
     <div className="mx-auto max-w-2xl">
       <Bandeau />
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {dashboardData.map((item) => (
           <StatCard key={item.id} item={item} onClick={handleCardClick} />
         ))}
       </div>
+
       <Bouton />
     </div>
   );
