@@ -4,6 +4,7 @@ import { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRegionsDepartements } from "../useRegionsDepartements";
 import { useSubMenuData } from "../useSubMenuData";
+import { useRouter } from "next/navigation";
 
 const createMenuItem = (
   baseTitle: string,
@@ -42,11 +43,6 @@ export const useMenuData = () => {
     const clientsCount = hommesCount + femmesCount;
     const previousClientsCount = previousHommesCount + previousFemmesCount;
 
-    const nationauxRatio = getRandomCount(30, 70) / 100;
-    const nationauxCount = Math.round(clientsCount * nationauxRatio);
-    const previousNationauxCount = Math.round(previousClientsCount * nationauxRatio);
-    const etrangersCount = clientsCount - nationauxCount;
-    const previousEtrangersCount = previousClientsCount - previousNationauxCount;
 
     const getTrend = (current: number, previous: number) => {
       if (previous === 0) return { value: 0, direction: 'stable' as const };
@@ -68,21 +64,14 @@ export const useMenuData = () => {
           trend: getTrend(clientsCount, previousClientsCount)
         },
         {
-          ...createMenuItem("HOMMES", hommesCount, "/icons/homme.png", 2, "/icons/homme.png"),
+          ...createMenuItem("HOMMES", hommesCount, "/icons/client.png", 2, "/icons/client.png"),
           trend: getTrend(hommesCount, previousHommesCount)
         },
         {
-          ...createMenuItem("FEMMES", femmesCount, "/icons/femme.png", 3, "/icons/femme.png"),
+          ...createMenuItem("FEMMES", femmesCount, "/icons/cliente.png", 3, "/icons/cliente.png"),
           trend: getTrend(femmesCount, previousFemmesCount)
         },
-        {
-          ...createMenuItem("NATIONAUX", nationauxCount, "/icons/nationaux.png", 4, "/icons/nationaux.png"),
-          trend: getTrend(nationauxCount, previousNationauxCount)
-        },
-        {
-          ...createMenuItem("ETRANGERS", etrangersCount, "/icons/etranger.png", 5, "/icons/etranger.png"),
-          trend: getTrend(etrangersCount, previousEtrangersCount)
-        }
+         
       ]
     };
   }, []);
@@ -97,6 +86,7 @@ interface AppState {
 }
 
 export function usePrincipale() {
+  const router = useRouter();
   const { mainmenutitems } = useMenuData();
   const { regionsData, loadRegionsAndDepartements, getDepartementsForRegion } = useRegionsDepartements();
 
@@ -170,5 +160,22 @@ export function usePrincipale() {
     return { ...mymainMenuItem, nbetablissements: total, title: `${total} ${textPart}` };
   }, [mymainMenuItem, submenutitems]);
 
-  return { handleBackClick, tpsglobal, submenutitems, mainMenuItem, };
+  
+  const handleClick = useCallback((item: MenuItem) => {
+
+ 
+    if (item.tpsglobal === 200) {
+      router.push(`/consulter/hotels/?tpsglobal=${item.tpsglobal}`);
+      return;
+    }
+    if (item.tpsglobal === 100) {
+      router.push(`/consulter/residences/?tpsglobal=${item.tpsglobal}`);
+      return;
+    }
+
+    router.push(`/consulter/hotes/?tpsglobal=${item.tpsglobal}`);
+  }, [router]);
+
+
+  return { handleBackClick, tpsglobal, submenutitems, mainMenuItem,handleClick };
 }

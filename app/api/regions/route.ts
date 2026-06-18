@@ -2,8 +2,8 @@ import {
     API_HEADERS_EXTENDED, API_INTERNAL_ERROR, ERROR_RESPONSE_OPTIONS, METHOD_NOT_ALLOWED, METHOD_NOT_ALLOWED_OPTIONS
 } from '@/lib/libs/constants';
 import { logError, simulateNetworkDelay } from '@/lib/libs/functions';
-import { regionsCoteIvoireMock } from '@/lib/libs/mockdata';
 import { NextResponse } from 'next/server';
+import { regionsCoteIvoireMock } from '@/lib/libs/mockdata';
 
 type ApiResponse<T = typeof regionsCoteIvoireMock> = {
     success: boolean;

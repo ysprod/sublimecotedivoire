@@ -1,10 +1,9 @@
 'use client';
+import { fadeInUp } from "@/lib/libs/constants";
+import { MenuItem } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { memo, useMemo } from "react";
-import { MenuItem } from "@/lib/libs/interface";
-import { fadeInUp } from "@/lib/libs/constants";
 import Charte from "../charts/Charte";
-import DistributedBarChart from "../charts/DistributedBarChart";
 import InfoStat from "../consulter/InfoStat";
 
 interface MenuDiambraProps {
@@ -46,8 +45,7 @@ const EtablissementsData = memo(({ tpsglobal = 0, mymainMenuItem, submenutitems,
           )}
         </div>
 
-        <Charte menuItems={submenutitems} />
-        <DistributedBarChart menuItems={submenutitems} />
+        <Charte menuItems={submenutitems} /> 
       </>
     );
   }, [submenutitems, tpsglobal, setSelectedMenuItem]);

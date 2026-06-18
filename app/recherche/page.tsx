@@ -14,7 +14,7 @@ const Filtre = dynamic(
 
 const Principale = () => {
   const props = usePrincipale();
-  
+
   return (<Filtre {...props} />);
 };
 

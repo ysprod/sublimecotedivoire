@@ -347,14 +347,12 @@ const RegisterForm: React.FC = () => {
                 </CacheLink>
               </p>
             </div>
-
             <div className="flex items-center justify-center gap-2 text-xs text-blue-400">
               <Shield className="w-3 h-3" />
               <span>Données sécurisées et cryptées.</span>
             </div>
           </div>
         </div>
-
         <p className="mt-2 text-center text-xs mb-16 text-gray-400">
           © 2026 DATAKWABA. Tous droits réservés.
         </p>

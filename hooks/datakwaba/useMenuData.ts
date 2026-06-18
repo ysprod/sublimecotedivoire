@@ -46,20 +46,15 @@ const generateMenuData = (): { MAIN_MENU_ITEMS: MenuItem[] } => {
   const hommesCount = getRandomCount(2000, 10000);
   const femmesCount = getRandomCount(2000, 1000);
   const clientsCount = hommesCount + femmesCount;
-  const nationauxRatio = getRandomCount(30, 70) / 100;
-  const nationauxCount = Math.round(clientsCount * nationauxRatio);
-  const etrangersCount = clientsCount - nationauxCount;
 
   return {
 
     MAIN_MENU_ITEMS: [
       createMenuItem("ÉTABLISSEMENTS", totalEtablissements, "/icons/batiment.png", 0, "/icons/batiment.png"),
       createMenuItem("CLIENTS", clientsCount, "/icons/clients.png", 1, "/icons/clients.png"),
-      createMenuItem("HOMMES", hommesCount, "/icons/homme.png", 2, "/icons/homme.png"),
-      createMenuItem("FEMMES", femmesCount, "/icons/femme.png", 3, "/icons/femme.png"),
-      createMenuItem("NATIONAUX", nationauxCount, "/icons/nationaux.png", 4, "/icons/nationaux.png"),
-      createMenuItem("ETRANGERS", etrangersCount, "/icons/etranger.png", 5, "/icons/etranger.png")
-    ]
+      createMenuItem("HOMMES", hommesCount, "/icons/client.png", 2, "/icons/client.png"),
+      createMenuItem("FEMMES", femmesCount, "/icons/cliente.png", 3, "/icons/cliente.png"),
+ ]
   };
 };
 

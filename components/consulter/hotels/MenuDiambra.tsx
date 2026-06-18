@@ -18,7 +18,7 @@ const MenuDiambra = memo(() => {
     loading, subMenuItems, allMenuItems,
   } = usePrincipale();
 
-  const [isViewHotelsLoading, setIsViewHotelsLoading] = useState(false);
+  const [isViewHotelsLoading,] = useState(false);
 
   const clientItems = useMemo(() => {
     return submenutitems

@@ -3,8 +3,8 @@ import {
 } from "@/lib/libs/constants";
 import { logError, simulateNetworkDelay } from "@/lib/libs/functions";
 import { ErrorApiResponse } from "@/lib/libs/interface";
-import { departementData, regionsData } from "@/lib/libs/mockdata";
 import { NextResponse } from "next/server";
+import { departementData, regionsData } from "@/lib/libs/mockdata";
 
 type ApiResponseData = {
   regionsData: typeof regionsData;

@@ -1,7 +1,7 @@
 "use client";
 import Loader from "@/components/commons/Loader";
-import dynamic from "next/dynamic";
 import React from "react";
+import dynamic from "next/dynamic";
 
 const Profile = dynamic(() => import("@/components/profil/Profile"), { loading: () => <Loader />, ssr: false });
 

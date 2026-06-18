@@ -9,7 +9,7 @@ const checkVariants = {
   visible: { scale: 1, rotate: 0, opacity: 1, transition: { delay: 0.15, type: "spring", stiffness: 220, damping: 18 } }
 };
 
-const CELEBRATION_STARS = 8;
+const CELEBRATION_STARS = 10;
 
 export const SuccessState = () => (
   <motion.div
@@ -218,6 +218,7 @@ export default function LogoutPageClient() {
             className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white/90 text-xs sm:text-sm font-medium shadow-lg hover:bg-white/15 transition-colors cursor-default"
           >
             <Shield className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+
             <span>Vos données sont protégées</span>
           </motion.div>
         </motion.div>

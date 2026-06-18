@@ -80,8 +80,6 @@ const getCategoryTrend = (title: string, count: number): TrendData | null => {
     'CLIENTS': (c) => generateTrend(c * 0.8),
     'HOMMES': (c) => generateTrend(c * 0.4),
     'FEMMES': (c) => generateTrend(c * 0.5),
-    'NATIONAUX': (c) => generateTrend(c * 0.6),
-    'ETRANGERS': (c) => generateTrend(c * 0.9),
   };
 
   for (const [key, trendFn] of Object.entries(categoryTrends)) {

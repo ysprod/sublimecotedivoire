@@ -117,7 +117,7 @@ const PDF_STYLES = {
   },
 } as const;
 
-//const CLIENT_KEYWORDS = ['CLIENTS', 'HÔTELS', 'RÉSIDENCES', 'MAISONS', 'HOMMES', 'FEMMES', 'NATIONAUX', 'ETRANGERS'] as const;
+//const CLIENT_KEYWORDS = ['CLIENTS', 'HÔTELS', 'RÉSIDENCES', 'MAISONS', 'HOMMES', 'FEMMES' ] as const;
 
 // ============ COMPOSANT DE CHARGEMENT ============
 const LoadingButton = memo(({ label = "Chargement du PDF..." }: { label?: string }) => (
@@ -193,15 +193,7 @@ const PDFDownloadButton = memo(({
             item.title?.includes('FEMMES')
           )?.nbetablissements || 0;
           
-          const nationauxClients = hotelItems.find((item: MenuItem) => 
-            item.title?.includes('NATIONAUX')
-          )?.nbetablissements || 0;
           
-          const etrangersClients = hotelItems.find((item: MenuItem) => 
-            item.title?.includes('ETRANGERS')
-          )?.nbetablissements || 0;
-
-          // Filtrer les items clients uniquement
            
 
           return (
@@ -237,15 +229,7 @@ const PDFDownloadButton = memo(({
                     <View style={pdfStyles.cardRow}>
                       <Text style={pdfStyles.cardLabel}>👩 Clients Femmes</Text>
                       <Text style={pdfStyles.cardValue}>{femmesClients.toLocaleString('fr-FR')}</Text>
-                    </View>
-                    <View style={pdfStyles.cardRow}>
-                      <Text style={pdfStyles.cardLabel}>🇨🇮 Clients Nationaux</Text>
-                      <Text style={pdfStyles.cardValue}>{nationauxClients.toLocaleString('fr-FR')}</Text>
-                    </View>
-                    <View style={pdfStyles.cardRow}>
-                      <Text style={pdfStyles.cardLabel}>🌍 Clients Étrangers</Text>
-                      <Text style={pdfStyles.cardValue}>{etrangersClients.toLocaleString('fr-FR')}</Text>
-                    </View>
+                    </View>                    
                   </View>
                 </View>
 

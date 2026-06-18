@@ -9,10 +9,8 @@ import { useSubMenuData } from "../useSubMenuData";
 const ICONS = {
   HOTELS: "/icons/hotel.png",
   CLIENTS: "/icons/lesclients.png",
-  HOMMES: "/icons/homme.png",
-  FEMMES: "/icons/femme.png",
-  NATIONAUX: "/icons/nationaux.png",
-  ETRANGERS: "/icons/etranger.png",
+  HOMMES: "/icons/client.png",
+  FEMMES: "/icons/cliente.png",
 } as const;
 
 // ============ FONCTIONS UTILITAIRES ============
@@ -52,13 +50,7 @@ const generateStats = () => {
   const previousHommesCount = Math.floor(previousTotalClients * getRandomCount(45, 55) / 100);
   const femmesCount = totalClients - hommesCount;
   const previousFemmesCount = previousTotalClients - previousHommesCount;
-
-  // Répartition par nationalité
-  const nationauxRatio = getRandomCount(30, 70) / 100;
-  const nationauxCount = Math.round(totalClients * nationauxRatio);
-  const previousNationauxCount = Math.round(previousTotalClients * nationauxRatio);
-  const etrangersCount = totalClients - nationauxCount;
-  const previousEtrangersCount = previousTotalClients - previousNationauxCount;
+ 
 
   return {
     hotelsClients,
@@ -69,10 +61,6 @@ const generateStats = () => {
     previousHommesCount,
     femmesCount,
     previousFemmesCount,
-    nationauxCount,
-    previousNationauxCount,
-    etrangersCount,
-    previousEtrangersCount
   };
 };
 
@@ -97,17 +85,7 @@ const useMenuData = () => {
         {
           ...createMenuItem("FEMMES", stats.femmesCount, ICONS.FEMMES, 3, ICONS.FEMMES),
           trend: calculateTrend(stats.femmesCount, stats.previousFemmesCount)
-        },
-        // Détail : Clients nationaux
-        {
-          ...createMenuItem("NATIONAUX", stats.nationauxCount, ICONS.NATIONAUX, 4, ICONS.NATIONAUX),
-          trend: calculateTrend(stats.nationauxCount, stats.previousNationauxCount)
-        },
-        // Détail : Clients étrangers
-        {
-          ...createMenuItem("ETRANGERS", stats.etrangersCount, ICONS.ETRANGERS, 5, ICONS.ETRANGERS),
-          trend: calculateTrend(stats.etrangersCount, stats.previousEtrangersCount)
-        }
+        },       
       ]
     };
   }, []);
@@ -185,7 +163,6 @@ export function usePrincipale() {
 
   // Données du menu
   const { mainmenutitems } = useMenuData();
-  console.log('mainmenutitems', mainmenutitems);
   const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
 
   // Gestion du retour
@@ -206,7 +183,7 @@ export function usePrincipale() {
     return allMenuItems[0] || null;
   }, [allMenuItems]);
 
-  // Sous-items : Hommes, Femmes, Nationaux, Étrangers (à partir du deuxième item)
+  // Sous-items : Hommes, Femmes, 
   const subMenuItems = useMemo(() => {
     return allMenuItems.slice(1);
   }, [allMenuItems]);
@@ -227,17 +204,13 @@ export function usePrincipale() {
     };
   }, [mymainMenuItem, submenutitems]);
 
-  // Filtrage des items pour l'affichage (Hommes, Femmes, Nationaux, Étrangers)
+  // Filtrage des items pour l'affichage (Hommes, Femmes, 
   const detailItems = useMemo(() => {
     return submenutitems.filter(item =>
       item.title?.includes('HOMMES') ||
-      item.title?.includes('FEMMES') ||
-      item.title?.includes('NATIONAUX') ||
-      item.title?.includes('ETRANGERS')
+      item.title?.includes('FEMMES')  
     );
   }, [submenutitems]);
-
-  console.log('submenutitems', submenutitems);
 
   return {
     // États

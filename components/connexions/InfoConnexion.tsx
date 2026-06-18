@@ -59,7 +59,7 @@ const InfoConnexion = memo(({ history }: { history: ConnexionHistory }) => (
 
             {history.login.location?.coordinates && (
                 <div className="mt-1 text-xs text-gray-500">
-                    GPS: {history.login.location.coordinates[0].toFixed(4)}, {history.login.location.coordinates[1].toFixed(4)}
+                    GPS : {history.login.location.coordinates[0].toFixed(4)}, {history.login.location.coordinates[1].toFixed(4)}
                 </div>
             )}
         </div>

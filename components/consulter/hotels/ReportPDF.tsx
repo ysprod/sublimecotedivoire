@@ -117,7 +117,7 @@ const PDF_STYLES = {
   },
 } as const;
 
-//const CLIENT_KEYWORDS = ['CLIENTS', 'HÔTELS', 'RÉSIDENCES', 'MAISONS', 'HOMMES', 'FEMMES', 'NATIONAUX', 'ETRANGERS'] as const;
+//const CLIENT_KEYWORDS = ['CLIENTS', 'HÔTELS', 'RÉSIDENCES', 'MAISONS', 'HOMMES', 'FEMMES', ] as const;
 
 // ============ COMPOSANT DE CHARGEMENT ============
 const LoadingButton = memo(({ label = "Chargement du PDF..." }: { label?: string }) => (

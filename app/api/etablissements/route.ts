@@ -47,9 +47,7 @@ export async function GET(request: Request) {
         const { searchParams } = new URL(request.url);
         const rawCount = searchParams.get('nbetablissements');
         const count = validateCountParam(parseInt(rawCount || DEFAULT_PAGINATION_COUNT.toString()));
-
         const data = generateMockEtablissements(count);
-
         return createApiResponse.success(data, count);
     } catch (error) {
         return createApiResponse.error(error);

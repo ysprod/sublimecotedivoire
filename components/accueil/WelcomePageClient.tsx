@@ -2,8 +2,8 @@
 import { ZoomIn } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
-import Bandeau from '../commons/Bandeau';
 import CacheLink from '../commons/CacheLink';
+import Bandeau from '../commons/Bandeau';
 
 const IMAGE_CONFIG = {
   src: '/carteorange.png',

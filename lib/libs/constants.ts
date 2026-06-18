@@ -104,8 +104,6 @@ export const STAT_LABEL_MAP: Record<number, string> = {
   1: "CLIENTS",
   2: "HOMMES",
   3: "FEMMES",
-  4: "NATIONAUX",
-  5: "ETRANGERS"
 };
 
 export const fadeInUp = {

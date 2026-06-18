@@ -63,12 +63,10 @@ export async function GET(request: Request) {
         if (process.env.NODE_ENV === 'development') {
             await simulateNetworkDelay();
         }
-
         const { searchParams } = new URL(request.url);
         const userCount = validateUserCount(
             parseInt(searchParams.get('nbusers') || DEFAULT_PAGINATION_COUNT.toString())
         );
-
         const mockUsers = generateMockUsers(userCount);
         return createApiResponse.success(mockUsers, userCount);
     } catch (error) {

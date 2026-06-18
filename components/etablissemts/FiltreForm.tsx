@@ -20,7 +20,7 @@ const FiltreForm = memo(({ regionOptions, departementOptions, typeEtablissement,
     const { error, handleUpdate, fieldStates } = useConsulterFiltreForm({ carto, updateCarto });
 
     const handleValidate = useCallback(() => {
-        console.log('handleValidate');
+
     }, []);
 
     return (

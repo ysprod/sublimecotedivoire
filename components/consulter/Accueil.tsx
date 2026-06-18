@@ -227,11 +227,11 @@ const useMenuData = () => {
                     trend: getTrend(clientsCount, previousClientsCount)
                 },
                 {
-                    ...createMenuItem("HOMMES", hommesCount, "/icons/homme.png", 2, "/icons/homme.png"),
+                    ...createMenuItem("HOMMES", hommesCount, "/icons/client.png", 2, "/icons/client.png"),
                     trend: getTrend(hommesCount, previousHommesCount)
                 },
                 {
-                    ...createMenuItem("FEMMES", femmesCount, "/icons/femme.png", 3, "/icons/femme.png"),
+                    ...createMenuItem("FEMMES", femmesCount, "/icons/cliente.png", 3, "/icons/cliente.png"),
                     trend: getTrend(femmesCount, previousFemmesCount)
                 },
                 {

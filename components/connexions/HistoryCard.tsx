@@ -57,7 +57,6 @@ const HistoryCard = memo(({ history }: { history: ConnexionHistory }) => (
         </div>
 
         <InfoConnexion history={history} />
-
         {history.metadata && (
           <div className="mt-4 pt-3 border-t border-gray-100">
             <div className="flex flex-wrap gap-2">
@@ -79,7 +78,6 @@ const HistoryCard = memo(({ history }: { history: ConnexionHistory }) => (
             </div>
           </div>
         )}
-
       </div>
     </motion.div>
   </div>

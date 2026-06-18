@@ -127,7 +127,7 @@ const DetailedStats = memo(({
 });
 
 const MenuDiambra = memo(() => {
-  const { handleBackClick, tpsglobal, submenutitems, mainMenuItem } = usePrincipale();
+  const { handleBackClick, tpsglobal, submenutitems, mainMenuItem,handleClick  } = usePrincipale();
 
   const hotelItems = useMemo(() => {
     return submenutitems.filter(item =>
@@ -166,6 +166,7 @@ const MenuDiambra = memo(() => {
                 key={`${item.title}-${item.tpsglobal}`}
                 item={item}
                 tpsglobal={tpsglobal}
+                   onClick={handleClick}
               />
             ))}
           </div>
