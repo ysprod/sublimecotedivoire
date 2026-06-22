@@ -14,14 +14,14 @@ const IMAGE_CONFIG = {
   sizes: '(max-width: 640px) 220px, (max-width: 768px) 260px, 300px',
 } as const;
 
-const BUTTON_TEXT = 'Cliquez pour consulter les données';
+const BUTTON_TEXT = 'Cliquez pour consulter les données.';
 
 const MapImage = memo(function MapImage() {
   return (
     <CacheLink href="/vert" className="items-center justify-center"
       aria-label="Consulter les données du tourisme"
     >
-      <div className="mt-8 flex w-full justify-center sm:mt-10">
+      <div className="mt-4 flex w-full justify-center sm:mt-10">
         <div className="relative flex justify-center">
           <Image
             src={IMAGE_CONFIG.src}
@@ -78,10 +78,10 @@ const ContentSection = memo(function ContentSection() {
 
 const TourismDashboard = memo(function TourismDashboard() {
   return (
-    <main className="relative mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center px-4 text-center">
+    <div className="w-full mx-auto">
       <Bandeau />
       <ContentSection />
-    </main>
+    </div>
   );
 });
 

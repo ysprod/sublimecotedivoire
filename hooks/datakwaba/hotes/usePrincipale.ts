@@ -25,7 +25,15 @@ const createMenuItem = (
   title: `${count} ${baseTitle}`,
   icon,
   tpsglobal,
-  blackicon
+  blackicon,
+   id: baseTitle.toLowerCase().replace(/\s/g, '_'),
+  count,
+  trendValue: 0,
+  iconSrc: icon,
+  iconAlt: `Icône ${baseTitle}`,
+  color: "text-black",
+  bgColor: "bg-white",
+  description: baseTitle
 });
 
 const calculateTrend = (current: number, previous: number) => {

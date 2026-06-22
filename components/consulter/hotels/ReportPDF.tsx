@@ -183,26 +183,26 @@ const PDFDownloadButton = memo(({
         // Composant PDF
         const ReportPDF = ({ mainItem, hotelItems, subItems, generatedAt, getTrend }: any) => {
           const totalClients = mainItem?.nbetablissements || 0;
-          
+
           // Récupération des valeurs par catégorie
-          const hommesClients = hotelItems.find((item: MenuItem) => 
+          const hommesClients = hotelItems.find((item: MenuItem) =>
             item.title?.includes('HOMMES')
           )?.nbetablissements || 0;
-          
-          const femmesClients = hotelItems.find((item: MenuItem) => 
+
+          const femmesClients = hotelItems.find((item: MenuItem) =>
             item.title?.includes('FEMMES')
           )?.nbetablissements || 0;
-          
-          const nationauxClients = hotelItems.find((item: MenuItem) => 
+
+          const nationauxClients = hotelItems.find((item: MenuItem) =>
             item.title?.includes('NATIONAUX')
           )?.nbetablissements || 0;
-          
-          const etrangersClients = hotelItems.find((item: MenuItem) => 
+
+          const etrangersClients = hotelItems.find((item: MenuItem) =>
             item.title?.includes('ETRANGERS')
           )?.nbetablissements || 0;
 
           // Filtrer les items clients uniquement
-           
+
 
           return (
             <Document>

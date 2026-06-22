@@ -5,6 +5,48 @@ import { Hotel, Minus, TrendingDown, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import { memo, useMemo } from "react";
 
+type PeriodType = 'all' | 'week' | 'month' | 'year';
+
+const PERIOD_BUTTONS: { id: PeriodType; label: string; icon: string }[] = [
+    { id: 'all', label: 'Vue d\'ensemble', icon: '📊' },
+    { id: 'week', label: 'Cette semaine', icon: '📅' },
+    { id: 'month', label: 'Ce mois', icon: '📆' },
+    { id: 'year', label: 'Cette année', icon: '📈' },
+];
+
+export const PeriodButtons = memo(({
+    activePeriod,
+    onPeriodChange
+}: {
+    activePeriod: PeriodType;
+    onPeriodChange: (period: PeriodType) => void;
+}) => {
+    return (
+        <div className="flex flex-wrap gap-2 w-full max-w-3xl justify-center">
+            {PERIOD_BUTTONS.map(({ id, label, icon }) => (
+                <button
+                    key={id}
+                    onClick={() => onPeriodChange(id)}
+                    className={clsx(
+                        "group relative px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300",
+                        "flex items-center gap-2",
+                        activePeriod === id
+                            ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-100 scale-105"
+                            : "bg-white text-gray-600 hover:text-gray-900 hover:shadow-md hover:scale-102 border border-gray-200",
+                        "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    )}
+                >
+                    <span className="text-lg">{icon}</span>
+                    <span>{label}</span>
+                    {activePeriod === id && (
+                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+                    )}
+                </button>
+            ))}
+        </div>
+    );
+});
+
 interface StatDetail {
     label: string;
     value: number;
@@ -110,7 +152,7 @@ export const DetailedStats = memo(({
                     {title}
                 </h3>
                 <p className="text-xs text-gray-400 mt-1">
-                    {details.length} catégories • Total: {total.toLocaleString('fr-FR')} clients
+                    {details.length} catégories • Total: {total.toLocaleString('fr-FR')} etablissements
                 </p>
             </div>
 
@@ -176,3 +218,35 @@ export const ViewHotelsButton = memo(({
         </button>
     );
 });
+
+export const StatsSummary = ({ items }: { items: any[] }) => {
+    const total = items.reduce((acc, item) => acc + (item.nbetablissements || 0), 0);
+
+    return (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl mx-auto">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center">
+                <p className="text-xs text-blue-600 font-medium uppercase tracking-wider">Total</p>
+                <p className="text-2xl font-bold text-blue-700">{total.toLocaleString('fr-FR')}</p>
+            </div>
+            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center">
+                <p className="text-xs text-green-600 font-medium uppercase tracking-wider">Hôtels</p>
+                <p className="text-2xl font-bold text-green-700">
+                    {items.find(i => i.title?.includes('HÔTELS'))?.nbetablissements?.toLocaleString('fr-FR') || 0}
+                </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center">
+                <p className="text-xs text-purple-600 font-medium uppercase tracking-wider">Résidences</p>
+                <p className="text-2xl font-bold text-purple-700">
+                    {items.find(i => i.title?.includes('RÉSIDENCES'))?.nbetablissements?.toLocaleString('fr-FR') || 0}
+                </p>
+            </div>
+            <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 text-center">
+                <p className="text-xs text-orange-600 font-medium uppercase tracking-wider">Maisons d'hôtes</p>
+                <p className="text-2xl font-bold text-orange-700">
+                    {items.find(i => i.title?.includes('MAISONS'))?.nbetablissements?.toLocaleString('fr-FR') || 0}
+                </p>
+            </div>
+        </div>
+    );
+};

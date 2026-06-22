@@ -1,4 +1,5 @@
 'use client';
+
 import { STAT_LABEL_MAP } from "@/lib/libs/constants";
 import type { MenuItem } from "@/lib/libs/interface";
 import clsx from "clsx";
@@ -6,27 +7,37 @@ import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import { memo, useCallback, useMemo } from "react";
 
+// ============ TYPES ============
 interface InfoStatProps {
   item: MenuItem;
   tpsglobal?: number;
   inverse?: boolean;
   onClick?: (item: MenuItem) => void;
+  trendPeriod?: 'day' | 'week' | 'month' | 'year';
 }
 
 interface TrendData {
-  direction: 'up' | 'down' | 'stable';
+  direction: 'croissance' | 'baisse' | 'stable';
   value: number;
   label: string;
 }
 
+interface AllTrends {
+  day: TrendData;
+  week: TrendData;
+  month: TrendData;
+  year: TrendData;
+}
+
+// ============ CONSTANTES ============
 const TREND_CONFIG = {
-  up: {
+  croissance: {
     icon: TrendingUp,
     bgColor: "bg-green-100",
     color: "text-green-700",
     label: "en hausse"
   },
-  down: {
+  baisse: {
     icon: TrendingDown,
     bgColor: "bg-red-100",
     color: "text-red-700",
@@ -40,22 +51,36 @@ const TREND_CONFIG = {
   }
 } as const;
 
-const generateTrend = (baseValue: number): TrendData => {
-  const variation = (Math.sin(baseValue * 0.1) * 15) + (Math.random() * 6 - 3);
+const PERIOD_CONFIG = {
+  day: { label: 'hier', short: 'J', threshold: 3, factor: 1 },
+  week: { label: 'la semaine dernière', short: 'S', threshold: 5, factor: 1.5 },
+  month: { label: 'le mois dernier', short: 'M', threshold: 8, factor: 2 },
+  year: { label: 'l\'année dernière', short: 'A', threshold: 10, factor: 3 }
+} as const;
+
+const PERIODS = ['day', 'week', 'month', 'year'] as const;
+
+// ============ FONCTIONS DE GÉNÉRATION DE TENDANCES ============
+const generateTrendForPeriod = (
+  baseValue: number,
+  period: keyof typeof PERIOD_CONFIG
+): TrendData => {
+  const config = PERIOD_CONFIG[period];
+  const variation = (Math.sin(baseValue * 0.1 + Math.random() * 0.5) * 15 + Math.random() * 6 - 3) * config.factor;
   const roundedVariation = Math.round(variation * 10) / 10;
 
-  let direction: 'up' | 'down' | 'stable';
+  let direction: 'croissance' | 'baisse' | 'stable';
   let label: string;
 
-  if (roundedVariation > 3) {
-    direction = 'up';
-    label = `+${roundedVariation}% par rapport à hier`;
-  } else if (roundedVariation < -3) {
-    direction = 'down';
-    label = `${roundedVariation}% par rapport à hier`;
+  if (roundedVariation > config.threshold) {
+    direction = 'croissance';
+    label = `+${roundedVariation}% par rapport à ${config.label}`;
+  } else if (roundedVariation < -config.threshold) {
+    direction = 'baisse';
+    label = `${roundedVariation}% par rapport à ${config.label}`;
   } else {
     direction = 'stable';
-    label = 'stable par rapport à hier';
+    label = `stable par rapport à ${config.label}`;
   }
 
   return {
@@ -65,25 +90,60 @@ const generateTrend = (baseValue: number): TrendData => {
   };
 };
 
-const getCategoryTrend = (title: string, count: number): TrendData | null => {
-  const categoryTrends: Record<string, (count: number) => TrendData> = {
-    'HÔTELS': (c) => generateTrend(c * 0.7),
-    'RÉSIDENCES': (c) => generateTrend(c * 0.5),
-    'MAISONS': (c) => generateTrend(c * 0.3),
-    'ÉTABLISSEMENTS': (c) => generateTrend(c * 0.6),
-    'CLIENTS': (c) => generateTrend(c * 0.8),
-    'HOMMES': (c) => generateTrend(c * 0.4),
-    'FEMMES': (c) => generateTrend(c * 0.5),
+const generateAllTrends = (baseValue: number): AllTrends => {
+  const result = {} as AllTrends;
+  for (const period of PERIODS) {
+    result[period] = generateTrendForPeriod(baseValue, period);
+  }
+  return result;
+};
+
+const getCategoryTrends = (title: string, count: number): AllTrends => {
+  const multipliers: Record<string, number> = {
+    'HÔTELS': 0.7,
+    'RÉSIDENCES': 0.5,
+    'MAISONS': 0.3,
+    'ÉTABLISSEMENTS': 0.6,
+    'CLIENTS': 0.8,
+    'HOMMES': 0.4,
+    'FEMMES': 0.5,
+    'NATIONAUX': 0.6,
+    'ETRANGERS': 0.9,
   };
 
-  for (const [key, trendFn] of Object.entries(categoryTrends)) {
+  let multiplier = 0.6;
+  for (const [key, value] of Object.entries(multipliers)) {
     if (title.includes(key)) {
-      return trendFn(count);
+      multiplier = value;
+      break;
     }
   }
 
-  return null;
+  return generateAllTrends(count * multiplier);
 };
+
+// ============ COMPOSANTS ============
+const TrendBadge = memo(({ trend, period }: { trend: TrendData; period: keyof typeof PERIOD_CONFIG }) => {
+  const config = TREND_CONFIG[trend.direction];
+  const Icon = config.icon;
+  const periodInfo = PERIOD_CONFIG[period];
+
+  return (
+    <div className={clsx(
+      "flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-medium",
+      config.bgColor,
+      config.color
+    )}>
+      <span className="font-bold text-[8px]">{periodInfo.short}</span>
+      <Icon size={8} className="stroke-current" />
+      <span className="font-semibold">
+        {trend.value > 0 ? '+' : ''}{trend.value}%
+      </span>
+    </div>
+  );
+});
+
+TrendBadge.displayName = "TrendBadge";
 
 const TrendIndicator = memo(({ trend, size = 'sm' }: { trend: TrendData; size?: 'sm' | 'md' }) => {
   const config = TREND_CONFIG[trend.direction];
@@ -113,6 +173,8 @@ const TrendIndicator = memo(({ trend, size = 'sm' }: { trend: TrendData; size?: 
   );
 });
 
+TrendIndicator.displayName = "TrendIndicator";
+
 const FormattedTitle = memo(({ item, inverse = false, tpsglobal = 1 }: InfoStatProps) => {
   const formattedTitle = useMemo(() => {
     if (!item.title) return null;
@@ -141,76 +203,47 @@ const FormattedTitle = memo(({ item, inverse = false, tpsglobal = 1 }: InfoStatP
   return formattedTitle || <span className="text-gray-800">non spécifié</span>;
 });
 
+FormattedTitle.displayName = "FormattedTitle";
+
+// ============ COMPOSANT PRINCIPAL ============
 const InfoStat = memo(({
   item,
   inverse = false,
   tpsglobal = 1,
-  onClick
+  onClick,
+  trendPeriod = 'day'
 }: InfoStatProps) => {
 
-  // Génération des données de tendance
-  const trendData = useMemo<TrendData | null>(() => {
-    // 1. Si l'item a déjà une tendance, l'utiliser
-    if (item.trend) {
-      const direction = item.trend.direction === 'up'
-        ? 'up'
-        : item.trend.direction === 'down'
-          ? 'down'
-          : 'stable';
-
-      return {
-        direction,
-        value: item.trend.value,
-        label: TREND_CONFIG[direction].label + " par rapport à hier"
-      };
+  // Génération des 4 tendances
+  const allTrends = useMemo<AllTrends>(() => {
+    // 1. Si l'item a déjà des tendances, les utiliser
+    if (item.trends) {
+      return item.trends;
     }
 
-    // 2. Générer une tendance basée sur la catégorie
+    // 2. Générer des tendances basées sur la catégorie
     const title = item.title || '';
     const count = item.nbetablissements || 0;
 
-    const categoryTrend = getCategoryTrend(title, count);
-    if (categoryTrend) {
-      return categoryTrend;
-    }
-
-    // 3. Générer une tendance basée sur le nombre
     if (count > 0) {
-      return generateTrend(count);
+      return getCategoryTrends(title, count);
     }
 
-    // 4. Tendance par défaut
-    return {
-      direction: 'stable',
-      value: 0,
-      label: 'stable (données insuffisantes)'
-    };
+    // 3. Tendance par défaut
+    return generateAllTrends(1000);
   }, [item]);
 
-  // Générer une tendance alternative (pour comparaison)
-  const alternativeTrend = useMemo<TrendData | null>(() => {
-    if (!trendData || trendData.direction === 'stable') return null;
+  // Tendance principale (jour)
+  const mainTrend = useMemo(() => allTrends.day, [allTrends]);
 
-    // Simuler une tendance sur 7 jours
-    const baseValue = item.nbetablissements || 1000;
-    const weeklyVariation = (Math.sin(baseValue * 0.05) * 5) + (Math.random() * 4 - 2);
-    const roundedVariation = Math.round(weeklyVariation * 10) / 10;
-
-    let direction: 'up' | 'down' | 'stable';
-    if (roundedVariation > 2) {
-      direction = 'up';
-    } else if (roundedVariation < -2) {
-      direction = 'down';
-    } else {
-      direction = 'stable';
-    }
-
+  // Autres tendances pour l'affichage compact
+  const otherTrends = useMemo(() => {
     return {
-      direction,
-      value: Math.abs(roundedVariation),
-      label: `sur 7 jours`
+      week: allTrends.week,
+      month: allTrends.month,
+      year: allTrends.year
     };
-  }, [item.nbetablissements, trendData]);
+  }, [allTrends]);
 
   const handleClick = useCallback(() => {
     if (onClick) {
@@ -249,15 +282,22 @@ const InfoStat = memo(({
           <FormattedTitle item={item} inverse={inverse} tpsglobal={tpsglobal} />
         </div>
 
-        {/* Indicateur de tendance principal */}
-        {trendData && <TrendIndicator trend={trendData} size="sm" />}
+        {/* Indicateur de tendance principal (Jour) */}
+        <TrendIndicator trend={mainTrend} size="sm" />
 
-        {/* Indicateur de tendance alternative (optionnel) */}
-        {alternativeTrend && (
-          <div className="mt-0.5">
-            <TrendIndicator trend={alternativeTrend} size="sm" />
+        {/* Grille des 3 autres tendances (Semaine, Mois, Année) */}
+        <div className="mt-2 w-full">
+          <div className="grid grid-cols-3 gap-1 max-w-[180px] mx-auto">
+            <TrendBadge trend={otherTrends.week} period="week" />
+            <TrendBadge trend={otherTrends.month} period="month" />
+            <TrendBadge trend={otherTrends.year} period="year" />
           </div>
-        )}
+          <div className="grid grid-cols-3 gap-1 max-w-[180px] mx-auto mt-0.5">
+            <span className="text-[6px] text-gray-400 text-center uppercase tracking-wider">Sem.</span>
+            <span className="text-[6px] text-gray-400 text-center uppercase tracking-wider">Mois</span>
+            <span className="text-[6px] text-gray-400 text-center uppercase tracking-wider">Ann.</span>
+          </div>
+        </div>
       </button>
     </div>
   );

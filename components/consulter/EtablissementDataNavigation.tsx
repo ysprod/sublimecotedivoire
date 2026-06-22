@@ -36,12 +36,13 @@ const EtablissementsDataNavigation = memo(({ setSelectedMenuItem, selectedMenuIt
     return (
         <motion.nav className="flex w-full" {...navAnimation} aria-label="Navigation">
             {items.map((item) => (
-                <InfoStatNavigation
-                    key={item.title}
-                    item={item}
-                    setSelectedMenuItem={setSelectedMenuItem}
-                    isActive={selectedMenuItem?.title === item.title}
-                />
+                <></>
+                // <InfoStatNavigation
+                //     key={item.title}
+                //     item={item}
+                //     setSelectedMenuItem={setSelectedMenuItem}
+                //     isActive={selectedMenuItem?.title === item.title}
+                // />
             ))}
         </motion.nav>
     );

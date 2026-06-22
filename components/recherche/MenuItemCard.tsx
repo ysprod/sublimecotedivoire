@@ -17,21 +17,24 @@ interface MenuItemCardProps {
   showTrend?: boolean;
 }
 
+// Utiliser les mêmes types que l'interface
+type TrendDirection = 'croissance' | 'baisse' | 'stable';
+
 interface TrendData {
-  direction: 'up' | 'down' | 'stable';
+  direction: TrendDirection;
   value: number;
   label: string;
 }
 
 // ============ CONSTANTES ============
 const TREND_CONFIG = {
-  up: {
+  croissance: {
     icon: TrendingUp,
     bgColor: "bg-green-100",
     color: "text-green-700",
     label: "en hausse"
   },
-  down: {
+  baisse: {
     icon: TrendingDown,
     bgColor: "bg-red-100",
     color: "text-red-700",
@@ -50,14 +53,14 @@ const generateTrend = (baseValue: number): TrendData => {
   const variation = (Math.sin(baseValue * 0.1) * 15) + (Math.random() * 6 - 3);
   const roundedVariation = Math.round(variation * 10) / 10;
 
-  let direction: 'up' | 'down' | 'stable';
+  let direction: TrendDirection;
   let label: string;
 
   if (roundedVariation > 3) {
-    direction = 'up';
+    direction = 'croissance';
     label = `+${roundedVariation}% par rapport à hier`;
   } else if (roundedVariation < -3) {
-    direction = 'down';
+    direction = 'baisse';
     label = `${roundedVariation}% par rapport à hier`;
   } else {
     direction = 'stable';
@@ -131,22 +134,17 @@ const MenuItemCard = memo(({
   showTrend = true 
 }: MenuItemCardProps) => {
   
-  // Génération des données de tendance (comme dans InfoStat)
+  // Génération des données de tendance
   const trendData = useMemo<TrendData | null>(() => {
     if (!showTrend) return null;
 
     // 1. Si l'item a déjà une tendance, l'utiliser
     if (item.trend) {
-      const direction = item.trend.direction === 'up'
-        ? 'up'
-        : item.trend.direction === 'down'
-          ? 'down'
-          : 'stable';
-
+      // La direction est déjà du bon type car MenuItem.trend utilise 'croissance' | 'baisse' | 'stable'
       return {
-        direction,
+        direction: item.trend.direction,
         value: item.trend.value,
-        label: TREND_CONFIG[direction].label + " par rapport à hier"
+        label: TREND_CONFIG[item.trend.direction].label + " par rapport à hier"
       };
     }
 
@@ -180,11 +178,11 @@ const MenuItemCard = memo(({
     const weeklyVariation = (Math.sin(baseValue * 0.05) * 5) + (Math.random() * 4 - 2);
     const roundedVariation = Math.round(weeklyVariation * 10) / 10;
 
-    let direction: 'up' | 'down' | 'stable';
+    let direction: TrendDirection;
     if (roundedVariation > 2) {
-      direction = 'up';
+      direction = 'croissance';
     } else if (roundedVariation < -2) {
-      direction = 'down';
+      direction = 'baisse';
     } else {
       direction = 'stable';
     }

@@ -1,9 +1,10 @@
 'use client';
-import { MenuItem } from "@/hooks/datakwaba/useVert";
+import { CATEGORY_STYLES, generateAllTrends } from "@/hooks/datakwaba/useVert";
+import { AllTrends, MenuItem, TrendData } from "@/lib/libs/interface";
 import clsx from "clsx";
-import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import { memo, useCallback, useMemo } from "react";
+import { PeriodGrid, TrendIndicator } from "./Feature";
 
 interface StatCardProps {
     item: MenuItem;
@@ -12,95 +13,20 @@ interface StatCardProps {
     priority?: boolean;
 }
 
-interface TrendData {
-    direction: 'croissance' | 'baisse' | 'stable';
-    value: number;
-    label: string;
-}
-
-const TREND_CONFIG = {
-    croissance: {
-        icon: TrendingUp,
-        bgColor: "bg-green-100",
-        color: "text-green-700",
-        label: "en hausse"
-    },
-    baisse: {
-        icon: TrendingDown,
-        bgColor: "bg-red-100",
-        color: "text-red-700",
-        label: "en baisse"
-    },
-    stable: {
-        icon: Minus,
-        bgColor: "bg-gray-100",
-        color: "text-gray-700",
-        label: "stable"
-    }
-} as const;
-
-const CATEGORY_STYLES = {
-    etablissements: {
-        color: "text-blue-600",
-        bgColor: "bg-white",
-        borderColor: "border-blue-200",
-        iconContainerBg: "bg-white",
-        gradient: "from-blue-500 via-purple-500 to-pink-500"
-    },
-    clients: {
-        color: "text-purple-600",
-        bgColor: "bg-white",
-        borderColor: "border-purple-200",
-        iconContainerBg: "bg-white",
-        gradient: "from-purple-500 via-pink-500 to-rose-500"
-    }
-} as const;
-
-const TrendIndicator = memo(({ trend }: { trend: TrendData }) => {
-    const config = TREND_CONFIG[trend.direction];
-    const Icon = config.icon;
-
-    return (
-        <div className="flex flex-col items-center gap-1 mt-2">
-            <div className={clsx(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200",
-                config.bgColor,
-                config.color
-            )}>
-                <Icon size={14} className="stroke-current" />
-                <span className="font-semibold">
-                    {trend.value > 0 ? '+' : ''}{trend.value}%
-                </span>
-            </div>
-            <span className="text-[9px] text-gray-500 uppercase tracking-wider font-medium">
-                {trend.label}
-            </span>
-        </div>
-    );
-});
-
 const StatCard = memo(({
     item,
     onClick,
     className,
     priority = false
 }: StatCardProps) => {
+    const allTrends = useMemo<AllTrends>(() => {
+        if (item.trends) {
+            return item.trends;
+        }
+        return generateAllTrends(item.count || 1000);
+    }, [item]);
 
-    const trendData = useMemo<TrendData>(() => {
-        const direction = item.trend === "croissance"
-            ? "croissance"
-            : item.trend === "baisse"
-                ? "baisse"
-                : "stable";
-
-        const label = TREND_CONFIG[direction].label;
-
-        return {
-            direction,
-            value: item.trendValue,
-            label: `${label} par rapport à hier`
-        };
-    }, [item.trend, item.trendValue]);
+    const mainTrend = useMemo<TrendData>(() => allTrends.week, [allTrends]);
 
     const style = useMemo(() => {
         return item.id === "etablissements"
@@ -120,10 +46,11 @@ const StatCard = memo(({
         <button
             onClick={handleClick}
             className={clsx(
-                "group relative overflow-hidden bg-white p-6",
+                "group relative overflow-hidden bg-white p-6 rounded-2xl",
                 "hover:scale-[1.02] transition-all duration-300",
                 "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500",
                 "flex flex-col items-center text-center",
+                "shadow-sm hover:shadow-xl border border-gray-100",
                 className
             )}
             aria-label={`Accéder à ${item.title}`}
@@ -171,7 +98,10 @@ const StatCard = memo(({
                         </span>
                     </p>
                 </div>
-                <TrendIndicator trend={trendData} />
+
+                <TrendIndicator trend={mainTrend} size="md" />
+
+                <PeriodGrid trends={allTrends} />
             </div>
         </button>
     );

@@ -1,4 +1,5 @@
 'use client';
+
 import { STAT_LABEL_MAP } from "@/lib/libs/constants";
 import type { MenuItem } from "@/lib/libs/interface";
 import clsx from "clsx";
@@ -6,27 +7,30 @@ import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import { memo, useCallback, useMemo } from "react";
 
+// ============ TYPES ============
 interface InfoStatProps {
   item: MenuItem;
   tpsglobal?: number;
   inverse?: boolean;
   onClick?: (item: MenuItem) => void;
+  trendPeriod?: 'day' | 'week' | 'month' | 'year';
 }
 
 interface TrendData {
-  direction: 'up' | 'down' | 'stable';
+  direction: 'croissance' | 'baisse' | 'stable';
   value: number;
   label: string;
 }
 
+// ============ CONSTANTES ============
 const TREND_CONFIG = {
-  up: {
+  croissance: {
     icon: TrendingUp,
     bgColor: "bg-green-100",
     color: "text-green-700",
     label: "en hausse"
   },
-  down: {
+  baisse: {
     icon: TrendingDown,
     bgColor: "bg-red-100",
     color: "text-red-700",
@@ -40,22 +44,41 @@ const TREND_CONFIG = {
   }
 } as const;
 
-const generateTrend = (baseValue: number): TrendData => {
-  const variation = (Math.sin(baseValue * 0.1) * 15) + (Math.random() * 6 - 3);
+const PERIOD_LABELS = {
+  day: 'hier',
+  week: 'la semaine dernière',
+  month: 'le mois dernier',
+  year: 'l\'année dernière'
+} as const;
+
+// ============ FONCTIONS DE GÉNÉRATION DE TENDANCES ============
+const generateTrend = (baseValue: number, period: 'day' | 'week' | 'month' | 'year' = 'day'): TrendData => {
+  // Facteurs de variation selon la période
+  const periodFactors = {
+    day: { min: -15, max: 15, multiplier: 1 },
+    week: { min: -25, max: 25, multiplier: 1.5 },
+    month: { min: -40, max: 40, multiplier: 2 },
+    year: { min: -60, max: 60, multiplier: 3 }
+  };
+
+  const factor = periodFactors[period];
+  const variation = (Math.sin(baseValue * 0.1) * factor.max * 0.5) + (Math.random() * (factor.max - factor.min) + factor.min);
   const roundedVariation = Math.round(variation * 10) / 10;
 
-  let direction: 'up' | 'down' | 'stable';
+  let direction: 'croissance' | 'baisse' | 'stable';
   let label: string;
 
-  if (roundedVariation > 3) {
-    direction = 'up';
-    label = `+${roundedVariation}% par rapport à hier`;
-  } else if (roundedVariation < -3) {
-    direction = 'down';
-    label = `${roundedVariation}% par rapport à hier`;
+  const threshold = period === 'day' ? 3 : period === 'week' ? 5 : period === 'month' ? 8 : 10;
+
+  if (roundedVariation > threshold) {
+    direction = 'croissance';
+    label = `+${roundedVariation}% par rapport à ${PERIOD_LABELS[period]}`;
+  } else if (roundedVariation < -threshold) {
+    direction = 'baisse';
+    label = `${roundedVariation}% par rapport à ${PERIOD_LABELS[period]}`;
   } else {
     direction = 'stable';
-    label = 'stable par rapport à hier';
+    label = `stable par rapport à ${PERIOD_LABELS[period]}`;
   }
 
   return {
@@ -65,15 +88,15 @@ const generateTrend = (baseValue: number): TrendData => {
   };
 };
 
-const getCategoryTrend = (title: string, count: number): TrendData | null => {
+const getCategoryTrend = (title: string, count: number, period: 'day' | 'week' | 'month' | 'year'): TrendData | null => {
   const categoryTrends: Record<string, (count: number) => TrendData> = {
-    'HÔTELS': (c) => generateTrend(c * 0.7),
-    'RÉSIDENCES': (c) => generateTrend(c * 0.5),
-    'MAISONS': (c) => generateTrend(c * 0.3),
-    'ÉTABLISSEMENTS': (c) => generateTrend(c * 0.6),
-    'CLIENTS': (c) => generateTrend(c * 0.8),
-    'HOMMES': (c) => generateTrend(c * 0.4),
-    'FEMMES': (c) => generateTrend(c * 0.5),
+    'HÔTELS': (c) => generateTrend(c * 0.7, period),
+    'RÉSIDENCES': (c) => generateTrend(c * 0.5, period),
+    'MAISONS': (c) => generateTrend(c * 0.3, period),
+    'ÉTABLISSEMENTS': (c) => generateTrend(c * 0.6, period),
+    'CLIENTS': (c) => generateTrend(c * 0.8, period),
+    'HOMMES': (c) => generateTrend(c * 0.4, period),
+    'FEMMES': (c) => generateTrend(c * 0.5, period),
   };
 
   for (const [key, trendFn] of Object.entries(categoryTrends)) {
@@ -85,6 +108,7 @@ const getCategoryTrend = (title: string, count: number): TrendData | null => {
   return null;
 };
 
+// ============ COMPOSANTS ============
 const TrendIndicator = memo(({ trend, size = 'sm' }: { trend: TrendData; size?: 'sm' | 'md' }) => {
   const config = TREND_CONFIG[trend.direction];
   const Icon = config.icon;
@@ -112,6 +136,8 @@ const TrendIndicator = memo(({ trend, size = 'sm' }: { trend: TrendData; size?: 
     </div>
   );
 });
+
+TrendIndicator.displayName = "TrendIndicator";
 
 const FormattedTitle = memo(({ item, inverse = false, tpsglobal = 1 }: InfoStatProps) => {
   const formattedTitle = useMemo(() => {
@@ -141,27 +167,26 @@ const FormattedTitle = memo(({ item, inverse = false, tpsglobal = 1 }: InfoStatP
   return formattedTitle || <span className="text-gray-800">non spécifié</span>;
 });
 
+FormattedTitle.displayName = "FormattedTitle";
+
+// ============ COMPOSANT PRINCIPAL ============
 const InfoStat = memo(({
   item,
   inverse = false,
   tpsglobal = 1,
-  onClick
+  onClick,
+  trendPeriod = 'day'
 }: InfoStatProps) => {
 
   // Génération des données de tendance
   const trendData = useMemo<TrendData | null>(() => {
-    // 1. Si l'item a déjà une tendance, l'utiliser
+    // 1. Si l'item a déjà une tendance, l'utiliser avec la période appropriée
     if (item.trend) {
-      const direction = item.trend.direction === 'up'
-        ? 'up'
-        : item.trend.direction === 'down'
-          ? 'down'
-          : 'stable';
-
+      // La direction est déjà du bon type car MenuItem.trend utilise 'croissance' | 'baisse' | 'stable'
       return {
-        direction,
+        direction: item.trend.direction,
         value: item.trend.value,
-        label: TREND_CONFIG[direction].label + " par rapport à hier"
+        label: `${TREND_CONFIG[item.trend.direction].label} par rapport à ${PERIOD_LABELS[trendPeriod]}`
       };
     }
 
@@ -169,48 +194,45 @@ const InfoStat = memo(({
     const title = item.title || '';
     const count = item.nbetablissements || 0;
 
-    const categoryTrend = getCategoryTrend(title, count);
+    const categoryTrend = getCategoryTrend(title, count, trendPeriod);
     if (categoryTrend) {
       return categoryTrend;
     }
 
     // 3. Générer une tendance basée sur le nombre
     if (count > 0) {
-      return generateTrend(count);
+      return generateTrend(count, trendPeriod);
     }
 
     // 4. Tendance par défaut
     return {
       direction: 'stable',
       value: 0,
-      label: 'stable (données insuffisantes)'
+      label: `stable (données insuffisantes)`
     };
-  }, [item]);
+  }, [item, trendPeriod]);
 
-  // Générer une tendance alternative (pour comparaison)
-  const alternativeTrend = useMemo<TrendData | null>(() => {
-    if (!trendData || trendData.direction === 'stable') return null;
+  // Génération des tendances alternatives pour comparaison
+  const alternativeTrends = useMemo<{ period: string; trend: TrendData }[]>(() => {
+    if (!trendData || trendData.direction === 'stable') return [];
 
-    // Simuler une tendance sur 7 jours
     const baseValue = item.nbetablissements || 1000;
-    const weeklyVariation = (Math.sin(baseValue * 0.05) * 5) + (Math.random() * 4 - 2);
-    const roundedVariation = Math.round(weeklyVariation * 10) / 10;
+    const periods: ('day' | 'week' | 'month' | 'year')[] = ['week', 'month', 'year'];
 
-    let direction: 'up' | 'down' | 'stable';
-    if (roundedVariation > 2) {
-      direction = 'up';
-    } else if (roundedVariation < -2) {
-      direction = 'down';
-    } else {
-      direction = 'stable';
-    }
-
-    return {
-      direction,
-      value: Math.abs(roundedVariation),
-      label: `sur 7 jours`
-    };
-  }, [item.nbetablissements, trendData]);
+    return periods
+      .filter(p => p !== trendPeriod)
+      .map(p => {
+        const trend = generateTrend(baseValue, p);
+        return {
+          period: p,
+          trend: {
+            ...trend,
+            label: `sur ${p === 'week' ? '7 jours' : p === 'month' ? '30 jours' : '365 jours'}`
+          }
+        };
+      })
+      .slice(0, 2); // Limiter à 2 alternatives
+  }, [item.nbetablissements, trendData, trendPeriod]);
 
   const handleClick = useCallback(() => {
     if (onClick) {
@@ -250,12 +272,20 @@ const InfoStat = memo(({
         </div>
 
         {/* Indicateur de tendance principal */}
-        {trendData && <TrendIndicator trend={trendData} size="sm" />}
+        {trendData && (
+          <div className="mt-1">
+            <TrendIndicator trend={trendData} size="sm" />
+          </div>
+        )}
 
-        {/* Indicateur de tendance alternative (optionnel) */}
-        {alternativeTrend && (
-          <div className="mt-0.5">
-            <TrendIndicator trend={alternativeTrend} size="sm" />
+        {/* Indicateurs de tendance alternatifs */}
+        {alternativeTrends.length > 0 && (
+          <div className="mt-1 flex flex-wrap items-center justify-center gap-2">
+            {alternativeTrends.map(({ period, trend }) => (
+              <div key={period} className="scale-90">
+                <TrendIndicator trend={trend} size="sm" />
+              </div>
+            ))}
           </div>
         )}
       </button>

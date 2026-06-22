@@ -31,7 +31,7 @@ const ETABLISSEMENT_TYPES = [
     }
 ] as const;
 
-const createMenuItem = (
+const createSubMenuItem = (
     type: string,
     count: number,
     icon: string,
@@ -42,10 +42,18 @@ const createMenuItem = (
     title: `${count} ${type}`,
     icon,
     tpsglobal,
-    blackicon
+    blackicon,
+     id: 'baseTitle.toLowerCase ',
+  count,
+  trendValue: 0,
+  iconSrc: icon,
+  iconAlt: `Icône  `,
+  color: "text-black",
+  bgColor: "bg-white",
+  description: "baseTitle"
 });
 
-const generateMenuData = (totalEtablissements: number): { SUB_MENU_ITEMS: MenuItem[] } => {
+const generateSubMenuData = (totalEtablissements: number): { SUB_MENU_ITEMS: MenuItem[] } => {
     let remaining = totalEtablissements;
     const items = [];
 
@@ -61,17 +69,17 @@ const generateMenuData = (totalEtablissements: number): { SUB_MENU_ITEMS: MenuIt
             remaining -= count;
         }
 
-        items.push(createMenuItem(config.type, count, config.icon, config.tpsglobal, config.blackicon));
+        items.push(createSubMenuItem(config.type, count, config.icon, config.tpsglobal, config.blackicon));
     }
 
     return { SUB_MENU_ITEMS: items, };
 };
 
 export function useSubMenuData(totalEtablissements: number) {
-    const [menuData, setMenuData] = useState(() => generateMenuData(totalEtablissements));
+    const [menuData, setMenuData] = useState(() => generateSubMenuData(totalEtablissements));
 
     const refreshMenuData = useCallback(() => {
-        const newData = generateMenuData(totalEtablissements);
+        const newData = generateSubMenuData(totalEtablissements);
         setMenuData(newData);
         return newData;
     }, [totalEtablissements]);

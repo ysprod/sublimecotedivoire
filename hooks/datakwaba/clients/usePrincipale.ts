@@ -1,10 +1,60 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { CartoFiltre, Etablissement, MenuItem } from "@/lib/libs/interface";
 import { initialCarto } from "@/lib/libs/constants";
-import { useRegionsDepartements } from "../useRegionsDepartements";
 import { getRandomCount, valeurEntier } from "@/lib/libs/functions";
+import { AllTrends, MenuItem, PeriodType } from "@/lib/libs/interface";
+import { useMonEtoileStore } from "@/lib/store/monetoile.store";
+import { useCallback, useMemo, useState } from "react";
 import { useSubMenuData } from "../useSubMenuData";
-import { useRouter } from "next/navigation";
+
+const ICONS = {
+  CLIENTS: "/icons/lesclients.png",
+} as const;
+
+const generateAllTrends = (baseValue: number): AllTrends => {
+  const periods = ['day', 'week', 'month', 'year'] as const;
+  const periodFactors = {
+    day: { min: -15, max: 15, threshold: 3 },
+    week: { min: -25, max: 25, threshold: 5 },
+    month: { min: -40, max: 40, threshold: 8 },
+    year: { min: -60, max: 60, threshold: 10 }
+  };
+  const periodLabels = {
+    day: 'hier',
+    week: 'la semaine dernière',
+    month: 'le mois dernier',
+    year: 'l\'année dernière'
+  };
+
+  const result = {} as AllTrends;
+
+  for (const period of periods) {
+    const factor = periodFactors[period];
+    const variation = (Math.sin(baseValue * 0.1 + Math.random() * 0.5) * factor.max * 0.5) +
+      (Math.random() * (factor.max - factor.min) + factor.min);
+    const roundedVariation = Math.round(variation * 10) / 10;
+
+    let direction: 'croissance' | 'baisse' | 'stable';
+    let label: string;
+
+    if (roundedVariation > factor.threshold) {
+      direction = 'croissance';
+      label = `+${roundedVariation}% par rapport à ${periodLabels[period]}`;
+    } else if (roundedVariation < -factor.threshold) {
+      direction = 'baisse';
+      label = `${roundedVariation}% par rapport à ${periodLabels[period]}`;
+    } else {
+      direction = 'stable';
+      label = `stable par rapport à ${periodLabels[period]}`;
+    }
+
+    result[period] = {
+      direction,
+      value: Math.abs(roundedVariation),
+      label
+    };
+  }
+
+  return result;
+};
 
 const createMenuItem = (
   baseTitle: string,
@@ -12,39 +62,51 @@ const createMenuItem = (
   icon: string,
   tpsglobal: number,
   blackicon: string
-): MenuItem => ({
-  nbetablissements: count,
-  title: `${count} ${baseTitle}`,
-  icon,
-  tpsglobal,
-  blackicon
-});
+): MenuItem => {
+  const trends = generateAllTrends(count);
+
+  return {
+    nbetablissements: count,
+    title: `${count} ${baseTitle}`,
+    icon,
+    tpsglobal,
+    blackicon,
+    id: baseTitle.toLowerCase().replace(/\s/g, '_'),
+    count,
+    trendValue: 0,
+    iconSrc: icon,
+    iconAlt: `Icône ${baseTitle}`,
+    color: "text-black",
+    bgColor: "bg-white",
+    description: baseTitle,
+    trends,
+    trend: {
+      value: trends.day.value,
+      direction: trends.day.direction,
+      label: trends.day.label
+    }
+  };
+};
+
+const generateStats = () => {
+  const hommesCount = getRandomCount(2000, 10000);
+  const previousHommesCount = Math.floor(hommesCount * (1 + (Math.random() * 0.2 - 0.1)));
+  const femmesCount = getRandomCount(2000, 1000);
+  const previousFemmesCount = Math.floor(femmesCount * (1 + (Math.random() * 0.2 - 0.1)));
+  const totalClients = hommesCount + femmesCount;
+  const previousTotalClients = previousHommesCount + previousFemmesCount;
+
+  return { totalClients, previousTotalClients, };
+};
 
 const useMenuData = () => {
   const menuData = useMemo(() => {
-    const hommesCount = getRandomCount(2000, 10000);
-    const previousHommesCount = Math.floor(hommesCount * (1 + (Math.random() * 0.2 - 0.1)));
-
-    const femmesCount = getRandomCount(2000, 1000);
-    const previousFemmesCount = Math.floor(femmesCount * (1 + (Math.random() * 0.2 - 0.1)));
-
-    const clientsCount = hommesCount + femmesCount;
-    const previousClientsCount = previousHommesCount + previousFemmesCount;
-
-    const getTrend = (current: number, previous: number) => {
-      if (previous === 0) return { value: 0, direction: 'stable' as const };
-      const variation = ((current - previous) / previous) * 100;
-      return {
-        value: Math.abs(Math.round(variation * 10) / 10),
-        direction: variation > 0 ? 'up' as const : variation < 0 ? 'down' as const : 'stable' as const
-      };
-    };
+    const stats = generateStats();
 
     return {
       MAIN_MENU_ITEMS: [
         {
-          ...createMenuItem("CLIENTS", clientsCount, "/icons/lesclients.png", 1, "/icons/lesclients.png"),
-          trend: getTrend(clientsCount, previousClientsCount)
+          ...createMenuItem("CLIENTS", stats.totalClients, ICONS.CLIENTS, 1, ICONS.CLIENTS),
         },
       ]
     };
@@ -53,91 +115,29 @@ const useMenuData = () => {
   return { mainmenutitems: menuData };
 };
 
-interface AppState {
-  tpsglobal: number;
-  startDate: string;
-  endDate: string;
-  selectedRegionLabel: string;
-  selectedDepartementLabel: string;
-  shouldShowDataNavigation: boolean;
-  etablissements: Etablissement[];
-  showfiltreconsulter: boolean;
-}
+const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
+  all: 1,
+  week: 0.25,
+  month: 0.5,
+  year: 0.8,
+};
 
 export function usePrincipale() {
-  const router = useRouter();
-
-  const { loading, errorMessage, regionsData, departementData, regions, regionOptions,
-    loadRegionsAndDepartements, getDepartementsForRegion } = useRegionsDepartements();
-
-  const [state, setState] = useState<AppState>({
-    tpsglobal: 0,
-    startDate: '',
-    endDate: '',
-    selectedRegionLabel: '',
-    selectedDepartementLabel: '',
-    shouldShowDataNavigation: false,
-    etablissements: [],
-    showfiltreconsulter: false
-  });
-
-  const [carto, setCarto] = useState<CartoFiltre>(initialCarto);
-
-  const updateCarto = useCallback((updates: Partial<CartoFiltre>) => {
-    setCarto(prev => ({ ...prev, ...updates }));
-  }, []);
-
-  useEffect(() => { loadRegionsAndDepartements(); }, [loadRegionsAndDepartements]);
-
-  useEffect(() => {
-    if (!carto.regionId) return;
-    const { departements } = getDepartementsForRegion(carto.regionId);
-    const selectedDepartement = departements.find(dep => dep.d === carto.departementId);
-
-    setState(prev => ({
-      ...prev,
-      selectedRegionLabel: regionsData[carto.regionId!]?.c || '',
-      selectedDepartementLabel: selectedDepartement?.a || ''
-    }));
-  }, [carto.regionId, carto.departementId, regionsData, getDepartementsForRegion]);
-
-  useEffect(() => {
-    updateCarto({ region: state.selectedRegionLabel, departement: state.selectedDepartementLabel });
-  }, [state.selectedRegionLabel, state.selectedDepartementLabel, updateCarto]);
-
   const { mainmenutitems } = useMenuData();
-  const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
+  const currentItem = useMonEtoileStore((state) => state.currentItem);
+  const [activePeriod, setActivePeriod] = useState<PeriodType>('all');
 
-
-  const handleClick = useCallback((item: MenuItem) => {
-
-    setSelectedMenuItem(item);
-    if (item.tpsglobal === 200) {
-      router.push(`/consulter/hotels/?tpsglobal=${item.tpsglobal}`);
-      return;
-    }
-    if (item.tpsglobal === 100) {
-      router.push(`/consulter/residences/?tpsglobal=${item.tpsglobal}`);
-      return;
-    }
-
-    router.push(`/consulter/hotes/?tpsglobal=${item.tpsglobal}`);
-  }, []);
-
-
-
-  const handleBackClick = useCallback(() => {
+  const handleBack = useCallback(() => {
     window.history.back();
   }, []);
 
+  const tpsglobal = useMemo(() => valeurEntier(initialCarto.tpsglobal), []);
 
   const mymainMenuItem = useMemo(() => (
-    mainmenutitems.MAIN_MENU_ITEMS.find(item => item.tpsglobal === carto.tpsglobal) ?? mainmenutitems.MAIN_MENU_ITEMS[0]
-  ), [carto.tpsglobal, mainmenutitems]);
+    mainmenutitems.MAIN_MENU_ITEMS.find(item => item.tpsglobal === initialCarto.tpsglobal) ?? mainmenutitems.MAIN_MENU_ITEMS[0]
+  ), [mainmenutitems]);
 
-  const { submenutitems } = useSubMenuData(mymainMenuItem.nbetablissements);
-
-
+  const { submenutitems } = useSubMenuData(currentItem?.nbetablissements || 0);
 
   const mainMenuItem = useMemo(() => {
     if (!mymainMenuItem || !submenutitems.length) return null;
@@ -147,17 +147,10 @@ export function usePrincipale() {
     return { ...mymainMenuItem, nbetablissements: total, title: `${total} ${textPart}` };
   }, [mymainMenuItem, submenutitems]);
 
+  const periodMultiplier = PERIOD_MULTIPLIERS[activePeriod];
+
   return {
-    ...state, loading, errorMessage, regionsData, departementData, regions, regionOptions, carto,
-    updateCarto, ...getDepartementsForRegion(carto.regionId || ''),
-    setshouldShowDataNavigation: (value: boolean) => setState(prev => ({ ...prev, shouldShowDataNavigation: value })),
-    setShowfiltreconsulter: (value: boolean) => setState(prev => ({ ...prev, showfiltreconsulter: value })),
-    mainmenutitems,
-    selectedMenuItem,
-    setSelectedMenuItem,
-    handleBackClick,
-    submenutitems,
-    mymainMenuItem, mainMenuItem,
-    handleClick
+    setActivePeriod, handleBack,
+    periodMultiplier, submenutitems, tpsglobal, mainMenuItem, activePeriod,
   };
 }

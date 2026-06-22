@@ -106,6 +106,13 @@ export const STAT_LABEL_MAP: Record<number, string> = {
   3: "FEMMES",
 };
 
+export const ETAB_STAT_LABEL_MAP: Record<number, string> = {
+  1: "ETABLISSEMENTS",
+  2: "HOMMES",
+  3: "FEMMES",
+};
+
+
 export const fadeInUp = {
   initial: { opacity: 0, y: -20 },
   animate: { opacity: 1, y: 0 },
@@ -183,3 +190,13 @@ export const COLOR_CLASSES: Record<ColorType, { text: string; border: string }> 
   primary: { text: 'text-primary-600', border: 'border-primary-600' },
   secondary: { text: 'text-secondary-600', border: 'border-secondary-600' }
 } as const;
+
+export const PERIODS = ['day', 'week', 'month', 'year'] as const;
+
+export const PERIOD_LABELS = {
+    day: 'par rapport à hier',
+    week: 'par rapport à la semaine dernière',
+    month: 'par rapport au mois dernier',
+    year: 'par rapport à l\'année dernière'
+} as const;
+

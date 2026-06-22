@@ -42,20 +42,21 @@ const MenuDiambra = memo(() => {
 
       <div className="flex justify-center flex-col items-center w-full mt-4 space-y-6">
         <div className="w-full max-w-md">
-          <InfoStat
+          {/* <InfoStat
             item={mainMenuItem!}
             inverse
             tpsglobal={tpsglobal}
-          />
+          /> */}
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-3xl">
+        <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 w-full max-w-3xl">
           {subMenuItems.map((item) => (
-            <InfoStat
-              key={`${item.title}-${item.tpsglobal}`}
-              item={item}
-              tpsglobal={tpsglobal}
-            />
+            <></>
+            // <InfoStat
+            //   key={`${item.title}-${item.tpsglobal}`}
+            //   item={item}
+            //   tpsglobal={tpsglobal}
+            // />
           ))}
         </div>
 
@@ -64,14 +65,14 @@ const MenuDiambra = memo(() => {
             onClick={handleViewHotels}
             isLoading={isViewHotelsLoading}
           />
-          <PDFDownloadButton
+          {/* <PDFDownloadButton
             mainItem={mainMenuItem}
             hotelItems={clientItems}
             subItems={submenutitems}
-          />
+          /> */}
         </div>
 
-        <DetailedStats
+        {/* <DetailedStats
           items={allMenuItems}
           title="Statistiques détaillées des clients"
           className="max-w-3xl"
@@ -79,7 +80,7 @@ const MenuDiambra = memo(() => {
 
         <div className="w-full max-w-3xl space-y-6">
           <Charte menuItems={subMenuItems} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 "use client";
+
 import { usePrincipale } from "@/hooks/datakwaba/usePrincipale";
 import { TITLE_SPLIT_REGEX } from "@/lib/libs/constants";
 import { getRandomCount } from "@/lib/libs/functions";
@@ -14,6 +15,16 @@ import BackButton from "../recherche/BackButton";
 import ConsulterEtablissementsContent from "./ConsulterEtablissementsContent";
 import EnteteRapport from "./EnteteRapport";
 
+// ============ TYPES ============
+// Utiliser le même type que l'interface
+type TrendDirection = 'croissance' | 'baisse' | 'stable';
+
+interface LocalTrendData {
+  value: number;
+  direction: TrendDirection;
+  label?: string;
+}
+
 interface MenuItemCardProps {
   item: MenuItem;
   onClick: (item: MenuItem) => void;
@@ -21,15 +32,10 @@ interface MenuItemCardProps {
   showTrend?: boolean;
 }
 
-interface TrendData {
-  value: number;
-  direction: 'up' | 'down' | 'stable';
-  label?: string;
-}
-
+// ============ CONSTANTES ============
 const TREND_CONFIG = {
-  up: { icon: TrendingUp, color: "text-green-600", bgColor: "bg-green-100" },
-  down: { icon: TrendingDown, color: "text-red-600", bgColor: "bg-red-100" },
+  croissance: { icon: TrendingUp, color: "text-green-600", bgColor: "bg-green-100" },
+  baisse: { icon: TrendingDown, color: "text-red-600", bgColor: "bg-red-100" },
   stable: { icon: Minus, color: "text-gray-600", bgColor: "bg-gray-100" }
 } as const;
 
@@ -53,7 +59,9 @@ const getIconComponent = (title: string, isBlack: boolean = false) => {
   return <Building2 {...iconProps} />;
 };
 
-const TrendIndicator = memo(({ trend }: { trend: TrendData }) => {
+// ============ COMPOSANTS ============
+
+const TrendIndicator = memo(({ trend }: { trend: LocalTrendData }) => {
   const config = TREND_CONFIG[trend.direction];
   const Icon = config.icon;
 
@@ -76,17 +84,17 @@ const MenuItemCard = memo(({
   className,
   showTrend = true
 }: MenuItemCardProps) => {
-  const getDefaultTrend = useCallback((item: MenuItem): TrendData => {
-    const defaultTrends: Record<string, TrendData> = {
-      'HÔTELS': { value: 5.2, direction: 'up', label: 'secteur en croissance' },
-      'RÉSIDENCES': { value: 3.8, direction: 'up', label: 'demande croissante' },
-      'MAISONS': { value: -2.1, direction: 'down', label: 'légère baisse' },
-      'ÉTABLISSEMENTS': { value: 4.5, direction: 'up', label: 'expansion continue' },
-      'CLIENTS': { value: 7.3, direction: 'up', label: 'hausse de fréquentation' },
-      'HOMMES': { value: 2.1, direction: 'up', label: 'légère progression' },
-      'FEMMES': { value: 8.5, direction: 'up', label: 'forte progression' },
-      'NATIONAUX': { value: 3.2, direction: 'up', label: 'tourisme local' },
-      'ETRANGERS': { value: 12.4, direction: 'up', label: 'reprise tourisme' }
+  const getDefaultTrend = useCallback((item: MenuItem): LocalTrendData => {
+    const defaultTrends: Record<string, LocalTrendData> = {
+      'HÔTELS': { value: 5.2, direction: 'croissance', label: 'secteur en croissance' },
+      'RÉSIDENCES': { value: 3.8, direction: 'croissance', label: 'demande croissante' },
+      'MAISONS': { value: -2.1, direction: 'baisse', label: 'légère baisse' },
+      'ÉTABLISSEMENTS': { value: 4.5, direction: 'croissance', label: 'expansion continue' },
+      'CLIENTS': { value: 7.3, direction: 'croissance', label: 'hausse de fréquentation' },
+      'HOMMES': { value: 2.1, direction: 'croissance', label: 'légère progression' },
+      'FEMMES': { value: 8.5, direction: 'croissance', label: 'forte progression' },
+      'NATIONAUX': { value: 3.2, direction: 'croissance', label: 'tourisme local' },
+      'ETRANGERS': { value: 12.4, direction: 'croissance', label: 'reprise tourisme' }
     };
 
     for (const [key, trend] of Object.entries(defaultTrends)) {
@@ -96,21 +104,27 @@ const MenuItemCard = memo(({
     }
 
     return {
-      value: Math.random() * 10 - 5,
-      direction: Math.random() > 0.5 ? 'up' : 'down',
+      value: Math.round((Math.random() * 10 - 5) * 10) / 10,
+      direction: Math.random() > 0.5 ? 'croissance' : 'baisse',
       label: 'vs période précédente'
     };
   }, []);
 
-  const trend = useMemo<TrendData | null>(() => {
+  const trend = useMemo<LocalTrendData | null>(() => {
     if (!showTrend) return null;
 
     if (item.trend) {
-      return item.trend;
+      // Convertir le trend de l'item si nécessaire
+      return {
+        value: item.trend.value,
+        direction: item.trend.direction,
+        label: item.trend.label
+      };
     }
 
     return getDefaultTrend(item);
   }, [item, showTrend, getDefaultTrend]);
+
   const defaultRenderTitle = useCallback((title: string) => {
     const [numberPart, ...textParts] = title.split(TITLE_SPLIT_REGEX);
     const formattedNumber = parseInt(numberPart)?.toLocaleString('fr-FR') || numberPart;
@@ -164,6 +178,8 @@ const MenuItemCard = memo(({
   );
 });
 
+// ============ HOOK MENU DATA ============
+
 const createMenuItem = (
   baseTitle: string,
   count: number,
@@ -175,7 +191,15 @@ const createMenuItem = (
   title: `${count} ${baseTitle}`,
   icon,
   tpsglobal,
-  blackicon
+  blackicon,
+  id: baseTitle.toLowerCase().replace(/\s/g, '_'),
+  count,
+  trendValue: 0,
+  iconSrc: icon,
+  iconAlt: `Icône ${baseTitle}`,
+  color: "text-black",
+  bgColor: "bg-white",
+  description: baseTitle
 });
 
 const useMenuData = () => {
@@ -207,12 +231,30 @@ const useMenuData = () => {
     const etrangersCount = clientsCount - nationauxCount;
     const previousEtrangersCount = previousClientsCount - previousNationauxCount;
 
+    // Utiliser les mêmes directions que l'interface
     const getTrend = (current: number, previous: number) => {
-      if (previous === 0) return { value: 0, direction: 'stable' as const };
+      if (previous === 0) return { value: 0, direction: 'stable' as const, label: 'stable' };
       const variation = ((current - previous) / previous) * 100;
+      const absValue = Math.abs(Math.round(variation * 10) / 10);
+      
+      let direction: 'croissance' | 'baisse' | 'stable';
+      let label: string;
+      
+      if (variation > 0) {
+        direction = 'croissance';
+        label = `+${absValue}% en hausse`;
+      } else if (variation < 0) {
+        direction = 'baisse';
+        label = `-${absValue}% en baisse`;
+      } else {
+        direction = 'stable';
+        label = 'stable';
+      }
+      
       return {
-        value: Math.abs(Math.round(variation * 10) / 10),
-        direction: variation > 0 ? 'up' as const : variation < 0 ? 'down' as const : 'stable' as const
+        value: absValue,
+        direction,
+        label
       };
     };
 
@@ -249,23 +291,16 @@ const useMenuData = () => {
   return { mainmenutitems: menuData };
 };
 
-interface MenuItemCardProps {
-  item: MenuItem;
-  onClick: (item: MenuItem) => void;
-  className?: string;
-  showTrend?: boolean;
-}
-
-interface TrendData {
-  value: number;
-  direction: 'up' | 'down' | 'stable';
-  label?: string;
-}
+// ============ COMPOSANT PRINCIPAL ============
 
 const MenuDiambra = memo(() => {
   const {
-    shouldShowDataNavigation,showfiltreconsulter, carto,
-    updateCarto,    setshouldShowDataNavigation,    setShowfiltreconsulter, 
+    shouldShowDataNavigation,
+    showfiltreconsulter,
+    carto,
+    updateCarto,
+    setshouldShowDataNavigation,
+    setShowfiltreconsulter,
   } = usePrincipale();
 
   const { mainmenutitems } = useMenuData();
@@ -305,18 +340,6 @@ const MenuDiambra = memo(() => {
       setShowfiltreconsulter(false);
     });
   }, [selectedMenuItem, shouldShowDataNavigation, setshouldShowDataNavigation, setShowfiltreconsulter]);
-
-  useEffect(() => {
-    if (selectedMenuItem && !shouldShowDataNavigation) {
-      setshouldShowDataNavigation(true);
-    }
-  }, [selectedMenuItem, shouldShowDataNavigation, setshouldShowDataNavigation]);
-
-  useEffect(() => {
-    return () => {
-      setSelectedMenuItem(null);
-    };
-  }, []);
 
   return (
     <div className="flex flex-col w-full max-w-3xl mx-auto">

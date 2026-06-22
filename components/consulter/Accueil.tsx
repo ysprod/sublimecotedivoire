@@ -1,4 +1,5 @@
-"use client";
+'use client';
+
 import { usePrincipale } from "@/hooks/datakwaba/usePrincipale";
 import { TITLE_SPLIT_REGEX } from "@/lib/libs/constants";
 import { getRandomCount } from "@/lib/libs/functions";
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 
+// ============ TYPES ============
 interface MenuItemCardProps {
     item: MenuItem;
     onClick: (item: MenuItem) => void;
@@ -18,18 +20,42 @@ interface MenuItemCardProps {
     showTrend?: boolean;
 }
 
-interface TrendData {
-    value: number;
-    direction: 'up' | 'down' | 'stable';
-    label?: string;
-}
-
+// ============ CONSTANTES ============
 const TREND_CONFIG = {
-    up: { icon: TrendingUp, color: "text-green-600", bgColor: "bg-green-100" },
-    down: { icon: TrendingDown, color: "text-red-600", bgColor: "bg-red-100" },
-    stable: { icon: Minus, color: "text-gray-600", bgColor: "bg-gray-100" }
+    croissance: {
+        icon: TrendingUp,
+        color: "text-green-600",
+        bgColor: "bg-green-100"
+    },
+    baisse: {
+        icon: TrendingDown,
+        color: "text-red-600",
+        bgColor: "bg-red-100"
+    },
+    stable: {
+        icon: Minus,
+        color: "text-gray-600",
+        bgColor: "bg-gray-100"
+    }
 } as const;
 
+const DEFAULT_TRENDS: Record<string, { value: number; direction: 'croissance' | 'baisse' | 'stable'; label: string }> = {
+    'HÔTELS': { value: 5.2, direction: 'croissance', label: 'secteur en croissance' },
+    'RÉSIDENCES': { value: 3.8, direction: 'croissance', label: 'demande croissante' },
+    'MAISONS': { value: -2.1, direction: 'baisse', label: 'légère baisse' },
+    'ÉTABLISSEMENTS': { value: 4.5, direction: 'croissance', label: 'expansion continue' },
+    'CLIENTS': { value: 7.3, direction: 'croissance', label: 'hausse de fréquentation' },
+    'HOMMES': { value: 2.1, direction: 'croissance', label: 'légère progression' },
+    'FEMMES': { value: 8.5, direction: 'croissance', label: 'forte progression' },
+    'NATIONAUX': { value: 3.2, direction: 'croissance', label: 'tourisme local' },
+    'ETRANGERS': { value: 12.4, direction: 'croissance', label: 'reprise tourisme' }
+};
+
+// ============ COMPOSANTS ============
+
+/**
+ * Rendu des icônes Lucide
+ */
 const getIconComponent = (title: string, isBlack: boolean = false) => {
     const iconProps = {
         size: 80,
@@ -37,20 +63,29 @@ const getIconComponent = (title: string, isBlack: boolean = false) => {
         className: `mb-3 w-24 h-24 ${isBlack ? 'text-gray-900' : 'text-blue-600'}`
     };
 
-    if (title.includes('HÔTELS')) return <Hotel {...iconProps} />;
-    if (title.includes('RÉSIDENCES')) return <BedDouble {...iconProps} />;
-    if (title.includes('MAISONS')) return <Home {...iconProps} />;
-    if (title.includes('ÉTABLISSEMENTS')) return <Building2 {...iconProps} />;
-    if (title.includes('CLIENTS')) return <Users {...iconProps} />;
-    if (title.includes('HOMMES')) return <User {...iconProps} />;
-    if (title.includes('FEMMES')) return <UserRound  {...iconProps} />;
-    if (title.includes('NATIONAUX')) return <MapPin {...iconProps} />;
-    if (title.includes('ETRANGERS')) return <Globe {...iconProps} />;
+    const iconMap: Record<string, React.ReactNode> = {
+        'HÔTELS': <Hotel {...iconProps} />,
+        'RÉSIDENCES': <BedDouble {...iconProps} />,
+        'MAISONS': <Home {...iconProps} />,
+        'ÉTABLISSEMENTS': <Building2 {...iconProps} />,
+        'CLIENTS': <Users {...iconProps} />,
+        'HOMMES': <User {...iconProps} />,
+        'FEMMES': <UserRound {...iconProps} />,
+        'NATIONAUX': <MapPin {...iconProps} />,
+        'ETRANGERS': <Globe {...iconProps} />,
+    };
+
+    for (const [key, icon] of Object.entries(iconMap)) {
+        if (title.includes(key)) return icon;
+    }
 
     return <Building2 {...iconProps} />;
 };
 
-const TrendIndicator = memo(({ trend }: { trend: TrendData }) => {
+/**
+ * Indicateur de tendance
+ */
+const TrendIndicator = memo(({ trend }: { trend: { value: number; direction: 'croissance' | 'baisse' | 'stable'; label?: string } }) => {
     const config = TREND_CONFIG[trend.direction];
     const Icon = config.icon;
 
@@ -67,48 +102,47 @@ const TrendIndicator = memo(({ trend }: { trend: TrendData }) => {
     );
 });
 
+TrendIndicator.displayName = "TrendIndicator";
+
+/**
+ * Carte d'un item du menu
+ */
 const MenuItemCard = memo(({
     item,
     onClick,
     className,
     showTrend = true
 }: MenuItemCardProps) => {
-    const getDefaultTrend = useCallback((item: MenuItem): TrendData => {
-        const defaultTrends: Record<string, TrendData> = {
-            'HÔTELS': { value: 5.2, direction: 'up', label: 'secteur en croissance' },
-            'RÉSIDENCES': { value: 3.8, direction: 'up', label: 'demande croissante' },
-            'MAISONS': { value: -2.1, direction: 'down', label: 'légère baisse' },
-            'ÉTABLISSEMENTS': { value: 4.5, direction: 'up', label: 'expansion continue' },
-            'CLIENTS': { value: 7.3, direction: 'up', label: 'hausse de fréquentation' },
-            'HOMMES': { value: 2.1, direction: 'up', label: 'légère progression' },
-            'FEMMES': { value: 8.5, direction: 'up', label: 'forte progression' },
-            'NATIONAUX': { value: 3.2, direction: 'up', label: 'tourisme local' },
-            'ETRANGERS': { value: 12.4, direction: 'up', label: 'reprise tourisme' }
-        };
-
-        for (const [key, trend] of Object.entries(defaultTrends)) {
-            if (item.title?.includes(key)) {
-                return trend;
-            }
-        }
-
-        return {
-            value: Math.random() * 10 - 5,
-            direction: Math.random() > 0.5 ? 'up' : 'down',
-            label: 'vs période précédente'
-        };
-    }, []);
-
-    const trend = useMemo<TrendData | null>(() => {
+    // Récupération de la tendance
+    const trend = useMemo<{ value: number; direction: 'croissance' | 'baisse' | 'stable'; label?: string } | null>(() => {
         if (!showTrend) return null;
 
+        // Si l'item a une tendance existante
         if (item.trend) {
-            return item.trend;
+            // La direction est déjà du bon type car MenuItem.trend utilise 'croissance' | 'baisse' | 'stable'
+            return {
+                value: item.trend.value,
+                direction: item.trend.direction,
+                label: item.trend.label
+            };
         }
 
-        return getDefaultTrend(item);
-    }, [item, showTrend, getDefaultTrend]);
-    const defaultRenderTitle = useCallback((title: string) => {
+        // Générer une tendance par défaut
+        const defaultTrend = DEFAULT_TRENDS[item.title?.split(' ').slice(1).join(' ') || ''];
+        if (defaultTrend) {
+            return defaultTrend;
+        }
+
+        // Tendance générique
+        return {
+            value: Math.round((Math.random() * 10 - 5) * 10) / 10,
+            direction: Math.random() > 0.5 ? 'croissance' : 'baisse',
+            label: 'vs période précédente'
+        };
+    }, [item, showTrend]);
+
+    // Rendu du titre formaté
+    const renderTitle = useCallback((title: string) => {
         const [numberPart, ...textParts] = title.split(TITLE_SPLIT_REGEX);
         const formattedNumber = parseInt(numberPart)?.toLocaleString('fr-FR') || numberPart;
 
@@ -128,7 +162,6 @@ const MenuItemCard = memo(({
         onClick(item);
     }, [item, onClick]);
 
-
     return (
         <motion.button
             onClick={handleClick}
@@ -143,18 +176,22 @@ const MenuItemCard = memo(({
             whileTap={{ scale: 0.98 }}
             aria-label={`Accéder à ${item.title}`}
         >
+            {/* Icône */}
             <div className="relative">
                 {getIconComponent(item.title!, item.blackicon?.includes('black'))}
             </div>
 
+            {/* Titre */}
             {item.title && (
                 <div className="text-center min-h-[60px] flex flex-col items-center mt-2">
-                    {defaultRenderTitle(item.title)}
+                    {renderTitle(item.title)}
                 </div>
             )}
 
+            {/* Tendance */}
             {trend && <TrendIndicator trend={trend} />}
 
+            {/* Message si pas de données */}
             {!trend && showTrend && (
                 <div className="text-xs text-gray-400 mt-2">
                     Données non disponibles
@@ -164,6 +201,10 @@ const MenuItemCard = memo(({
     );
 });
 
+MenuItemCard.displayName = "MenuItemCard";
+
+// ============ HOOK DE DONNÉES ============
+
 const createMenuItem = (
     baseTitle: string,
     count: number,
@@ -171,11 +212,19 @@ const createMenuItem = (
     tpsglobal: number,
     blackicon: string
 ): MenuItem => ({
-    nbetablissements: count,
+    id: baseTitle.toLowerCase().replace(/\s/g, '_'),
     title: `${count} ${baseTitle}`,
+    count,
+    nbetablissements: count,
     icon,
     tpsglobal,
-    blackicon
+    blackicon,
+    iconSrc: icon,
+    iconAlt: `Icône ${baseTitle}`,
+    color: "text-black",
+    bgColor: "bg-white",
+    description: baseTitle,
+    trendValue: 0,
 });
 
 const useMenuData = () => {
@@ -207,12 +256,14 @@ const useMenuData = () => {
         const etrangersCount = clientsCount - nationauxCount;
         const previousEtrangersCount = previousClientsCount - previousNationauxCount;
 
+        // CORRECTION: Utiliser 'croissance' | 'baisse' | 'stable' au lieu de 'up' | 'down' | 'stable'
         const getTrend = (current: number, previous: number) => {
-            if (previous === 0) return { value: 0, direction: 'stable' as const };
+            if (previous === 0) return { value: 0, direction: 'stable' as const, label: 'stable' };
             const variation = ((current - previous) / previous) * 100;
             return {
                 value: Math.abs(Math.round(variation * 10) / 10),
-                direction: variation > 0 ? 'up' as const : variation < 0 ? 'down' as const : 'stable' as const
+                direction: variation > 0 ? 'croissance' as const : variation < 0 ? 'baisse' as const : 'stable' as const,
+                label: variation > 0 ? 'en hausse' : variation < 0 ? 'en baisse' : 'stable'
             };
         };
 
@@ -249,6 +300,8 @@ const useMenuData = () => {
     return { mainmenutitems: menuData };
 };
 
+// ============ COMPOSANT PRINCIPAL ============
+
 const Accueil = memo(() => {
     const {
         shouldShowDataNavigation,
@@ -259,10 +312,10 @@ const Accueil = memo(() => {
 
     const { mainmenutitems } = useMenuData();
     const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
- 
+
     const handleButtonClick = useCallback((item: MenuItem) => {
-         setShowfiltreconsulter(true);
-            updateCarto({ tpsglobal: item.tpsglobal });        
+        setShowfiltreconsulter(true);
+        updateCarto({ tpsglobal: item.tpsglobal });
     }, [setShowfiltreconsulter, updateCarto]);
 
     useEffect(() => {
@@ -278,16 +331,48 @@ const Accueil = memo(() => {
     }, []);
 
     return (
-        <div className="flex flex-col w-full max-w-3xl mx-auto">
-            <motion.div className="grid grid-cols-1 gap-8 max-w-6xl mx-auto"  >
-                <motion.div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+        <div className="flex flex-col w-full max-w-3xl mx-auto p-4">
+            <motion.div 
+                className="grid grid-cols-1 gap-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+            >
+                <motion.div 
+                    className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4"
+                    variants={{
+                        hidden: { opacity: 0 },
+                        show: {
+                            opacity: 1,
+                            transition: {
+                                staggerChildren: 0.1
+                            }
+                        }
+                    }}
+                    initial="hidden"
+                    animate="show"
+                >
                     {mainmenutitems.MAIN_MENU_ITEMS.map((item: MenuItem) => (
-                        <MenuItemCard key={item.tpsglobal} item={item} onClick={handleButtonClick} />
+                        <motion.div
+                            key={item.tpsglobal}
+                            variants={{
+                                hidden: { opacity: 0, y: 20 },
+                                show: { opacity: 1, y: 0 }
+                            }}
+                        >
+                            <MenuItemCard 
+                                item={item} 
+                                onClick={handleButtonClick}
+                                showTrend={true}
+                            />
+                        </motion.div>
                     ))}
                 </motion.div>
             </motion.div>
         </div>
     );
 });
+
+Accueil.displayName = "Accueil";
 
 export default Accueil;

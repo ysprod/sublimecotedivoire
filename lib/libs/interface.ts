@@ -17,22 +17,6 @@ export type RegionsDataType = {
   [regionId: string]: Region;
 };
 
-export interface MenuItem {
-  nbetablissements: number;
-  title?: string;
-  icon?: string;
-  tpsglobal?: number;
-  page?: number;
-  blackicon?: string;
-  trend?: {
-            value: number;
-            direction: "stable" | "up" | "down";
-            label?: string;
-        };
-}
-
- 
-
 export interface Region {
   a?: number | string;
   b?: string;
@@ -191,4 +175,58 @@ export interface Owner {
   genre: string;
   telephone: string;
   matricule?: string;
+}
+
+export type TrendType = "croissance" | "baisse" | "stable";
+
+export interface TrendData {
+  direction: 'croissance' | 'baisse' | 'stable';
+  value: number;
+  label: string;
+}
+
+export interface AllTrends {
+  day: TrendData;
+  week: TrendData;
+  month: TrendData;
+  year: TrendData;
+}
+
+export interface MenuItem {
+  id: string;
+  title: string;
+  count: number;
+  trendValue: number;
+  iconSrc: string;
+  iconAlt: string;
+  color: string;
+  bgColor: string;
+  description: string;
+  trends?: AllTrends;
+  nbetablissements: number;
+  icon?: string;
+  tpsglobal?: number;
+  page?: number;
+  blackicon?: string;
+  trend?: TrendData;
+}
+
+export type PeriodType = 'all' | 'week' | 'month' | 'year';
+
+export interface AdaptedIndicators {
+  mainItem: MenuItem | null;
+  subItems: MenuItem[];
+}
+
+export type EtablissementType = 'hotels' | 'residences' | 'maisons' | null;
+ 
+
+export interface PeriodData {
+  label: string;
+  value: number;
+  trend: {
+    direction: 'croissance' | 'baisse' | 'stable';
+    value: number;
+    label: string;
+  };
 }

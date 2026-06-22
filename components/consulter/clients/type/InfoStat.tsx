@@ -14,19 +14,19 @@ interface InfoStatProps {
 }
 
 interface TrendData {
-  direction: 'up' | 'down' | 'stable';
+  direction: 'croissance' | 'baisse' | 'stable';
   value: number;
   label: string;
 }
 
 const TREND_CONFIG = {
-  up: {
+  croissance: {
     icon: TrendingUp,
     bgColor: "bg-green-100",
     color: "text-green-700",
     label: "en hausse"
   },
-  down: {
+  baisse: {
     icon: TrendingDown,
     bgColor: "bg-red-100",
     color: "text-red-700",
@@ -44,14 +44,14 @@ const generateTrend = (baseValue: number): TrendData => {
   const variation = (Math.sin(baseValue * 0.1) * 15) + (Math.random() * 6 - 3);
   const roundedVariation = Math.round(variation * 10) / 10;
 
-  let direction: 'up' | 'down' | 'stable';
+  let direction: 'croissance' | 'baisse' | 'stable';
   let label: string;
 
   if (roundedVariation > 3) {
-    direction = 'up';
+    direction = 'croissance';
     label = `+${roundedVariation}% par rapport à hier`;
   } else if (roundedVariation < -3) {
-    direction = 'down';
+    direction = 'baisse';
     label = `${roundedVariation}% par rapport à hier`;
   } else {
     direction = 'stable';
@@ -148,24 +148,15 @@ const InfoStat = memo(({
   onClick
 }: InfoStatProps) => {
 
-  // Génération des données de tendance
   const trendData = useMemo<TrendData | null>(() => {
-    // 1. Si l'item a déjà une tendance, l'utiliser
     if (item.trend) {
-      const direction = item.trend.direction === 'up'
-        ? 'up'
-        : item.trend.direction === 'down'
-          ? 'down'
-          : 'stable';
-
       return {
-        direction,
+        direction: item.trend.direction,
         value: item.trend.value,
-        label: TREND_CONFIG[direction].label + " par rapport à hier"
+        label: TREND_CONFIG[item.trend.direction].label + " par rapport à hier"
       };
     }
 
-    // 2. Générer une tendance basée sur la catégorie
     const title = item.title || '';
     const count = item.nbetablissements || 0;
 
@@ -174,12 +165,10 @@ const InfoStat = memo(({
       return categoryTrend;
     }
 
-    // 3. Générer une tendance basée sur le nombre
     if (count > 0) {
       return generateTrend(count);
     }
 
-    // 4. Tendance par défaut
     return {
       direction: 'stable',
       value: 0,
@@ -187,20 +176,18 @@ const InfoStat = memo(({
     };
   }, [item]);
 
-  // Générer une tendance alternative (pour comparaison)
   const alternativeTrend = useMemo<TrendData | null>(() => {
     if (!trendData || trendData.direction === 'stable') return null;
 
-    // Simuler une tendance sur 7 jours
     const baseValue = item.nbetablissements || 1000;
     const weeklyVariation = (Math.sin(baseValue * 0.05) * 5) + (Math.random() * 4 - 2);
     const roundedVariation = Math.round(weeklyVariation * 10) / 10;
 
-    let direction: 'up' | 'down' | 'stable';
+    let direction: 'croissance' | 'baisse' | 'stable';
     if (roundedVariation > 2) {
-      direction = 'up';
+      direction = 'croissance';
     } else if (roundedVariation < -2) {
-      direction = 'down';
+      direction = 'baisse';
     } else {
       direction = 'stable';
     }
@@ -224,14 +211,12 @@ const InfoStat = memo(({
         onClick={handleClick}
         className={clsx(
           "w-full flex flex-col items-center justify-center p-4",
-          "bg-white rounded-lg transition-all duration-300 hover:shadow-lg",
+          "bg-white  transition-all duration-300 hover:shadow-lg",
           "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
           "hover:scale-[1.02] cursor-pointer",
-          "border border-gray-100"
         )}
         aria-label={`Accéder à ${item.title || "cette information"}`}
       >
-        {/* Icône */}
         <div className="flex items-center justify-center mb-2">
           <Image
             src={item.icon || "/icons/batiment.png"}
@@ -243,16 +228,12 @@ const InfoStat = memo(({
             loading="lazy"
           />
         </div>
-
-        {/* Titre formaté */}
         <div className="text-xs font-semibold text-center whitespace-pre-line">
           <FormattedTitle item={item} inverse={inverse} tpsglobal={tpsglobal} />
         </div>
 
-        {/* Indicateur de tendance principal */}
         {trendData && <TrendIndicator trend={trendData} size="sm" />}
 
-        {/* Indicateur de tendance alternative (optionnel) */}
         {alternativeTrend && (
           <div className="mt-0.5">
             <TrendIndicator trend={alternativeTrend} size="sm" />
@@ -262,7 +243,5 @@ const InfoStat = memo(({
     </div>
   );
 });
-
-InfoStat.displayName = "InfoStat";
 
 export default InfoStat;
