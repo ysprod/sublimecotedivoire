@@ -18,7 +18,6 @@ export function dispatchClientNavigation(detail: ClientNavigationDetail) {
 
 export function dispatchLoginNavigation(returnTo?: string) {
   const params = new URLSearchParams();
-
   if (returnTo) {
     params.set('returnTo', returnTo);
   }

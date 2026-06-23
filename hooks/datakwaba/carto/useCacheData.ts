@@ -8,6 +8,7 @@ interface CachedData<T> {
   timestamp: number;
 }
 
+
 export function useCacheData() {
   const cacheData = useCallback(async <T,>(key: string, data: T): Promise<void> => {
     try {

@@ -1,5 +1,5 @@
 'use client';
-import { useEtablissements } from "@/hooks/datakwaba/useEtablissements";
+import { useEtablissements } from "@/hooks/datakwaba/etablissements/useEtablissements";
 import { TAB_ETAB_CONFIG } from "@/lib/libs/constants";
 import type { Etablissement, MenuItem, TabType } from "@/lib/libs/interface";
 import { motion } from "framer-motion";

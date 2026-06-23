@@ -95,7 +95,6 @@ export function useHeaderState() {
     return { text: 'Premium ⭐', label: 'Membre Premium' };
   }, [user?.grade, hasRole]);
 
-  // Menu items avec mémoïsation
   const navItems = useMemo(() => [
     { href: "/star/monprofil", label: "Profil", icon: User },
     { href: "/star/messagerie", label: "Inbox", icon: MessageCircle },

@@ -1,5 +1,5 @@
 'use client';
-import { useUsersData } from '@/hooks/datakwaba/useUsersData';
+import { useUsersData } from '@/hooks/datakwaba/connexions/useUsersData';
 import { memo } from 'react';
 import { FiChevronLeft, FiChevronRight, FiClock } from 'react-icons/fi';
 import HistoriqueLoader from './HistoriqueLoader';

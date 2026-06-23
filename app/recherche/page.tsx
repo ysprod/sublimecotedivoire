@@ -1,8 +1,7 @@
 "use client";
-import { memo } from "react";
-import dynamic from "next/dynamic";
 import Loader from "@/components/commons/Loader";
-import { usePrincipale } from "@/hooks/datakwaba/usePrincipale";
+import dynamic from "next/dynamic";
+import { memo } from "react";
 
 const Filtre = dynamic(
   () => import("@/components/recherche/Filtre"),
@@ -13,9 +12,7 @@ const Filtre = dynamic(
 );
 
 const Principale = () => {
-  const props = usePrincipale();
-
-  return (<Filtre {...props} />);
+  return (<Filtre />);
 };
 
 export default memo(Principale);

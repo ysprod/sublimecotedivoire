@@ -5,7 +5,7 @@ import { PeriodType } from "@/lib/libs/interface";
 import { generateAllTrends } from "@/lib/libs/trends";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
 import { useCallback, useMemo, useState } from "react";
-import { useSubMenuData } from "../useSubMenuData";
+import { useSubMenuData } from "../commons/useSubMenuData";
 
 const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
   all: 1,

@@ -1,22 +1,3 @@
-// export type FilterType = "all" | "hotel" | "residence" | "maison hote";
-// export type ColorType = 'blue' | 'green' | 'red' | 'primary' | 'secondary';
-// export type TabType = 'all' | 'upToDate' | 'notUpToDate';
-
-// export type ErrorApiResponse = {
-//   error: string;
-//   details?: string;
-// };
-
-// export type DepartementDataType = {
-//   [regionId: string]: {
-//     [departementId: string]: Departement;
-//   };
-// };
-
-// export type RegionsDataType = {
-//   [regionId: string]: Region;
-// };
-
 export interface Region {
   a?: number | string;
   b?: string;
@@ -177,8 +158,6 @@ export interface Owner {
   matricule?: string;
 }
 
-// export type TrendType = "croissance" | "baisse" | "stable";
-
 export interface TrendData {
   direction: 'croissance' | 'baisse' | 'stable';
   value: number;
@@ -218,9 +197,6 @@ export interface AdaptedIndicators {
   subItems: MenuItem[];
 }
 
-// export type EtablissementType = 'hotels' | 'residences' | 'maisons' | null;
- 
-
 export interface PeriodData {
   label: string;
   value: number;
@@ -231,22 +207,13 @@ export interface PeriodData {
   };
 }
 
- 
-
 export interface TrendResult {
   trend: TrendType;
-  value: number; // Pourcentage de variation
+  value: number;
   icon: "trending-up" | "trending-down" | "minus";
   color: string;
   description: string;
 }
-
-
-// lib/libs/interface.ts
-
-// ============================================================================
-// TYPES PRINCIPAUX
-// ============================================================================
 
 export type TrendType = "croissance" | "baisse" | "stable";
 
@@ -282,14 +249,9 @@ export interface MenuItem {
   trend?: TrendData;
 }
 
-// ============================================================================
-// AUTRES TYPES
-// ============================================================================
-
 export type FilterType = "all" | "hotel" | "residence" | "maison hote";
 export type ColorType = 'blue' | 'green' | 'red' | 'primary' | 'secondary';
 export type TabType = 'all' | 'upToDate' | 'notUpToDate';
-// export type PeriodType = 'all' | 'week' | 'month' | 'year';
 export type EtablissementType = 'hotels' | 'residences' | 'maisons' | null;
 
 export interface PeriodData {
@@ -306,10 +268,6 @@ export interface AdaptedIndicators {
   mainItem: MenuItem | null;
   subItems: MenuItem[];
 }
-
-// ============================================================================
-// TYPES POUR LES DONNÉES GÉOGRAPHIQUES
-// ============================================================================
 
 export interface Region {
   a?: number | string;
@@ -349,10 +307,6 @@ export interface DepartementDataType {
   };
 }
 
-// ============================================================================
-// TYPES POUR LES DONNÉES STATISTIQUES
-// ============================================================================
-
 export interface DataStatistique {
   Total: number;
   Inscription: number;
@@ -373,27 +327,6 @@ export interface CartoFiltre {
   tpsglobal?: number | string;
 }
 
-// ============================================================================
-// TYPES POUR LES ÉTABLISSEMENTS
-// ============================================================================
-
-export interface Etablissement2 {
-  type: string;
-  nom: string;
-  licence: string;
-  classification: string;
-  chambres: number;
-  region: string;
-  departement: string;
-  commune: string;
-  quartier: string;
-  adresse: string;
-  telephone: string;
-  email: string;
-  cotisation: 'À jour' | 'Pas à jour';
-  owner: Owner;
-}
-
 export interface Owner {
   prenom: string;
   nom: string;
@@ -401,10 +334,6 @@ export interface Owner {
   telephone: string;
   matricule?: string;
 }
-
-// ============================================================================
-// TYPES POUR LA CONNEXION
-// ============================================================================
 
 export interface ConnexionHistory {
   userId: string;

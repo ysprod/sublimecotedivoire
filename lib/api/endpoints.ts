@@ -1,7 +1,5 @@
-export const endpoints = {  
+export const endpoints = {
   root: '/',
-
-  // Authentication
   auth: {
     register: '/api/v1/auth/register',
     login: '/api/v1/auth/login',
@@ -9,8 +7,6 @@ export const endpoints = {
     me: '/api/v1/auth/me',
     logout: '/api/v1/auth/logout',
   },
-
-  // Users
   users: {
     list: '/users',
     consultants: '/users/consultants',
@@ -21,33 +17,11 @@ export const endpoints = {
     password: (id: string) => `/users/${id}/password`,
   },
 
-  // Consultations
-  consultations: {
-    list: '/consultations',
-    create: '/consultations',
-    byId: (id: string) => `/consultations/${id}`,
-    status: (id: string) => `/consultations/${id}/status`,
-    assign: (id: string) => `/consultations/${id}/assign`,
-    review: (id: string) => `/consultations/${id}/review`,
-    stats: '/consultations/stats',
-  },
-
-  // Services
   services: {
     list: '/services',
     create: '/services',
     byId: (id: string) => `/services/${id}`,
     featured: '/services/featured',
-  },
-
-  // Payments
-  payments: {
-    createIntent: '/payments/create-intent',
-    confirm: '/payments/confirm',
-    byId: (id: string) => `/payments/${id}`,
-    refund: (id: string) => `/payments/${id}/refund`,
-    myPayments: '/payments/my-payments',
-    stats: '/payments/stats',
   },
 
   notifications: {
@@ -59,14 +33,14 @@ export const endpoints = {
     markAllAsRead: '/notifications/read-all',
     preferences: '/notifications/preferences',
   },
-  
+
   userAccess: {
     mySubscription: '/user-access/subscription-info',
     checkAccess: (rubriqueId: string) => `/user-access/check-access/${rubriqueId}`,
     activatePremium: '/user-access/activate-premium',
     activateIntegral: '/user-access/activate-integral',
     cancelSubscription: '/user-access/cancel-subscription',
-  }, 
+  },
 };
 
 export default endpoints;

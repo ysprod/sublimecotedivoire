@@ -1,5 +1,5 @@
 'use client';
-import { usePagination } from "@/hooks/datakwaba/usePagination";
+import { usePagination } from "@/hooks/datakwaba/etablissements/usePagination";
 import { fadeInUp } from "@/lib/libs/constants";
 import type { Etablissement } from "@/lib/libs/interface";
 import { motion } from "framer-motion";

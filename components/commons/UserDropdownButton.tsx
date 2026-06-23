@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef, memo } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { useOnClickOutside } from '@/hooks/datakwaba/useOnClickOutside';
+import { useOnClickOutside } from '@/hooks/datakwaba/commons/useOnClickOutside';
 import DropdownButton from './DropdownButton';
 import DropdownMenu from './Dropdownmenu';
 import { User } from '@/lib/libs/interface';

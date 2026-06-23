@@ -113,7 +113,6 @@ export async function fetchBackendWithSession(
   });
 
   let refreshedSession: { accessToken: string; refreshToken?: string } | null = null;
-
   let backendResponse = await performFetch(accessToken);
 
   if (backendResponse.status === 401 && refreshToken && retryOnUnauthorized) {

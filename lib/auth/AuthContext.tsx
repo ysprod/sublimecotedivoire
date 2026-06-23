@@ -50,7 +50,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
   const user = useAuthStore((s) => s.user);
-    const logoutStore = useAuthStore((s) => s.logout);
+  const logoutStore = useAuthStore((s) => s.logout);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const persistLogin = useAuthStore((s) => s.login);
@@ -160,7 +160,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   /**
    * Déconnexion utilisateur avec nettoyage complet
    */
- 
+
 
   const logout = useCallback(async (): Promise<void> => {
     setIsLoading(true);
@@ -182,7 +182,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await clearClientApplicationState();
       setIsLoading(false);
     }
-  }, [ logoutStore, persistLogout]);
+  }, [logoutStore, persistLogout]);
 
   /**
    * Rafraîchit les données utilisateur depuis l'API
@@ -216,7 +216,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const hasPermission = useCallback((permissions: Permission | Permission[]): boolean => {
     if (!user) return false;
 
-    // Super Admin a toutes les permissions
     if (user.role === Role.SUPER_ADMIN) return true;
 
     const permissionArray = Array.isArray(permissions) ? permissions : [permissions];

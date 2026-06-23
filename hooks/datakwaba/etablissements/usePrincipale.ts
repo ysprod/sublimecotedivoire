@@ -3,8 +3,8 @@ import { getRandomCount, valeurEntier } from "@/lib/libs/functions";
 import { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRegionsDepartements } from "../useRegionsDepartements";
-import { useSubMenuData } from "../useSubMenuData";
+import { useRegionsDepartements } from "../carto/useRegionsDepartements";
+import { useSubMenuData } from "../commons/useSubMenuData";
 
 const CATEGORY_KEYWORDS = ['HÔTELS', 'RÉSIDENCES', 'MAISONS'] as const;
 

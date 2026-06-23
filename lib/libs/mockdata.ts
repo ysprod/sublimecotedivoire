@@ -13,7 +13,7 @@ export const regionsData: RegionsDataType =
         "g": "-MysJxvVBAtydSNxRpNe",
         "h": "3/23/22, 7:50 PM",
         "i": "https://firebasestorage.googleapis.com/v0/b/cotedivoire-love.appspot.com/o/photospresidentsconseil%2F-MysJxvVBAtydSNxRpNe%2FNgoran-Lataille-PDCI-RHDP-Unifie-0002.jpg?alt=media&token=d6c88595-1bc5-4796-94c8-4ecee7fe8cf0",
-        "l": "N'GUESSAN KOFFI LATAILLE",
+        "l": "KOFFI LATAILLE",
         "m": "https://firebasestorage.googleapis.com/v0/b/cotedivoire-love.appspot.com/o/logosconseils%2F-MysJxvVBAtydSNxRpNe%2Ft%C3%A9l%C3%A9chargement%20(4).jpg?alt=media&token=e4249e7c-13aa-4651-a810-b479cb3e5f06"
     },
     "-MysNGzJ4JJGSWSo5e-v": {

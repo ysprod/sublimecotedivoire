@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from '@/context/AuthContext';
-import { useLoginForm } from '@/hooks/datakwaba/useLoginForm';
+import { useLoginForm } from '@/hooks/datakwaba/auth/useLoginForm';
 import { memo } from 'react';
 import LoginHeader from './LoginHeader';
 import EmailInput from './EmailInput';

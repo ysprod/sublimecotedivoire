@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setTimeout(() => {
         router.push('/');
         resolve();
-      }, 500);
+      }, 600);
     });
   };
 

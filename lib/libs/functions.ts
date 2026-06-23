@@ -1,10 +1,6 @@
 import { API_DELAY_MS, API_ERROR, MONTHS } from "./constants";
 import { TrendResult, TrendType } from "./interface";
-
-export const dst = (date: Date): string => {
-  return date.toISOString();
-};
-
+ 
 export const formatTime = (totalSeconds: number) => {
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -88,8 +84,6 @@ export const truncateEmail = (email: string, maxEmailLength: number) => {
   if (email.length <= maxEmailLength) return email;
   return `${email.substring(0, maxEmailLength - 3)}...`;
 };
-
- 
 
 export const getRandomTrend = (options?: {
   bias?: "positive" | "negative" | "neutral";

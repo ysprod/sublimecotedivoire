@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { CartoFiltre, Etablissement } from "@/lib/libs/interface";
+import { CartoFiltre } from "@/lib/libs/interface";
 import { initialCarto } from "@/lib/libs/constants";
-import { useRegionsDepartements } from "./useRegionsDepartements";
+import { useRegionsDepartements } from "../carto/useRegionsDepartements";
 
 interface AppState {
   tpsglobal: number;
@@ -9,12 +9,9 @@ interface AppState {
   endDate: string;
   selectedRegionLabel: string;
   selectedDepartementLabel: string;
-  shouldShowDataNavigation: boolean;
-  etablissements: Etablissement[];
-  showfiltreconsulter: boolean;
 }
 
-export function usePrincipale() {
+export function useEtablissements() {
 
   const { loading, errorMessage, regionsData, departementData, regions, regionOptions,
     loadRegionsAndDepartements, getDepartementsForRegion } = useRegionsDepartements();
@@ -25,9 +22,6 @@ export function usePrincipale() {
     endDate: '',
     selectedRegionLabel: '',
     selectedDepartementLabel: '',
-    shouldShowDataNavigation: false,
-    etablissements: [],
-    showfiltreconsulter: false
   });
 
   const [carto, setCarto] = useState<CartoFiltre>(initialCarto);
@@ -57,7 +51,5 @@ export function usePrincipale() {
   return {
     ...state, loading, errorMessage, regionsData, departementData, regions, regionOptions, carto,
     updateCarto, ...getDepartementsForRegion(carto.regionId || ''),
-    setshouldShowDataNavigation: (value: boolean) => setState(prev => ({ ...prev, shouldShowDataNavigation: value })),
-    setShowfiltreconsulter: (value: boolean) => setState(prev => ({ ...prev, showfiltreconsulter: value })),
   };
 }

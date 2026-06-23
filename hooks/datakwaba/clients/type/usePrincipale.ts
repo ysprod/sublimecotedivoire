@@ -3,7 +3,7 @@ import { getRandomCount, valeurEntier } from "@/lib/libs/functions";
 import { AllTrends, EtablissementType, MenuItem, PeriodType } from "@/lib/libs/interface";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import { useSubMenuData } from "../../useSubMenuData";
+import { useSubMenuData } from "../../commons/useSubMenuData";
 
 const ICONS = {
   CLIENTS: "/icons/lesclients.png",

@@ -86,10 +86,10 @@ export default function NotificationBell() {
   }, [isOpen]);
 
   const prefetchNotificationTarget = useCallback((notification: Notification) => {
-    if (notification.type === 'CONSULTATION_RESULT' && notification.metadata?.consultationId) {
+    if ( notification.metadata?.consultationId) {
       const href = `/star/consultations/${notification.metadata.consultationId}`;
       void router.prefetch(href);
-      void prefetchConsultationFrontData(queryClient, notification.metadata.consultationId);
+      void prefetchConsultationFrontData('queryClient');
       return;
     }
 

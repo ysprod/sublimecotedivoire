@@ -6,7 +6,7 @@ import { memo, useCallback } from "react";
 import { Input } from "antd";
 import { MONTHS } from "@/lib/libs/constants";
 import type { CartoFiltre, OptionValue } from "@/lib/libs/interface";
-import { useFiltreForm } from "@/hooks/datakwaba/useFiltreForm";
+import { useFiltreForm } from "@/hooks/datakwaba/recherche/useFiltreForm";
 
 interface FiltreProps {
     carto: CartoFiltre;

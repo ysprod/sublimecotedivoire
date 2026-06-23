@@ -1,22 +1,5 @@
-export enum UserType {
-  BASIQUE = 'BASIQUE',
-  PREMIUM = 'PREMIUM',
-  INTEGRAL = 'INTEGRAL',
-}
-
-export interface Rubrique {
-  id?: string;
-  _id?: string;
-  titre?: string;
-  description?: string;
-  categorie?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  categorieId?: string;
-}
-
 export interface User {
-  photo?: string;   
+  photo?: string;
   _id?: string;
   nom: string;
   prenoms: string;
@@ -46,22 +29,12 @@ export interface User {
     notifications?: boolean;
     newsletter?: boolean;
   };
-  specialties?: string[];
-  bio?: string;
   rating?: number;
-  totalConsultations?: number;
   credits?: number;
   status?: string;
-  consultationsCount?: number;
   avatar?: string;
   updatedAt?: string | Date;
-  consultationsCompleted?: number;
-  rituelsCompleted?: number;
-  booksRead?: number;
-  lastGradeUpdate?: Date | string;
-  userType?: UserType;
   premiumRubriqueId?: string;
-  nomconsultant?: string;
   [key: string]: unknown;
 }
 
@@ -102,5 +75,4 @@ export enum Permission {
   MANAGE_ROLES = 'MANAGE_ROLES',
   MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS',
   SYSTEM_CONFIG = 'SYSTEM_CONFIG'
-}
- 
+} 

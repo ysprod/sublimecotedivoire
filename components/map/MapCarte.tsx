@@ -1,12 +1,11 @@
 'use client';
+import { REGIONS_COORDINATES } from '@/lib/libs/constants';
+import { DataStatistique, FilterType } from '@/lib/libs/interface';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import * as React from 'react';
 import Map, { NavigationControl } from 'react-map-gl/mapbox';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import mapboxgl from 'mapbox-gl';
-import { DataStatistique, FilterType } from '@/lib/libs/interface';
-import { REGIONS_COORDINATES } from '@/lib/libs/constants';
 import Legend from './Legend';
-import TableStatistiquesRegion from './TableStatistiquesRegion';
 import RegionFragment from './RegionFragment';
 
 interface Props {
@@ -83,12 +82,7 @@ const MapCarte: React.FC<Props> = ({ data, filterType, selectedRegion, setSelect
                 </Map>
 
                 <Legend />
-            </div>
-
-            <TableStatistiquesRegion data={getFilteredAndSortedData()} zoomToRegion={zoomToRegion}
-                onRowClick={(record: DataStatistique | { cod_reg: number | string; lib_reg: string; Total: number; Inscription: number; Radiation: number; Rectification: number; }) => {
-                    setSelectedRegion(record); zoomToRegion(record.lib_reg || '');
-                }} />
+            </div> 
         </>
     );
 };

@@ -1,10 +1,4 @@
-// lib/libs/trends.ts
-
 import { AllTrends, TrendData } from "./interface";
-
-// ============================================================================
-// CONFIGURATIONS
-// ============================================================================
 
 const PERIODS = ['day', 'week', 'month', 'year'] as const;
 
@@ -21,10 +15,6 @@ const PERIOD_LABELS = {
   month: 'Mois',
   year: 'Année'
 } as const;
-
-// ============================================================================
-// FONCTIONS DE GÉNÉRATION
-// ============================================================================
 
 export const generateTrendValue = (
   baseValue: number,

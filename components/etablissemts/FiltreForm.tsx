@@ -5,7 +5,7 @@ import ValidateButton from "../commons/ValidateButton";
 import { memo, useCallback } from "react";
 import { Input } from "antd";
 import type { CartoFiltre, OptionValue } from "@/lib/libs/interface";
-import { useConsulterFiltreForm } from "@/hooks/datakwaba/useConsulterFiltreForm";
+import { useConsulterFiltreForm } from "@/hooks/datakwaba/etablissements/useConsulterFiltreForm";
 
 interface FiltreProps {
     carto: CartoFiltre;

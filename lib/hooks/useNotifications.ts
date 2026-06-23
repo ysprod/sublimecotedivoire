@@ -12,7 +12,6 @@ export function useNotifications(pollingInterval: number = 300000) {
   const [error, setError] = useState<string | null>(null);
   const { isAuthenticated, isLoading: authLoading } = useAuth();
 
-  // Pour jouer le son lors d'une nouvelle notification
   const playNotificationSound = () => {
     if (typeof window !== 'undefined') {
       const audio = new Audio('/notification.mp3');
@@ -24,7 +23,6 @@ export function useNotifications(pollingInterval: number = 300000) {
     try {
       setError(null);
       const data = await notificationsService.getUnreadNotifications();
-      // Détecter si une nouvelle notification est arrivée
       setNotifications(prev => {
         // Si on a déjà des notifications, et qu'il y en a plus qu'avant, jouer le son
         if (prev.length > 0 && data.notifications.length > prev.length) {
@@ -87,8 +85,6 @@ export function useNotifications(pollingInterval: number = 300000) {
       setIsLoading(false);
       return;
     }
-
-    // Utilisateur connecté, lancer le polling
     fetchNotifications();
 
     if (pollingInterval > 0) {

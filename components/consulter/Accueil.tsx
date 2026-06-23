@@ -1,6 +1,6 @@
 'use client';
 
-import { usePrincipale } from "@/hooks/datakwaba/usePrincipale";
+import { usePrincipale } from "@/hooks/datakwaba/commons/usePrincipale";
 import { TITLE_SPLIT_REGEX } from "@/lib/libs/constants";
 import { getRandomCount } from "@/lib/libs/functions";
 import { MenuItem } from "@/lib/libs/interface";

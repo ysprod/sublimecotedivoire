@@ -6,7 +6,7 @@ import { generateAllTrends } from "@/lib/libs/trends";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useTransition } from "react";
-import { useSubMenuData } from "../../useSubMenuData";
+import { useSubMenuData } from "../../commons/useSubMenuData";
 
 const ICONS = {
   HOMMES: "/icons/client.png",

@@ -1,16 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api/client';
-
+import { useQuery } from '@tanstack/react-query';
 
 type StatsResponse = {
   subscribers?: number;
   visits?: number;
 };
+
 export interface Stats {
   subscribers: number;
   visits: number;
 }
- 
 
 export function useStatsDataWithCache() {
   const {
@@ -31,7 +30,7 @@ export function useStatsDataWithCache() {
       };
     },
     staleTime: 1000 * 60 * 5, // 5 min
-    gcTime: 1000 * 60 * 30,   // 30 min
+    gcTime: 1000 * 60 * 60,   // 30 min
   });
 
   return {

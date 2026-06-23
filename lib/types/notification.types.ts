@@ -1,8 +1,4 @@
-export type NotificationType =
-  | 'CONSULTATION_RESULT'
-  | 'PAYMENT_CONFIRMED'
-  | 'SYSTEM_ANNOUNCEMENT'
-  ;
+export type NotificationType = | 'CONSULTATION_RESULT' | 'SYSTEM_ANNOUNCEMENT';
 
 export interface NotificationMetadata {
   consultationId?: string;
@@ -34,7 +30,6 @@ export interface NotificationResponse {
 export interface NotificationPreferences {
   consultationReady: boolean;
   systemUpdates: boolean;
-  promotions: boolean;
   emailNotifications: boolean;
   pushNotifications: boolean;
 }

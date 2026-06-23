@@ -6,7 +6,7 @@ import { memo, useMemo } from "react";
 import EtablissementsData from "./EtablissementsData";
 import EnteteEtabDataFiltre from "./EnteteEtabDataFiltre";
 import { valeurEntier } from "@/lib/libs/functions";
-import { useSubMenuData } from "@/hooks/datakwaba/useSubMenuData";
+import { useSubMenuData } from "@/hooks/datakwaba/commons/useSubMenuData";
 
 interface EtablissementsFiltreProps {
     carto: CartoFiltre;

@@ -4,8 +4,8 @@ import { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
  
 import { useRouter } from "next/navigation";
-import { useRegionsDepartements } from "../../useRegionsDepartements";
-import { useSubMenuData } from "../../useSubMenuData";
+import { useRegionsDepartements } from "../../carto/useRegionsDepartements";
+import { useSubMenuData } from "../../commons/useSubMenuData";
 
 const createMenuItem = (
   baseTitle: string,

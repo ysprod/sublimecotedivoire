@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CartoFiltre, Etablissement, MenuItem } from "@/lib/libs/interface";
 import { initialCarto } from "@/lib/libs/constants";
-import { useRegionsDepartements } from "../useRegionsDepartements";
+import { useRegionsDepartements } from "../carto/useRegionsDepartements";
 import { getRandomCount, valeurEntier } from "@/lib/libs/functions";
-import { useSubMenuData } from "../useSubMenuData";
+import { useSubMenuData } from "../commons/useSubMenuData";
 
 // ============ CONSTANTES ============
 const ICONS = {
