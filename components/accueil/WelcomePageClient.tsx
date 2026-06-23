@@ -46,7 +46,7 @@ const ActionLink = memo(function ActionLink() {
         className="
           group relative inline-flex w-full items-center justify-center gap-3 overflow-hidden
           rounded-2xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500
-          bg-[length:200%_100%] px-5 py-4 text-center text-sm font-bold text-white
+          bg-[length:200%_100%] text-center px-5 py-4 text-sm font-bold text-white
           shadow-[0_14px_40px_rgba(249,115,22,0.28)] transition-all duration-300
           hover:shadow-[0_18px_50px_rgba(249,115,22,0.35)]
           focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2

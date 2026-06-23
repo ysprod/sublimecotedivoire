@@ -9,8 +9,6 @@ DATAKWABA is a full-stack platform  built with Next.js 14 App Router, TypeScript
 - **Language**: French UI and metadata (`<html lang="fr">`)
 - **Auth**: JWT-based with access/refresh tokens, localStorage + cookies for SSR middleware
 
-## Developer Workflows
-
 ### Run & Build
 - **Dev**: `npm run dev` → `http://localhost:3000` (ensure backend at `:3001`)
 - **Build**: `npm run build` (static + SSR hybrid)

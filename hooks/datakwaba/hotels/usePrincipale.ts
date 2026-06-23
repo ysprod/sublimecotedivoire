@@ -1,7 +1,9 @@
+'use client';
 import { AdaptedIndicators, MenuItem, PeriodType } from "@/lib/libs/interface";
+import { generateAllTrends } from "@/lib/libs/trends";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { useSubMenuData } from "./useSubMenuData";
 
 const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
@@ -10,40 +12,6 @@ const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
   month: 0.5,
   year: 0.8,
 };
-
-const ICONS = {
-  ETABLISSEMENTS: "/icons/batiment.png",
-  HOTELS: "/icons/hotel.png",
-  RESIDENCES: "/icons/residence.png",
-  MAISONS: "/icons/maisondhote.png",
-} as const;
-
-const createMenuItem = (
-  baseTitle: string,
-  count: number,
-  icon: string,
-  tpsglobal: number,
-  blackicon?: string
-): MenuItem => ({
-  nbetablissements: count,
-  title: `${count} ${baseTitle}`,
-  icon,
-  tpsglobal,
-  blackicon: blackicon || icon,
-  id: baseTitle.toLowerCase().replace(/\s/g, '_'),
-  count,
-  trendValue: 0,
-  iconSrc: icon,
-  iconAlt: `Icône ${baseTitle}`,
-  color: "text-black",
-  bgColor: "bg-white",
-  description: baseTitle,
-  trend: {
-    value: 0,
-    direction: 'stable' as const,
-    label: 'stable'
-  }
-});
 
 export const useAdaptedIndicators = (
   mainItem: MenuItem | null,
@@ -75,11 +43,20 @@ export const useAdaptedIndicators = (
       0
     );
 
+    const mainTrends = generateAllTrends(totalSubItemsSum);
+
     const adaptedMainItem: MenuItem = {
       ...mainItem,
       nbetablissements: totalSubItemsSum,
       title: `${totalSubItemsSum} ÉTABLISSEMENTS`,
       count: totalSubItemsSum,
+      trends: mainTrends,
+      trend: {
+        value: mainTrends.week.value,
+        direction: mainTrends.week.direction,
+        label: mainTrends.week.label
+      },
+      trendValue: mainTrends.week.value,
     };
 
     return {
@@ -95,22 +72,10 @@ export const usePrincipale = () => {
   const [activePeriod, setActivePeriod] = useState<PeriodType>('all');
 
   const currentItem = useMonEtoileStore((state) => state.currentItem);
-
-  const [baseItems, setBaseItems] = useState<MenuItem[]>([]);
-
-  useEffect(() => {
-    const mainItem = createMenuItem(
-      "ÉTABLISSEMENTS",
-      (currentItem?.nbetablissements || 10000),
-      ICONS.ETABLISSEMENTS, 1
-    );
-    setBaseItems([mainItem]);
-  }, [currentItem?.nbetablissements]);
-
   const { submenutitems } = useSubMenuData(currentItem?.nbetablissements || 10000);
 
   const adaptedIndicators = useAdaptedIndicators(
-    baseItems[0] || null,
+    currentItem || null,
     submenutitems,
     activePeriod
   );
@@ -128,7 +93,6 @@ export const usePrincipale = () => {
   }, [currentItem?.nbetablissements, router]);
 
   return {
-    handleBack, setActivePeriod, handleViewHotels,
-    isViewHotelsLoading: isPending, adaptedIndicators, activePeriod,
+    handleBack, setActivePeriod, handleViewHotels, isViewHotelsLoading: isPending, adaptedIndicators, activePeriod,
   };
 };

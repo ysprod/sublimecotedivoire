@@ -1,6 +1,6 @@
 'use client';
 import { PERIOD_LABELS, PERIODS } from "@/lib/libs/constants";
-import { getRandomCount, getRandomTrendSimple } from "@/lib/libs/functions";
+import { getRandomCount } from "@/lib/libs/functions";
 import type { AllTrends, MenuItem } from "@/lib/libs/interface";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
@@ -135,8 +135,6 @@ export const useVert = () => {
 
     const dashboardData = useMemo<MenuItem[]>(() => {
         const { totalEtablissements, clientsCount } = generateStats();
-        const etablissementsTrend = getRandomTrendSimple();
-        const clientsTrend = getRandomTrendSimple();
 
         const etablissementsTrends = generateAllTrends(totalEtablissements);
         const clientsTrends = generateAllTrends(clientsCount);
@@ -145,28 +143,28 @@ export const useVert = () => {
             {
                 ...MENU_ITEMS_CONFIG.ETABLISSEMENTS,
                 count: totalEtablissements,
-                trendValue: etablissementsTrend.value,
-                trends: etablissementsTrends,
                 nbetablissements: totalEtablissements,
+                trends: etablissementsTrends,
                 trend: {
-                    value: etablissementsTrend.value,
-                    direction: etablissementsTrend.trend,
-                    label: etablissementsTrend.trend === 'croissance' ? 'en hausse' :
-                        etablissementsTrend.trend === 'baisse' ? 'en baisse' : 'stable'
-                }
+                    value: etablissementsTrends.week.value,
+                    direction: etablissementsTrends.week.direction,
+                    label: etablissementsTrends.week.label
+                },
+                trendValue: etablissementsTrends.week.value,
+                icon: MENU_ITEMS_CONFIG.ETABLISSEMENTS.iconSrc,
             },
             {
                 ...MENU_ITEMS_CONFIG.CLIENTS,
                 count: clientsCount,
-                trendValue: clientsTrend.value,
-                trends: clientsTrends,
                 nbetablissements: clientsCount,
+                trends: clientsTrends,
                 trend: {
-                    value: clientsTrend.value,
-                    direction: clientsTrend.trend,
-                    label: clientsTrend.trend === 'croissance' ? 'en hausse' :
-                        clientsTrend.trend === 'baisse' ? 'en baisse' : 'stable'
-                }
+                    value: clientsTrends.week.value,
+                    direction: clientsTrends.week.direction,
+                    label: clientsTrends.week.label
+                },
+                trendValue: clientsTrends.week.value,
+                icon: MENU_ITEMS_CONFIG.CLIENTS.iconSrc,
             }
         ];
     }, []);
@@ -182,13 +180,13 @@ export const useVert = () => {
             };
 
             const basePath = routeMap[item.id] || '/consulter';
-
-            const url = `${basePath}?selected=${item.id}`;
-            router.push(url);
+            router.push(basePath);
         });
     }, [router, setCurrentItem, addToRecent]);
 
-    return { dashboardData, handleCardClick, isPending, };
+    return {
+        handleCardClick, dashboardData, isPending,
+    };
 };
 
 export const getPeriodLabel = (period: keyof typeof PERIOD_LABELS): string => {

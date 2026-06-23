@@ -1,14 +1,80 @@
 'use client';
 import Charte from "@/components/charts/Charte";
 import { usePrincipale } from "@/hooks/datakwaba/hotels/usePrincipale";
+import { PERIOD_BUTTONS } from "@/lib/libs/constants";
+import { PeriodType } from "@/lib/libs/interface";
+import clsx from "clsx";
 import { motion } from "framer-motion";
+import { Hotel } from "lucide-react";
 import dynamic from 'next/dynamic';
-import { PeriodButtons, StatsSummary, ViewHotelsButton } from "./Features";
+import { memo } from "react";
 import InfoStat from "./infostat/InfoStat";
 import PDFDownloadButton from "./ReportPDF";
 
 const Bandeau = dynamic(() => import("@/components/commons/Bandeau"), { ssr: true });
 const BackButton = dynamic(() => import("@/components/recherche/BackButton"), { ssr: true });
+
+const PeriodButtons = memo(({
+  activePeriod,
+  onPeriodChange
+}: {
+  activePeriod: PeriodType;
+  onPeriodChange: (period: PeriodType) => void;
+}) => {
+  return (
+    <div className="flex flex-wrap gap-2 w-full max-w-3xl justify-center">
+      {PERIOD_BUTTONS.map(({ id, label, icon }) => (
+        <button
+          key={id}
+          onClick={() => onPeriodChange(id)}
+          className={clsx(
+            "group relative px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300",
+            "flex items-center gap-2",
+            activePeriod === id
+              ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-100 scale-105"
+              : "bg-white text-gray-600 hover:text-gray-900 hover:shadow-md hover:scale-102 border border-gray-200",
+            "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          )}
+        >
+          <span className="text-lg">{icon}</span>
+          <span>{label}</span>
+          {activePeriod === id && (
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+          )}
+        </button>
+      ))}
+    </div>
+  );
+});
+
+const ViewHotelsButton = memo(({
+  onClick,
+  isLoading,
+  className
+}: {
+  onClick?: () => void;
+  isLoading?: boolean;
+  className?: string;
+}) => {
+  return (
+    <button
+      onClick={onClick}
+      disabled={isLoading}
+      className={clsx(
+        "flex items-center gap-2 px-6 py-3 rounded-xl",
+        "bg-gradient-to-r from-blue-600 to-indigo-600",
+        "text-white font-medium transition-all duration-300 hover:shadow-lg hover:scale-[1.02]",
+        "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+        "disabled:opacity-70 disabled:cursor-not-allowed",
+        "w-full sm:w-auto",
+        className
+      )}
+    >
+      <Hotel size={20} />
+      <span>{isLoading ? "Chargement..." : "Voir la liste des hôtels"}</span>
+    </button>
+  );
+});
 
 const MenuDiambra = () => {
   const {
@@ -17,74 +83,68 @@ const MenuDiambra = () => {
   } = usePrincipale();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
-      <div className="flex flex-col w-full max-w-6xl mx-auto px-4 py-6 space-y-8">
-        <Bandeau />
-        <div className="flex items-center justify-between">
-          <BackButton onClick={handleBack} />
-          <div className="flex items-center gap-2 text-sm text-gray-400">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          </div>
+    <div className="bg-white flex flex-col w-full mx-auto px-4 py-4 space-y-4">
+      <Bandeau />
+      <div className="flex items-center justify-center">
+        <BackButton onClick={handleBack} />
+      </div>
+
+      <section className="p-4 space-y-4">
+        <h2 className="ont-bold text-black uppercase text-center  ">
+          statistiques des etablissements hôteliers au plan national
+        </h2>
+        <div className="flex justify-center pt-2">
+          <PeriodButtons
+            activePeriod={activePeriod}
+            onPeriodChange={setActivePeriod}
+          />
         </div>
 
-        <section className="bg-white rounded-3xl shadow-xl shadow-gray-100/50 border border-gray-100/50 p-8 space-y-8">
-          <h2 className="  font-bold text-black uppercase text-center  ">
-            statistiques des etablissements hôteliers au plan national
-          </h2>
-          <div className="flex justify-center pt-2">
-            <PeriodButtons
-              activePeriod={activePeriod}
-              onPeriodChange={setActivePeriod}
-            />
-          </div>
-
-          <StatsSummary items={adaptedIndicators.subItems} />
-
-          {adaptedIndicators.mainItem && (
-            <div className="flex justify-center py-4">
-              <div className="w-full max-w-md">
+        {adaptedIndicators.mainItem && (
+          <div className="flex justify-center py-4">
+            <div className="w-full max-w-md">
+              <div className="relative">
+                <div className="absolute -inset-1  rounded-2xl opacity-20" />
                 <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-20" />
-                  <div className="relative">
-                    <InfoStat
-                      item={adaptedIndicators.mainItem}
-                      inverse
-                    />
-                  </div>
+                  <InfoStat
+                    item={adaptedIndicators.mainItem}
+                    inverse
+                  />
                 </div>
               </div>
             </div>
-          )}
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {adaptedIndicators.subItems.map((item, index) => (
-              <motion.div
-                key={`${item.title}-${item.tpsglobal}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="transform transition-all duration-300 hover:scale-[1.02]"
-              >
-                <InfoStat item={item} />
-              </motion.div>
-            ))}
           </div>
+        )}
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 border-t border-gray-100">
-            <ViewHotelsButton
-              onClick={handleViewHotels}
-              isLoading={isViewHotelsLoading}
-            />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {adaptedIndicators.subItems.map((item, index) => (
+            <motion.div
+              key={`${item.title}-${item.tpsglobal}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="transform transition-all duration-300 hover:scale-[1.02]"
+            >
+              <InfoStat item={item} />
+            </motion.div>
+          ))}
+        </div>
 
-            <PDFDownloadButton
-              mainItem={adaptedIndicators.mainItem}
-              hotelItems={adaptedIndicators.subItems}
-              subItems={adaptedIndicators.subItems}
-            />
-          </div>
-          <Charte menuItems={adaptedIndicators.subItems} />
-        </section>
-      </div>
+        <Charte menuItems={adaptedIndicators.subItems} />
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 border-t border-gray-100">
+          <ViewHotelsButton
+            onClick={handleViewHotels}
+            isLoading={isViewHotelsLoading}
+          />
+
+          <PDFDownloadButton
+            mainItem={adaptedIndicators.mainItem}
+            hotelItems={adaptedIndicators.subItems}
+            subItems={adaptedIndicators.subItems}
+          />
+        </div>
+      </section>
     </div>
   );
 };

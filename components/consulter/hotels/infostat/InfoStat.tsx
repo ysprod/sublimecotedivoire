@@ -1,10 +1,12 @@
+// components/datakwaba/InfoStat.tsx
 'use client';
+
 import React, { useMemo } from "react";
 import Image from "next/image";
 import type { AllTrends } from "@/lib/libs/interface";
 import type { InfoStatProps } from "./InfoStat.types";
-import { computeCategoryTrends, generateStaticTrends } from "./InfoStat.utils";
 import { TrendBadge, TrendIndicator, FormattedTitle } from "./InfoStatComponents";
+import { generateAllTrends } from "@/lib/libs/trends";
 
 export default function InfoStat({
   item,
@@ -13,17 +15,15 @@ export default function InfoStat({
   onClick
 }: InfoStatProps) {
 
+  // ✅ Utiliser les trends déjà générées dans le hook
   const allTrends = useMemo<AllTrends>(() => {
-    if (item.trends) return item.trends;
-
-    const title = item.title || '';
-    const count = item.nbetablissements || 0;
-
-    if (count > 0) {
-      return computeCategoryTrends(title, count);
+    // Si l'item a déjà des trends, les utiliser
+    if (item.trends) {
+      return item.trends;
     }
-
-    return generateStaticTrends(1000, 1);
+    
+    // Fallback: génération statique (ne devrait pas arriver normalement)
+    return generateAllTrends(item.nbetablissements || 1000);
   }, [item]);
 
   const mainTrend = allTrends.day;
@@ -54,16 +54,13 @@ export default function InfoStat({
         />
       </div>
 
-      {/* Libellé & données numériques */}
       <div className="w-full min-h-[44px] flex flex-col justify-center">
         <FormattedTitle item={item} inverse={inverse} tpsglobal={tpsglobal} />
       </div>
 
-      {/* Tendances principales */}
       <div className="w-full mt-4 pt-3 border-t border-gray-100 flex flex-col items-center">
         <TrendIndicator trend={mainTrend} />
 
-        {/* Grille secondaire (Semaine, Mois, Année) */}
         <div className="mt-4 w-full max-w-[200px]">
           <div className="grid grid-cols-3 gap-1.5">
             <TrendBadge trend={allTrends.week} period="week" />

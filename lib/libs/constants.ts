@@ -1,4 +1,4 @@
-import { CartoFiltre, ColorType } from '@/lib/libs/interface';
+import { CartoFiltre, ColorType, PeriodType } from '@/lib/libs/interface';
 import { Filtre } from "./interface";
 
 export const APP_NAME = "DATAKWABA ANALYTICS";
@@ -200,3 +200,17 @@ export const PERIOD_LABELS = {
     year: 'par rapport à l\'année dernière'
 } as const;
 
+
+export const PERIOD_SHORT = {
+    day: 'J',
+    week: 'S',
+    month: 'M',
+    year: 'A'
+} as const;
+ 
+export const PERIOD_BUTTONS: { id: PeriodType; label: string; icon: string }[] = [
+  { id: 'all', label: 'Vue d\'ensemble', icon: '📊' },
+  { id: 'week', label: 'Cette semaine', icon: '📅' },
+  { id: 'month', label: 'Ce mois', icon: '📆' },
+  { id: 'year', label: 'Cette année', icon: '📈' },
+];

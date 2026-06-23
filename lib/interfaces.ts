@@ -103,13 +103,4 @@ export enum Permission {
   MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS',
   SYSTEM_CONFIG = 'SYSTEM_CONFIG'
 }
-
-export interface MenuItem {
-    id: string;
-    title: string;
-    count: number;
-    iconSrc: string;
-    iconAlt?: string;
-    trend: 'croissance' | 'baisse' | 'stable';
-    trendValue: number;
-}
+ 

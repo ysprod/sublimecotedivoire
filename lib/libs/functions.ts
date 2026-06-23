@@ -1,4 +1,5 @@
 import { API_DELAY_MS, API_ERROR, MONTHS } from "./constants";
+import { TrendResult, TrendType } from "./interface";
 
 export const dst = (date: Date): string => {
   return date.toISOString();
@@ -88,15 +89,7 @@ export const truncateEmail = (email: string, maxEmailLength: number) => {
   return `${email.substring(0, maxEmailLength - 3)}...`;
 };
 
-export type TrendType = "croissance" | "baisse" | "stable";
-
-export interface TrendResult {
-  trend: TrendType;
-  value: number; // Pourcentage de variation
-  icon: "trending-up" | "trending-down" | "minus";
-  color: string;
-  description: string;
-}
+ 
 
 export const getRandomTrend = (options?: {
   bias?: "positive" | "negative" | "neutral";
