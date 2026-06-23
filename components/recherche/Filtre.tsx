@@ -1,15 +1,15 @@
 'use client';
-
 import { usePrincipale } from "@/hooks/datakwaba/commons/usePrincipale";
 import { useFiltreForm } from "@/hooks/datakwaba/recherche/useFiltreForm";
+import { useMenuData } from "@/hooks/datakwaba/recherche/useMenuData";
 import { useRegions } from "@/hooks/datakwaba/recherche/useRegions";
-import { DATA_LOADING, REGIONS_COORDINATES } from "@/lib/libs/constants";
-import { getCarteColor } from '@/lib/libs/functions';
-import { ConfigSort, DataStatistique, FilterType } from '@/lib/libs/interface';
+import { DATA_LOADING, fadeInUp, REGIONS_COORDINATES } from "@/lib/libs/constants";
+import { formatMoisFiltre, getCarteColor } from '@/lib/libs/functions';
+import { CartoFiltre, ConfigSort, DataStatistique, FilterType, MenuItem } from '@/lib/libs/interface';
 import { Input } from "antd";
+import { motion } from "framer-motion";
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useRouter } from "next/navigation";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import Map, { NavigationControl } from 'react-map-gl/mapbox';
 import Bandeau from "../commons/Bandeau";
@@ -20,10 +20,40 @@ import ValidateButton from "../commons/ValidateButton";
 import HistoriqueLoader from "../connexions/HistoriqueLoader";
 import Legend from '../map/Legend';
 import RegionFragment from '../map/RegionFragment';
+import BackButton from "../commons/BackButton";
+import MenuItemCard from "./MenuItemCard";
+import { InteractiveMap } from "../map/InteractiveMap";
 
-// ============================================================================
-// TYPES
-// ============================================================================
+
+interface MenuDiambraProps {
+    carto: CartoFiltre;
+}
+
+const EnteteFiltre = memo(({ carto }: MenuDiambraProps) => {
+    const filterLabels = [
+        { condition: carto.region, text: `Région/District : ${carto.region}` },
+        { condition: carto.departement, text: `Département : ${carto.departement}` },
+        { condition: carto.localite, text: `Commune : ${carto.localite}` },
+        { condition: carto.annee, text: `Année : ${carto.annee}` },
+        { condition: carto.mois, text: `Mois : ${formatMoisFiltre(carto.mois)}` },
+    ];
+
+    return (
+        <motion.div
+            className="p-2 max-w-6xl mx-auto text-center text-base md:text-lg font-medium space-y-2" {...fadeInUp}
+        >
+            {filterLabels.map(({ condition, text }, index) => condition ? (
+                <motion.p
+                    key={text}
+                    className="capitalize" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 * index, duration: 0.4 }}
+                >
+                    <span className="font-semibold">{text.split(":")[0]}:</span>{text.split(":")[1]}
+                </motion.p>
+            ) : null)}
+        </motion.div>
+    );
+});
 
 interface MapCarteProps {
     data: DataStatistique[];
@@ -39,10 +69,6 @@ interface CarteStatProps {
     data: DataStatistique[];
 }
 
-// ============================================================================
-// COMPOSANT MAP CARTE
-// ============================================================================
-
 const MapCarte = memo(({
     data,
     filterType,
@@ -54,7 +80,6 @@ const MapCarte = memo(({
 }: MapCarteProps) => {
     const mapRef = useRef<any>(null);
 
-    // Ajustement des bounds
     useEffect(() => {
         if (mapRef.current && data?.length > 0) {
             const timer = setTimeout(() => {
@@ -138,12 +163,6 @@ const MapCarte = memo(({
     );
 });
 
-MapCarte.displayName = 'MapCarte';
-
-// ============================================================================
-// COMPOSANT CARTE STAT
-// ============================================================================
-
 const CarteStat = memo(({ data }: CarteStatProps) => {
     const [selectedRegion, setSelectedRegion] = useState<DataStatistique | null>(null);
     const [filterType] = useState<FilterType>('all');
@@ -185,21 +204,63 @@ const CarteStat = memo(({ data }: CarteStatProps) => {
     );
 });
 
-CarteStat.displayName = 'CarteStat';
-
-// ============================================================================
-// COMPOSANT FILTRE
-// ============================================================================
-
 const Filtre = memo(() => {
-    const router = useRouter();
-    const { carto, departementOptions, regionOptions, loading, errorMessage, updateCarto } = usePrincipale();
+    const { carto, departementOptions, regionOptions, loading, errorMessage, updateCarto, setShowfiltreconsulter } = usePrincipale();
     const { regions, loading: loadingRegions, error, refresh } = useRegions();
     const { handleUpdate, fieldStates } = useFiltreForm(carto, updateCarto);
+    const { mainmenutitems } = useMenuData();
+
+    const [showResults, setShowResults] = useState(false);
+
+    const handleBack = useCallback(() => {
+        setShowResults(false);
+    }, []);
+
+    const handleItemClick = useCallback((item: MenuItem) => {
+        setShowfiltreconsulter(true);
+        updateCarto({ tpsglobal: item.tpsglobal });
+    }, [setShowfiltreconsulter, updateCarto]);
+
+    const renderResults = useCallback(() => (
+        <div className="grid grid-cols-1 gap-4 max-w-6xl mx-auto mt-1">
+            <EnteteFiltre carto={carto} />
+
+            <div className="flex flex-col justify-center items-center">
+                <h3 className="text-xs font-semibold text-gray-800 text-center">
+                    RAPPORT DES DONNÉES SUR LES ÉTABLISSEMENTS HÔTELIERS
+                </h3>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                {mainmenutitems.map((item) => (
+                    <MenuItemCard
+                        key={item.tpsglobal}
+                        item={item}
+                        onClick={() => handleItemClick(item)}
+                        showTrend={true}
+                    />
+                ))}
+            </div>
+        </div>
+    ), [carto, mainmenutitems, handleItemClick]);
 
     const handleValidate = useCallback(() => {
-        router.push('/recherche/resultat');
-    }, [router]);
+        setShowResults(true);
+    }, []);
+
+    const handleRegionClick = (region: any) => {
+        console.log('Région sélectionnée:', region);
+    };
+
+    const handleDepartmentClick = (department: any) => {
+        console.log('Département sélectionné:', department);
+    };
+
+    const handleCommuneClick = (commune: any) => {
+        console.log('Commune sélectionnée:', commune);
+        // Rediriger vers la page de résultats
+        //  router.push(`/recherche/resultat?commune=${commune.id}`);
+    };
 
     if (loading || loadingRegions) {
         return <HistoriqueLoader texte={DATA_LOADING} />;
@@ -216,11 +277,18 @@ const Filtre = memo(() => {
     return (
         <div className="max-w-2xl mx-auto p-4">
             <Bandeau />
+            <BackButton onClick={handleBack} />
             <CarteStat data={regions} />
 
             <h3 className="text-xxs font-bold mb-6 text-center text-gray-800 uppercase">
                 📊 Consultation des données par région
             </h3>
+
+            <InteractiveMap
+                onRegionClick={handleRegionClick}
+                onDepartmentClick={handleDepartmentClick}
+                onCommuneClick={handleCommuneClick}
+            />
 
             <div className="space-y-4">
                 <SelectInput
@@ -263,15 +331,13 @@ const Filtre = memo(() => {
                         disabled={!fieldStates.isFormValid}
                     />
                 </div>
+
+                <div className="w-full p-4">
+                    {renderResults()}
+                </div>
             </div>
         </div>
     );
 });
-
-Filtre.displayName = 'Filtre';
-
-// ============================================================================
-// EXPORT
-// ============================================================================
 
 export default Filtre;

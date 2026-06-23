@@ -1,7 +1,7 @@
 'use client';
 import Charte from "@/components/charts/Charte";
 import Bandeau from "@/components/commons/Bandeau";
-import BackButton from "@/components/recherche/BackButton";
+import BackButton from "@/components/commons/BackButton";
 import { usePrincipale } from "@/hooks/datakwaba/etablissements/usePrincipale";
 import type { MenuItem } from "@/lib/libs/interface";
 import clsx from "clsx";

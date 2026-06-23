@@ -8,7 +8,7 @@ import InfoStat from "./InfoStat";
 import PDFDownloadButton from "./ReportPDF";
 
 const Bandeau = dynamic(() => import("@/components/commons/Bandeau"), { ssr: true });
-const BackButton = dynamic(() => import("@/components/recherche/BackButton"), { ssr: true });
+const BackButton = dynamic(() => import("@/components/commons/BackButton"), { ssr: true });
 
 const MenuDiambra = () => {
   const {

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useCallback, memo } from "react";
 import type { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { navAnimation } from "@/lib/libs/constants";
-import NavButton from "../recherche/NavButton";
+import NavButton from "./NavButton";
 
 interface NavigationProps {
   currentActive?: number;

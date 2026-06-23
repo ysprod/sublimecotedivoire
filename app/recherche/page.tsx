@@ -1,18 +1,8 @@
-"use client";
-import Loader from "@/components/commons/Loader";
-import dynamic from "next/dynamic";
-import { memo } from "react";
-
-const Filtre = dynamic(
-  () => import("@/components/recherche/Filtre"),
-  {
-    loading: () => <Loader />,
-    ssr: false,
-  }
-);
+import Filtre from "@/components/recherche/Filtre";
 
 const Principale = () => {
+
   return (<Filtre />);
 };
 
-export default memo(Principale);
+export default Principale;

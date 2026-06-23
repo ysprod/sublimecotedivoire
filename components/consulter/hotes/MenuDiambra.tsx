@@ -2,7 +2,7 @@
 import Loader from "@/app/loading";
 import Charte from "@/components/charts/Charte";
 import Bandeau from "@/components/commons/Bandeau";
-import BackButton from "@/components/recherche/BackButton";
+import BackButton from "@/components/commons/BackButton";
 import { usePrincipale } from "@/hooks/datakwaba/hotes/usePrincipale";
 import { memo, useCallback, useMemo, useState } from "react";
 import { DetailedStats, ViewHotelsButton } from "./Features";

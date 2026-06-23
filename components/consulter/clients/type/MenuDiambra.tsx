@@ -1,7 +1,7 @@
 'use client';
 import Charte from "@/components/charts/Charte";
 import Bandeau from "@/components/commons/Bandeau";
-import BackButton from "@/components/recherche/BackButton";
+import BackButton from "@/components/commons/BackButton";
 import { usePrincipale } from "@/hooks/datakwaba/clients/type/usePrincipale";
 import { Building2 } from "lucide-react";
 import { memo } from "react";

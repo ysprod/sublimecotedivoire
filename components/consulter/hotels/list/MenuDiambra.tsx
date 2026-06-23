@@ -3,7 +3,7 @@ import Bandeau from "@/components/commons/Bandeau";
 import HistoriqueLoader from "@/components/connexions/HistoriqueLoader";
 import ConsulterListeEtablissement from "@/components/etablissemts/ConsulterListeEtablissement";
 import TabButtonRender from "@/components/etablissemts/TabButtonRender";
-import BackButton from "@/components/recherche/BackButton";
+import BackButton from "@/components/commons/BackButton";
 import { useEtablissementsData } from "@/hooks/datakwaba/hotels/list/useEtablissementsData";
 import { DATA_LOADING } from "@/lib/libs/constants";
 import { memo } from "react";

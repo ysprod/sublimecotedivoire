@@ -1,6 +1,6 @@
 'use client';
 import Bandeau from "@/components/commons/Bandeau";
-import BackButton from "@/components/recherche/BackButton";
+import BackButton from "@/components/commons/BackButton";
 import { usePrincipale } from "@/hooks/datakwaba/clients/genre/usePrincipale";
 import type { PeriodType } from "@/lib/libs/interface";
 import { memo, useCallback, useMemo, useState } from "react";

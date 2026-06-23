@@ -27,9 +27,7 @@ const EnteteRapport = memo(({ tpsglobal = 0, shouldShowDataNavigation = false, s
                     carto={{ tpsglobal: numericTpsglobal }} mainmenutitems={mainmenutitems}
                 />
             ) : (
-                
-                    <Navigation currentActive={numericTpsglobal} mainmenutitems={mainmenutitems} updateCarto={updateCarto} />
-               
+                <Navigation currentActive={numericTpsglobal} mainmenutitems={mainmenutitems} updateCarto={updateCarto} />
             )}
         </motion.div>
     );

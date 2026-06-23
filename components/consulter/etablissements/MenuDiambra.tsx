@@ -1,6 +1,6 @@
 'use client';
 import Bandeau from "@/components/commons/Bandeau";
-import BackButton from "@/components/recherche/BackButton";
+import BackButton from "@/components/commons/BackButton";
 import { usePrincipale } from "@/hooks/datakwaba/etablissements/usePrincipale";
 import { memo } from "react";
 import InfoStat from "./InfoStat";
