@@ -1,41 +1,57 @@
 'use client';
 import { initialCarto } from "@/lib/libs/constants";
 import { valeurEntier } from "@/lib/libs/functions";
-import { MenuItem } from "@/lib/libs/interface";
+import { MenuItem, PeriodType } from "@/lib/libs/interface";
 import { generateAllTrends } from "@/lib/libs/trends";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { useSubMenuData } from "../../commons/useSubMenuData";
 
+const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
+  all: 1,
+  week: 0.25,
+  month: 0.5,
+  year: 0.8,
+};
+ 
+ 
+const FLAG_URLS = {
+  civ: 'https://flagcdn.com/ci.svg',
+  mali: 'https://flagcdn.com/ml.svg',
+  senegal: 'https://flagcdn.com/sn.svg',
+  guinee: 'https://flagcdn.com/gn.svg',
+  autre: 'https://cdn.jsdelivr.net/gh/lipis/flag-icons@main/flags/4x3/globe.svg',
+};
+
+// Version avec des URLs de flags.io (plus rapide)
+
 const NATIONALITIES = [
-  { id: 'civ', label: 'CÔTE D\'IVOIRE', icon: '/icons/nationaux.png', percentage: 0.40 },
-  { id: 'mali', label: 'MALI', icon: '/icons/etranger.png', percentage: 0.15 },
-  { id: 'senegal', label: 'SÉNÉGAL', icon: '/icons/etranger.png', percentage: 0.12 },
-  { id: 'guinee', label: 'GUINÉE', icon: '/icons/etranger.png', percentage: 0.10 },
-  { id: 'autre', label: 'AUTRE', icon: '/icons/lesclients.png', percentage: 0.23 },
+  { id: 'civ', label: 'CÔTE D\'IVOIRE', flag: FLAG_URLS.civ, percentage: 0.40 },
+  { id: 'mali', label: 'MALI', flag: FLAG_URLS.mali, percentage: 0.15 },
+  { id: 'senegal', label: 'SÉNÉGAL', flag: FLAG_URLS.senegal, percentage: 0.12 },
+  { id: 'guinee', label: 'GUINÉE', flag: FLAG_URLS.guinee, percentage: 0.10 },
+  { id: 'autre', label: 'AUTRE', flag: FLAG_URLS.autre, percentage: 0.23 },
 ] as const;
 
 const createNationaliteItem = (
   baseTitle: string,
   count: number,
-  icon: string,
-  tpsglobal: number,
-  blackicon: string
-): MenuItem => {
+  flagUrl: string,
+  tpsglobal: number): MenuItem => {
   const trends = generateAllTrends(count);
 
   return {
     nbetablissements: count,
     title: `${count} ${baseTitle}`,
-    icon,
+    icon: flagUrl, // Utilisation du drapeau
     tpsglobal,
-    blackicon,
+    blackicon: flagUrl, // Utilisation du drapeau
     id: baseTitle.toLowerCase().replace(/\s/g, '_'),
     count,
     trendValue: trends.week.value,
-    iconSrc: icon,
-    iconAlt: `Icône ${baseTitle}`,
+    iconSrc: flagUrl,
+    iconAlt: `Drapeau ${baseTitle}`,
     color: "text-black",
     bgColor: "bg-white",
     description: baseTitle,
@@ -63,21 +79,19 @@ export const usePrincipale = () => {
 
     return NATIONALITIES.map((nat, index) => {
       const count = Math.round(totalClients * nat.percentage);
-      const tpsglobal = 7 + index; // 7, 8, 9, 10, 11
+      const tpsglobal = 7 + index;
       
       return createNationaliteItem(
         nat.label,
         count,
-        nat.icon,
-        tpsglobal,
-        nat.icon
+        nat.flag, // Utilisation du drapeau
+        tpsglobal,  
       );
     });
   }, [currentItem]);
 
   const { submenutitems } = useSubMenuData(currentItem?.nbetablissements || 0);
 
-  // ✅ Construction du mainMenuItem
   const mainMenuItem = useMemo(() => {
     if (!currentItem) return null;
     
@@ -105,6 +119,39 @@ export const usePrincipale = () => {
     });
   }, [router]);
 
+  const [activePeriod, setActivePeriod] = useState<PeriodType>('all');
+ 
+  const handleRapportClick = () => {
+    router.push('/consulter/clients/nationalite/rapport');
+  };
+  
+  const handleBack = useCallback(() => {
+    handleBackClick?.();
+  }, [handleBackClick]);
+
+  const periodMultiplier = PERIOD_MULTIPLIERS[activePeriod];
+
+  const adaptedMainItem = useMemo(() => {
+    if (!mainMenuItem) return null;
+    const adaptedCount = Math.round(mainMenuItem.nbetablissements * periodMultiplier);
+    return {
+      ...mainMenuItem,
+      nbetablissements: adaptedCount,
+      count: adaptedCount,
+      title: `${adaptedCount} CLIENTS`,
+    };
+  }, [mainMenuItem, periodMultiplier]);
+
+  const adaptedNationaliteItems = useMemo(() =>
+    nationaliteItems.map(item => ({
+      ...item,
+      nbetablissements: Math.round(item.nbetablissements * periodMultiplier),
+      count: Math.round(item.count * periodMultiplier),
+      title: `${Math.round(item.nbetablissements * periodMultiplier)} ${item.title?.replace(/^\d+\s/, '') || ''}`,
+    })),
+    [nationaliteItems, periodMultiplier]
+  );
+
   return {
     handleBackClick,
     submenutitems,
@@ -112,5 +159,11 @@ export const usePrincipale = () => {
     mainMenuItem,
     nationaliteItems,
     isPending,
+    handleRapportClick,
+    handleBack,
+    activePeriod,
+    setActivePeriod,
+    adaptedMainItem,
+    adaptedNationaliteItems,
   };
 };

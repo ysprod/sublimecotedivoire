@@ -1,5 +1,6 @@
 'use client';
 import Charte from "@/components/charts/Charte";
+import { ReportButton } from "@/components/commons/ReportButton";
 import { usePrincipale } from "@/hooks/datakwaba/hotels/usePrincipale";
 import { PERIOD_BUTTONS } from "@/lib/libs/constants";
 import { PeriodType } from "@/lib/libs/interface";
@@ -9,7 +10,6 @@ import { Hotel } from "lucide-react";
 import dynamic from 'next/dynamic';
 import { memo } from "react";
 import InfoStat from "./infostat/InfoStat";
-import PDFDownloadButton from "./ReportPDF";
 
 const Bandeau = dynamic(() => import("@/components/commons/Bandeau"), { ssr: true });
 const BackButton = dynamic(() => import("@/components/commons/BackButton"), { ssr: true });
@@ -79,7 +79,7 @@ const ViewHotelsButton = memo(({
 const MenuDiambra = () => {
   const {
     handleBack, setActivePeriod, handleViewHotels,
-    isViewHotelsLoading, adaptedIndicators, activePeriod,
+    isViewHotelsLoading, adaptedIndicators, activePeriod,handleRapportClick,
   } = usePrincipale();
 
   return (
@@ -138,11 +138,7 @@ const MenuDiambra = () => {
             isLoading={isViewHotelsLoading}
           />
 
-          <PDFDownloadButton
-            mainItem={adaptedIndicators.mainItem}
-            hotelItems={adaptedIndicators.subItems}
-            subItems={adaptedIndicators.subItems}
-          />
+           <ReportButton onClick={handleRapportClick} />
         </div>
       </section>
     </div>

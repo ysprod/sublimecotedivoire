@@ -151,6 +151,50 @@ const PDFDownloadButton = memo(({
             borderWidth: 1,
             borderColor: '#c4b5fd',
           },
+          // Nouveaux styles pour les statistiques avancées
+          statRow: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingVertical: 8,
+            borderBottomWidth: 1,
+            borderBottomColor: '#f1f5f9',
+          },
+          statLabel: {
+            fontSize: 11,
+            color: '#64748b',
+          },
+          statValue: {
+            fontSize: 13,
+            fontWeight: 'bold',
+            color: '#0f172a',
+          },
+          progressBar: {
+            height: 6,
+            backgroundColor: '#e2e8f0',
+            borderRadius: 3,
+            marginTop: 4,
+          },
+          progressFill: {
+            height: 6,
+            borderRadius: 3,
+            backgroundColor: '#8b5cf6',
+          },
+          twoColumn: {
+            flexDirection: 'row',
+            gap: 15,
+          },
+          column: {
+            flex: 1,
+          },
+          badge: {
+            fontSize: 10,
+            paddingHorizontal: 8,
+            paddingVertical: 2,
+            borderRadius: 12,
+            backgroundColor: '#ede9fe',
+            color: '#7c3aed',
+          },
         });
 
         // Fonction de calcul de tendance
@@ -163,77 +207,108 @@ const PDFDownloadButton = memo(({
           return { direction, value: Math.abs(trendValue) };
         };
 
-        // Composant PDF Clients
-        const ReportPDF = ({ mainItem, hotelItems, subItems, generatedAt }: any) => {
-          const totalClients = mainItem?.nbetablissements || 0;
-          
-          // Calcul des totaux par catégorie
-          const hotelsClients = hotelItems.find((item: MenuItem) => 
-            item.title?.includes('HÔTELS')
-          )?.nbetablissements || 0;
-          
-          const residencesClients = hotelItems.find((item: MenuItem) => 
-            item.title?.includes('RÉSIDENCES')
-          )?.nbetablissements || 0;
-          
-          const maisonsClients = hotelItems.find((item: MenuItem) => 
-            item.title?.includes('MAISONS')
-          )?.nbetablissements || 0;
+        // Calcul des statistiques avancées
+        const calculateStats = (items: MenuItem[]) => {
+          const total = items.reduce((sum, item) => sum + (item.nbetablissements || 0), 0);
+          const hommes = items.find(i => i.title?.includes('HOMMES'))?.nbetablissements || 0;
+          const femmes = items.find(i => i.title?.includes('FEMMES'))?.nbetablissements || 0;
+          const hotels = items.find(i => i.title?.includes('HÔTELS'))?.nbetablissements || 0;
+          const residences = items.find(i => i.title?.includes('RÉSIDENCES'))?.nbetablissements || 0;
+          const maisons = items.find(i => i.title?.includes('MAISONS'))?.nbetablissements || 0;
 
-          // Filtrer les items clients uniquement
-          const clientItems = subItems.filter((item: MenuItem) =>
-            item.title?.includes('CLIENTS') ||
+          return { total, hommes, femmes, hotels, residences, maisons };
+        };
+
+        // Composant PDF Rapport Global
+        const ReportPDF = ({ mainItem, subItems, generatedAt }: any) => {
+          const totalClients = mainItem?.nbetablissements || 0;
+          const stats = calculateStats(subItems);
+
+          // Filtrer les items par catégorie
+          const typeItems = subItems.filter((item: MenuItem) =>
             item.title?.includes('HÔTELS') ||
             item.title?.includes('RÉSIDENCES') ||
             item.title?.includes('MAISONS')
           );
+
+
+          // Items principaux
 
           return (
             <Document>
               <Page size="A4" style={pdfStyles.page}>
                 {/* En-tête */}
                 <View style={pdfStyles.header}>
-                  <Text style={pdfStyles.title}>Rapport Analytique des Clients</Text>
+                  <Text style={pdfStyles.title}>📊 Rapport Global des Clients</Text>
                   <Text style={pdfStyles.subtitle}>
-                    Généré le {new Date(generatedAt).toLocaleDateString('fr-FR')}
+                    Analyse complète de la base clientèle
                   </Text>
                   <Text style={pdfStyles.subtitle}>
-                    {new Date(generatedAt).toLocaleTimeString('fr-FR')}
+                    Généré le {new Date(generatedAt).toLocaleDateString('fr-FR', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })} à {new Date(generatedAt).toLocaleTimeString('fr-FR')}
                   </Text>
                 </View>
 
                 {/* Résumé Global */}
                 <View style={pdfStyles.section}>
-                  <Text style={pdfStyles.sectionTitle}>Résumé Global des Clients</Text>
+                  <Text style={pdfStyles.sectionTitle}>📈 Résumé Global</Text>
                   <View style={pdfStyles.highlightCard}>
                     <View style={pdfStyles.cardRow}>
                       <Text style={pdfStyles.cardLabel}>Total des Clients</Text>
-                      <Text style={[pdfStyles.cardValue, { fontSize: 18, color: '#7c3aed' }]}>
+                      <Text style={[pdfStyles.cardValue, { fontSize: 20, color: '#7c3aed' }]}>
                         {totalClients.toLocaleString('fr-FR')}
                       </Text>
                     </View>
+                    <View style={pdfStyles.cardRow}>
+                      <Text style={pdfStyles.cardLabel}>Période d'analyse</Text>
+                      <Text style={pdfStyles.badge}>Toutes les données</Text>
+                    </View>
                   </View>
-                  <View style={pdfStyles.card}>
-                    <View style={pdfStyles.cardRow}>
-                      <Text style={pdfStyles.cardLabel}>Clients dans les Hôtels</Text>
-                      <Text style={pdfStyles.cardValue}>{hotelsClients.toLocaleString('fr-FR')}</Text>
+
+                  {/* Statistiques rapides */}
+                  <View style={pdfStyles.twoColumn}>
+                    <View style={pdfStyles.column}>
+                      <View style={pdfStyles.card}>
+                        <Text style={[pdfStyles.cardLabel, { marginBottom: 8 }]}>👥 Par Genre</Text>
+                        <View style={pdfStyles.statRow}>
+                          <Text style={pdfStyles.statLabel}>Hommes</Text>
+                          <Text style={pdfStyles.statValue}>{stats.hommes.toLocaleString('fr-FR')}</Text>
+                        </View>
+                        <View style={pdfStyles.statRow}>
+                          <Text style={pdfStyles.statLabel}>Femmes</Text>
+                          <Text style={pdfStyles.statValue}>{stats.femmes.toLocaleString('fr-FR')}</Text>
+                        </View>
+                      </View>
                     </View>
-                    <View style={pdfStyles.cardRow}>
-                      <Text style={pdfStyles.cardLabel}>Clients dans les Résidences</Text>
-                      <Text style={pdfStyles.cardValue}>{residencesClients.toLocaleString('fr-FR')}</Text>
-                    </View>
-                    <View style={pdfStyles.cardRow}>
-                      <Text style={pdfStyles.cardLabel}>Clients dans les Maisons d'hôtes</Text>
-                      <Text style={pdfStyles.cardValue}>{maisonsClients.toLocaleString('fr-FR')}</Text>
+                    <View style={pdfStyles.column}>
+                      <View style={pdfStyles.card}>
+                        <Text style={[pdfStyles.cardLabel, { marginBottom: 8 }]}>🏢 Par Type</Text>
+                        <View style={pdfStyles.statRow}>
+                          <Text style={pdfStyles.statLabel}>Hôtels</Text>
+                          <Text style={pdfStyles.statValue}>{stats.hotels.toLocaleString('fr-FR')}</Text>
+                        </View>
+                        <View style={pdfStyles.statRow}>
+                          <Text style={pdfStyles.statLabel}>Résidences</Text>
+                          <Text style={pdfStyles.statValue}>{stats.residences.toLocaleString('fr-FR')}</Text>
+                        </View>
+                        <View style={pdfStyles.statRow}>
+                          <Text style={pdfStyles.statLabel}>Maisons</Text>
+                          <Text style={pdfStyles.statValue}>{stats.maisons.toLocaleString('fr-FR')}</Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
                 </View>
 
                 {/* Détails par Catégorie */}
                 <View style={pdfStyles.section}>
-                  <Text style={pdfStyles.sectionTitle}>Détails par Catégorie de Clients</Text>
+                  <Text style={pdfStyles.sectionTitle}>📋 Détails par Catégorie</Text>
                   <View style={pdfStyles.grid}>
-                    {hotelItems.map((item: MenuItem, index: number) => {
+                    {typeItems.map((item: MenuItem, index: number) => {
                       const trend = getTrend(item.nbetablissements);
                       const trendStyle = trend.direction === 'up'
                         ? pdfStyles.trendUp
@@ -255,17 +330,23 @@ const PDFDownloadButton = memo(({
                               {trend.direction === 'up' ? '↑' : trend.direction === 'down' ? '↓' : '→'} {trend.value}%
                             </Text>
                           </View>
+                          {/* Barre de progression */}
+                          <View style={pdfStyles.progressBar}>
+                            <View style={[pdfStyles.progressFill, {
+                              width: `${totalClients > 0 ? (item.nbetablissements / totalClients) * 100 : 0}%`
+                            }]} />
+                          </View>
                         </View>
                       );
                     })}
                   </View>
                 </View>
 
-                {/* Statistiques Complètes des Clients */}
+                {/* Statistiques Complètes */}
                 <View style={pdfStyles.section}>
-                  <Text style={pdfStyles.sectionTitle}>Statistiques Complètes</Text>
+                  <Text style={pdfStyles.sectionTitle}>📊 Statistiques Complètes</Text>
                   <View style={pdfStyles.card}>
-                    {clientItems.map((item: MenuItem, index: number) => {
+                    {subItems.map((item: MenuItem, index: number) => {
                       const trend = getTrend(item.nbetablissements);
                       const trendStyle = trend.direction === 'up'
                         ? pdfStyles.trendUp
@@ -293,7 +374,8 @@ const PDFDownloadButton = memo(({
 
                 {/* Pied de page */}
                 <View style={pdfStyles.footer}>
-                  <Text>Rapport généré par Datakwaba - IA Analytics</Text>
+                  <Text>📄 Rapport généré par Datakwaba - IA Analytics</Text>
+                  <Text>🔒 Données certifiées • Analyse complète</Text>
                   <Text>© {new Date().getFullYear()} Tous droits réservés</Text>
                 </View>
               </Page>
@@ -313,7 +395,7 @@ const PDFDownloadButton = memo(({
                   generatedAt={new Date().toISOString()}
                 />
               }
-              fileName={`rapport-clients-${new Date().toISOString().split('T')[0]}.pdf`}
+              fileName={`rapport-global-clients-${new Date().toISOString().split('T')[0]}.pdf`}
               className={clsx(
                 "flex items-center gap-3 px-6 py-3 rounded-xl",
                 "bg-gradient-to-r from-purple-600 to-pink-600",
@@ -327,7 +409,7 @@ const PDFDownloadButton = memo(({
               {({ loading }: { loading: boolean }) => (
                 <>
                   <FileText size={20} />
-                  <span>{loading ? "Préparation du PDF..." : "Générer un rapport analytique"}</span>
+                  <span>{loading ? "Préparation du PDF..." : "📊 Télécharger le PDF"}</span>
                   <Download size={18} />
                 </>
               )}

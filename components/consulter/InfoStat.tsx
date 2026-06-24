@@ -47,6 +47,7 @@ interface InfoStatProps {
   inverse?: boolean;
   showBackButton?: boolean;
   setSelectedMenuItem?: (item: MenuItem | null) => void;
+  ononClick?: (item: MenuItem) => void;
 }
 
 const InfoStat = memo(({ item, inverse = false, tpsglobal = 1, setSelectedMenuItem, showBackButton = false }: InfoStatProps) => {

@@ -1,6 +1,6 @@
 "use client";
 import Bandeau from "@/components/commons/Bandeau";
-import HistoriqueLoader from "@/components/connexions/HistoriqueLoader";
+import HistoriqueLoader from "@/components/commons/HistoriqueLoader";
 import ConsulterListeEtablissement from "@/components/etablissemts/ConsulterListeEtablissement";
 import TabButtonRender from "@/components/etablissemts/TabButtonRender";
 import BackButton from "@/components/commons/BackButton";

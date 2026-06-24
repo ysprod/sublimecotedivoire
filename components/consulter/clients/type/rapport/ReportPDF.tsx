@@ -1,5 +1,4 @@
 'use client';
-
 import type { MenuItem } from "@/lib/libs/interface";
 import clsx from "clsx";
 import { Download, FileText } from "lucide-react";
@@ -166,17 +165,17 @@ const PDFDownloadButton = memo(({
         // Composant PDF Clients
         const ReportPDF = ({ mainItem, hotelItems, subItems, generatedAt }: any) => {
           const totalClients = mainItem?.nbetablissements || 0;
-
+          
           // Calcul des totaux par catégorie
-          const hotelsClients = hotelItems.find((item: MenuItem) =>
+          const hotelsClients = hotelItems.find((item: MenuItem) => 
             item.title?.includes('HÔTELS')
           )?.nbetablissements || 0;
-
-          const residencesClients = hotelItems.find((item: MenuItem) =>
+          
+          const residencesClients = hotelItems.find((item: MenuItem) => 
             item.title?.includes('RÉSIDENCES')
           )?.nbetablissements || 0;
-
-          const maisonsClients = hotelItems.find((item: MenuItem) =>
+          
+          const maisonsClients = hotelItems.find((item: MenuItem) => 
             item.title?.includes('MAISONS')
           )?.nbetablissements || 0;
 

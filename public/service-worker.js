@@ -3,7 +3,7 @@
 // - Fallback offline, gestion fine de l'expiration, éviction LRU, sécurité headers
 // - Incrémentez CACHE_VERSION pour forcer la mise à jour
 
-const CACHE_VERSION = 'v48';
+const CACHE_VERSION = 'v55';
 const CACHE_STATIC = `monetoile-${CACHE_VERSION}-static`;
 const CACHE_IMAGES = `monetoile-${CACHE_VERSION}-images`;
 

@@ -144,7 +144,7 @@ const PDFDownloadButton = memo(({
   hotelItems,
   subItems,
   fileName = "rapport-clients-hotels",
-  buttonLabel = "Générer un rapport analytique",
+  buttonLabel = "Télécharger le PDF",
   className
 }: {
   mainItem: MenuItem | null;

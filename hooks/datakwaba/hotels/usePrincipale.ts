@@ -80,6 +80,10 @@ export const usePrincipale = () => {
     activePeriod
   );
 
+  const handleRapportClick = useCallback(() => {
+    router.push('/consulter/hotels/rapport');
+  }, [router]);
+
   const handleBack = useCallback(() => {
     startTransition(() => {
       router.back();
@@ -93,6 +97,7 @@ export const usePrincipale = () => {
   }, [currentItem?.nbetablissements, router]);
 
   return {
-    handleBack, setActivePeriod, handleViewHotels, isViewHotelsLoading: isPending, adaptedIndicators, activePeriod,
+    handleBack, setActivePeriod, handleViewHotels, isViewHotelsLoading: isPending,
+     adaptedIndicators, activePeriod,handleRapportClick,
   };
 };

@@ -26,7 +26,6 @@ const DropdownMenu = memo(({ setIsOpen }: DropdownMenuProps) => {
 
     const dropdownmenuItems = [
         { label: 'Profil', icon: <FiUser size={16} />, onClick: () => navigateTo('/profil'), className: 'text-gray-700 hover:bg-gray-50', },
-        { label: 'Historique', icon: <FiClock size={16} />, onClick: () => navigateTo('/connexions'), className: 'text-gray-700 hover:bg-gray-50', },
         { label: 'Déconnexion', icon: <FiLogOut size={16} />, onClick: handleLogout, className: 'text-red-600 hover:bg-red-50', },
     ];
 

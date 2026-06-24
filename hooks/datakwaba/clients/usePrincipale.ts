@@ -4,6 +4,7 @@ import { valeurEntier } from "@/lib/libs/functions";
 import { PeriodType } from "@/lib/libs/interface";
 import { generateAllTrends } from "@/lib/libs/trends";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { useSubMenuData } from "../commons/useSubMenuData";
 
@@ -15,7 +16,9 @@ const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
 };
 
 export const usePrincipale = () => {
+  const router = useRouter();
   const [activePeriod, setActivePeriod] = useState<PeriodType>('all');
+
   const currentItem = useMonEtoileStore((state) => state.currentItem);
 
   const mainItem = useMemo(() => {
@@ -44,21 +47,26 @@ export const usePrincipale = () => {
       trend: {
         value: mainTrends.week.value,
         direction: mainTrends.week.direction,
-        label: mainTrends.week.label
+        label: mainTrends.week.label,
       },
       trendValue: mainTrends.week.value,
     };
   }, [mainItem, activePeriod]);
 
   const periodMultiplier = PERIOD_MULTIPLIERS[activePeriod];
+
   const tpsglobal = useMemo(() => valeurEntier(initialCarto.tpsglobal), []);
 
   const handleBack = useCallback(() => {
     window.history.back();
   }, []);
 
+  const handleRapportClick = useCallback(() => {
+    router.push('/consulter/clients/rapport');
+  }, [router]);
+
   return {
-    mainMenuItem: adaptedMainItem, setActivePeriod, handleBack,
-    periodMultiplier, submenutitems, tpsglobal, activePeriod,
+    activePeriod, setActivePeriod, mainMenuItem: adaptedMainItem,
+    submenutitems, handleBack, handleRapportClick, periodMultiplier, tpsglobal,
   };
 };

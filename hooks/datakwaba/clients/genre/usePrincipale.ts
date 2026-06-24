@@ -1,12 +1,20 @@
 'use client';
 import { initialCarto } from "@/lib/libs/constants";
 import { valeurEntier } from "@/lib/libs/functions";
-import { MenuItem } from "@/lib/libs/interface";
+import { MenuItem, PeriodType } from "@/lib/libs/interface";
 import { generateAllTrends } from "@/lib/libs/trends";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useTransition } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useSubMenuData } from "../../commons/useSubMenuData";
+
+
+const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
+  all: 1,
+  week: 0.25,
+  month: 0.5,
+  year: 0.8,
+};
 
 const ICONS = {
   HOMMES: "/icons/client.png",
@@ -47,7 +55,7 @@ const createGenreItem = (
 
 export const usePrincipale = () => {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+ // const [isPending, startTransition] = useTransition();
   const currentItem = useMonEtoileStore((state) => state.currentItem);
 
   const tpsglobal = useMemo(() => valeurEntier(initialCarto.tpsglobal), []);
@@ -90,12 +98,46 @@ export const usePrincipale = () => {
   }, [currentItem]);
 
   const handleBackClick = useCallback(() => {
-    startTransition(() => {
-      router.back();
-    });
-  }, [router]);
+ 
+    window.history.back();
+   
+  }, [ ]);
+
+  const [activePeriod, setActivePeriod] = useState<PeriodType>('all');
+
+  const handleBack = useCallback(() => {
+    handleBackClick?.();
+  }, [handleBackClick]);
+
+  const periodMultiplier = PERIOD_MULTIPLIERS[activePeriod];
+
+  const adaptedMainItem = useMemo(() => {
+    if (!mainMenuItem) return null;
+    const adaptedCount = Math.round(mainMenuItem.nbetablissements * periodMultiplier);
+    return {
+      ...mainMenuItem,
+      nbetablissements: adaptedCount,
+      count: adaptedCount,
+      title: `${adaptedCount} CLIENTS`,
+    };
+  }, [mainMenuItem, periodMultiplier]);
+
+  const adaptedGenreItems = useMemo(() =>
+    genreItems.map(item => ({
+      ...item,
+      nbetablissements: Math.round(item.nbetablissements * periodMultiplier),
+      count: Math.round(item.count * periodMultiplier),
+      title: `${Math.round(item.nbetablissements * periodMultiplier)} ${item.title?.replace(/^\d+\s/, '') || ''}`,
+    })),
+    [genreItems, periodMultiplier]
+  );
+ 
+  const handleRapportClick = () => {
+    router.push('/consulter/clients/genre/rapport');
+  };
 
   return {
-    handleBackClick, submenutitems, tpsglobal, mainMenuItem, genreItems, isPending,
+    setActivePeriod, handleBack,handleRapportClick,
+    submenutitems, tpsglobal, adaptedMainItem, adaptedGenreItems, activePeriod,
   };
 };

@@ -17,7 +17,7 @@ import Erreur from "../commons/Erreur";
 import Reessayer from "../commons/Reessayer";
 import SelectInput from "../commons/SelectInput";
 import ValidateButton from "../commons/ValidateButton";
-import HistoriqueLoader from "../connexions/HistoriqueLoader";
+import HistoriqueLoader from "../commons/HistoriqueLoader";
 import Legend from '../map/Legend';
 import RegionFragment from '../map/RegionFragment';
 import BackButton from "../commons/BackButton";
