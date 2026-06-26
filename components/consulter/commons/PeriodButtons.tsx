@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { memo } from "react";
 
 const PERIOD_BUTTONS: { id: PeriodType; label: string; icon: string }[] = [
-  { id: 'all', label: 'Toutes périodes', icon: '📊' },
+  // { id: 'all', label: 'Toutes périodes', icon: '📊' },
   { id: 'week', label: 'Cette semaine', icon: '📅' },
   { id: 'month', label: 'Ce mois', icon: '📆' },
   { id: 'year', label: 'Cette année', icon: '📈' },

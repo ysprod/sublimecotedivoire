@@ -8,7 +8,7 @@ import { memo, useMemo } from "react";
 type PeriodType = 'all' | 'week' | 'month' | 'year';
 
 const PERIOD_BUTTONS: { id: PeriodType; label: string; icon: string }[] = [
-    { id: 'all', label: 'Vue d\'ensemble', icon: '📊' },
+    // { id: 'all', label: 'Vue d\'ensemble', icon: '📊' },
     { id: 'week', label: 'Cette semaine', icon: '📅' },
     { id: 'month', label: 'Ce mois', icon: '📆' },
     { id: 'year', label: 'Cette année', icon: '📈' },
@@ -214,7 +214,7 @@ export const ViewHotelsButton = memo(({
             )}
         >
             <Hotel size={20} />
-            <span>{isLoading ? "Chargement..." : "Voir la liste des hôtels"}</span>
+            <span>{isLoading ? "Chargement..." : "Voir la liste"}</span>
         </button>
     );
 });

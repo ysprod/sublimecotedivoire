@@ -1,32 +1,10 @@
 'use client';
-import { PERIOD_LABELS, PERIODS } from "@/lib/libs/constants";
+import { PERIOD_LABELS, PERIODS, TREND_CONFIG } from "@/lib/libs/constants";
 import { getRandomCount } from "@/lib/libs/functions";
-import type { AllTrends, CategoryStyle, MenuItem, TrendConfig, TrendDirection } from "@/lib/libs/interface";
+import type { AllTrends, CategoryStyle, MenuItem, TrendDirection } from "@/lib/libs/interface";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
-import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useTransition } from "react";
-
-export const TREND_CONFIG: Record<TrendDirection, TrendConfig> = {
-    croissance: {
-        icon: TrendingUp,
-        bgColor: "bg-green-100",
-        color: "text-green-700",
-        label: "en hausse"
-    },
-    baisse: {
-        icon: TrendingDown,
-        bgColor: "bg-red-100",
-        color: "text-red-700",
-        label: "en baisse"
-    },
-    stable: {
-        icon: Minus,
-        bgColor: "bg-gray-100",
-        color: "text-gray-700",
-        label: "stable"
-    }
-} as const;
 
 export const CATEGORY_STYLES: Record<string, CategoryStyle> = {
     etablissements: {
@@ -170,7 +148,6 @@ export const useVert = () => {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
 
-    const setCurrentItem = useMonEtoileStore((state) => state.setCurrentItem);
     const setEtablissementItem = useMonEtoileStore((state) => state.setEtablissementItem);
     const setClientItem = useMonEtoileStore((state) => state.setClientItem);
 
@@ -185,7 +162,6 @@ export const useVert = () => {
             count: totalEtablissements,
             trends: etablissementsTrends,
         });
-
         const clientMenuItem = buildMenuItem({
             config: MENU_ITEMS_CONFIG.CLIENTS,
             count: clientsCount,
@@ -203,18 +179,12 @@ export const useVert = () => {
 
     const handleCardClick = useCallback((item: MenuItem) => {
         startTransition(() => {
-            setCurrentItem(item);
-
             const basePath = ROUTE_MAP[item.id] || '/consulter';
             router.push(basePath);
         });
-    }, [router, setCurrentItem]);
+    }, [router]);
 
-    return {
-        handleCardClick,
-        dashboardData,
-        isPending,
-    };
+    return { handleCardClick, dashboardData, isPending, };
 };
 
 export const getPeriodLabel = (period: keyof typeof PERIOD_LABELS): string => {

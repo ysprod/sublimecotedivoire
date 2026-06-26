@@ -172,7 +172,7 @@ export const ViewHotelsButton = memo(({
             )}
         >
             <Hotel size={20} />
-            <span>{isLoading ? "Chargement..." : "Voir la liste des hôtels"}</span>
+            <span>{isLoading ? "Chargement..." : "Voir la liste"}</span>
         </button>
     );
 });

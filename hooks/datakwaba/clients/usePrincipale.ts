@@ -24,7 +24,7 @@ export const usePrincipale = () => {
     if (!clientItem) return null;
     return {
       ...clientItem,
-      trends: clientItem.trends || generateAllTrends(clientItem.nbetablissements || 10000),
+      trends: clientItem.trends ,
     };
   }, [clientItem]);
 

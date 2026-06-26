@@ -52,8 +52,7 @@ export default function NotificationBell() {
     markAllAsRead,
   } = notificationsProps;
 
-  // Référence pour suivre les IDs des notifications déjà vues
-  const lastSeenIdsRef = useRef<string[]>([]);
+   const lastSeenIdsRef = useRef<string[]>([]);
 
   useEffect(() => {
     // On ne joue le son que si une nouvelle notification non lue arrive

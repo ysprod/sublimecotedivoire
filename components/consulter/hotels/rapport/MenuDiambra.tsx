@@ -1,9 +1,9 @@
 'use client';
+
 import Charte from "@/components/charts/Charte";
 import BackButton from "@/components/commons/BackButton";
 import Bandeau from "@/components/commons/Bandeau";
 import { usePrincipale } from "@/hooks/datakwaba/hotels/usePrincipale";
-import calendar from "antd/es/calendar";
 import clsx from "clsx";
 import {
   ArrowDownRight,
@@ -67,50 +67,75 @@ const CARD_COLORS = {
 };
 
 // Configuration des types d'établissements
-const HOTEL_TYPES = {
-  'HÔTELS': { label: 'Hôtels', color: '#0088FE', icon: Hotel, bg: 'bg-blue-50', emoji: '🏨', description: 'Établissements hôteliers' },
-  'RÉSIDENCES': { label: 'Résidences', color: '#00C49F', icon: Home, bg: 'bg-green-50', emoji: '🏡', description: 'Résidences touristiques' },
-  'MAISONS': { label: 'Maisons d\'Hôtes', color: '#FFBB28', icon: Bed, bg: 'bg-yellow-50', emoji: '🛏️', description: 'Maisons d\'hôtes' },
-} as const;
 
-// Données simulées pour les statistiques avancées
-const generateDetailedHotelStats = (total: number) => {
-  return {
-    parType: {
-      hotels: Math.round(total * 0.45),
-      residences: Math.round(total * 0.30),
-      maisons: Math.round(total * 0.25)
-    },
-    parEtoiles: {
-      '1★': Math.round(total * 0.05),
-      '2★': Math.round(total * 0.15),
-      '3★': Math.round(total * 0.35),
-      '4★': Math.round(total * 0.30),
-      '5★': Math.round(total * 0.15)
-    },
-    capacite: {
-      'Petite (< 50 chambres)': Math.round(total * 0.35),
-      'Moyenne (50-150 chambres)': Math.round(total * 0.40),
-      'Grande (> 150 chambres)': Math.round(total * 0.25)
-    },
-    equipements: {
-      wifi: Math.round(total * 0.85),
-      parking: Math.round(total * 0.70),
-      restaurant: Math.round(total * 0.60),
-      piscine: Math.round(total * 0.45),
-      spa: Math.round(total * 0.25)
-    },
-    activite: {
-      occupes: Math.round(total * 0.78),
-      vacants: Math.round(total * 0.22)
-    },
-    satisfaction: {
-      excellent: Math.round(total * 0.45),
-      bon: Math.round(total * 0.30),
-      moyen: Math.round(total * 0.15),
-      insuffisant: Math.round(total * 0.10)
-    }
-  };
+// Données du rapport analytique - STATIQUES
+const RAPPORT_DATA = {
+  totalEtablissements: 10000,
+  parType: {
+    hotels: 4500,
+    residences: 3000,
+    maisons: 2500
+  },
+  activite: {
+    actifs: 7800,
+    inactifs: 2200
+  },
+  parEtoiles: {
+    '1★': 500,
+    '2★': 1500,
+    '3★': 3500,
+    '4★': 3000,
+    '5★': 1500
+  },
+  equipements: {
+    wifi: 8500,
+    parking: 7000,
+    restaurant: 6000,
+    piscine: 4500,
+    spa: 2500
+  },
+  satisfaction: {
+    excellent: 4500,
+    bon: 3000,
+    moyen: 1500,
+    insuffisant: 1000
+  },
+  performance: {
+    croissance: 12.5,
+    satisfaction: 92,
+    retention: 82,
+    acquisition: 18,
+    occupation: 78,
+    conversion: 15,
+    nps: 65,
+    churn: 8
+  },
+  evolutionMensuelle: [
+    { mois: 'Jan', valeur: 8500, pourcentage: 85 },
+    { mois: 'Fév', valeur: 8800, pourcentage: 88 },
+    { mois: 'Mar', valeur: 9200, pourcentage: 92 },
+    { mois: 'Avr', valeur: 8900, pourcentage: 89 },
+    { mois: 'Mai', valeur: 9300, pourcentage: 93 },
+    { mois: 'Jun', valeur: 9600, pourcentage: 96 },
+    { mois: 'Jul', valeur: 9400, pourcentage: 94 },
+    { mois: 'Aoû', valeur: 9700, pourcentage: 97 },
+    { mois: 'Sep', valeur: 9500, pourcentage: 95 },
+    { mois: 'Oct', valeur: 9800, pourcentage: 98 },
+    { mois: 'Nov', valeur: 10000, pourcentage: 100 },
+    { mois: 'Déc', valeur: 10500, pourcentage: 105 }
+  ],
+  topRegions: [
+    { rang: 1, region: 'Dakar', total: 2500, croissance: 15.2, saturation: 82 },
+    { rang: 2, region: 'Thiès', total: 1200, croissance: 14.8, saturation: 65 },
+    { rang: 3, region: 'Saint-Louis', total: 950, croissance: 13.5, saturation: 58 },
+    { rang: 4, region: 'Ziguinchor', total: 850, croissance: 12.1, saturation: 45 },
+    { rang: 5, region: 'Touba', total: 750, croissance: 11.8, saturation: 42 },
+    { rang: 6, region: 'Kaolack', total: 680, croissance: 10.5, saturation: 38 },
+    { rang: 7, region: 'Tambacounda', total: 520, croissance: 9.8, saturation: 35 },
+    { rang: 8, region: 'Kolda', total: 450, croissance: 9.2, saturation: 30 },
+    { rang: 9, region: 'Kédougou', total: 380, croissance: 8.7, saturation: 28 },
+    { rang: 10, region: 'Sédhiou', total: 300, croissance: 8.1, saturation: 25 }
+  ]
 };
 
 const MenuDiambra = memo(() => {
@@ -118,89 +143,75 @@ const MenuDiambra = memo(() => {
     handleBack,
     adaptedIndicators,
     activePeriod,
-    setActivePeriod } = usePrincipale();
+    setActivePeriod
+  } = usePrincipale();
 
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'types' | 'equipements' | 'satisfaction'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'types' | 'equipements' | 'satisfaction' | 'regions'>('overview');
 
-  // Calcul des statistiques avancées
+  // Utilisation des données du rapport
   const stats = useMemo(() => {
-    const mainItem = adaptedIndicators?.mainItem;
-    const subItems = adaptedIndicators?.subItems || [];
-
-    if (!mainItem || !subItems.length) return null;
-
-    const totalEtablissements = mainItem.nbetablissements || mainItem.count || 0;
-    const detailedStats = generateDetailedHotelStats(totalEtablissements);
+    const totalEtablissements = RAPPORT_DATA.totalEtablissements;
 
     // Statistiques par type
-    const typeStats = subItems.map(item => {
-      const title = item.title || item.description || '';
-      const typeKey = Object.keys(HOTEL_TYPES).find(key => title.includes(key)) || 'HÔTELS';
-      const config = HOTEL_TYPES[typeKey as keyof typeof HOTEL_TYPES] || HOTEL_TYPES['HÔTELS'];
-
-      return {
-        name: config.label,
-        value: item.nbetablissements || item.count || 0,
-        percentage: totalEtablissements > 0 ? ((item.nbetablissements || item.count || 0) / totalEtablissements) * 100 : 0,
-        color: config.color,
-        icon: config.icon,
-        id: typeKey,
-        bg: config.bg,
-        emoji: config.emoji,
-        description: config.description
-      };
-    });
+    const typeStats = [
+      {
+        name: 'Hôtels',
+        value: RAPPORT_DATA.parType.hotels,
+        percentage: (RAPPORT_DATA.parType.hotels / totalEtablissements) * 100,
+        color: '#0088FE',
+        icon: Hotel,
+        id: 'HÔTELS',
+        bg: 'bg-blue-50',
+        emoji: '🏨',
+        description: 'Établissements hôteliers'
+      },
+      {
+        name: 'Résidences',
+        value: RAPPORT_DATA.parType.residences,
+        percentage: (RAPPORT_DATA.parType.residences / totalEtablissements) * 100,
+        color: '#00C49F',
+        icon: Home,
+        id: 'RÉSIDENCES',
+        bg: 'bg-green-50',
+        emoji: '🏡',
+        description: 'Résidences touristiques'
+      },
+      {
+        name: "Maisons d'Hôtes",
+        value: RAPPORT_DATA.parType.maisons,
+        percentage: (RAPPORT_DATA.parType.maisons / totalEtablissements) * 100,
+        color: '#FFBB28',
+        icon: Bed,
+        id: 'MAISONS',
+        bg: 'bg-yellow-50',
+        emoji: '🛏️',
+        description: 'Maisons d\'hôtes'
+      }
+    ];
 
     // Données pour le radar
     const radarData = [
-      { subject: 'Hôtels', A: detailedStats.parType.hotels / totalEtablissements * 100, fullMark: 100 },
-      { subject: 'Résidences', A: detailedStats.parType.residences / totalEtablissements * 100, fullMark: 100 },
-      { subject: 'Maisons', A: detailedStats.parType.maisons / totalEtablissements * 100, fullMark: 100 },
-      { subject: 'Occupation', A: detailedStats.activite.occupes / totalEtablissements * 100, fullMark: 100 },
-      { subject: 'Satisfaction', A: (detailedStats.satisfaction.excellent + detailedStats.satisfaction.bon) / totalEtablissements * 100, fullMark: 100 },
-      { subject: 'Équipements', A: Object.values(detailedStats.equipements).reduce((a, b) => a + b, 0) / (Object.values(detailedStats.equipements).length * totalEtablissements) * 100, fullMark: 100 }
+      { subject: 'Hôtels', A: (RAPPORT_DATA.parType.hotels / totalEtablissements) * 100, fullMark: 100 },
+      { subject: 'Résidences', A: (RAPPORT_DATA.parType.residences / totalEtablissements) * 100, fullMark: 100 },
+      { subject: 'Maisons', A: (RAPPORT_DATA.parType.maisons / totalEtablissements) * 100, fullMark: 100 },
+      { subject: 'Occupation', A: (RAPPORT_DATA.activite.actifs / totalEtablissements) * 100, fullMark: 100 },
+      { subject: 'Satisfaction', A: RAPPORT_DATA.performance.satisfaction, fullMark: 100 },
+      { subject: 'Équipements', A: Object.values(RAPPORT_DATA.equipements).reduce((a, b) => a + b, 0) / (Object.values(RAPPORT_DATA.equipements).length * totalEtablissements) * 100, fullMark: 100 }
     ];
-
-    // Données d'évolution simulées
-    const evolutionData = [
-      { mois: 'Jan', valeur: Math.round(totalEtablissements * 0.85), pourcentage: 85 },
-      { mois: 'Fév', valeur: Math.round(totalEtablissements * 0.88), pourcentage: 88 },
-      { mois: 'Mar', valeur: Math.round(totalEtablissements * 0.92), pourcentage: 92 },
-      { mois: 'Avr', valeur: Math.round(totalEtablissements * 0.89), pourcentage: 89 },
-      { mois: 'Mai', valeur: Math.round(totalEtablissements * 0.93), pourcentage: 93 },
-      { mois: 'Jun', valeur: Math.round(totalEtablissements * 0.96), pourcentage: 96 },
-      { mois: 'Jul', valeur: Math.round(totalEtablissements * 0.94), pourcentage: 94 },
-      { mois: 'Aoû', valeur: Math.round(totalEtablissements * 0.97), pourcentage: 97 },
-      { mois: 'Sep', valeur: Math.round(totalEtablissements * 0.95), pourcentage: 95 },
-      { mois: 'Oct', valeur: Math.round(totalEtablissements * 0.98), pourcentage: 98 },
-      { mois: 'Nov', valeur: totalEtablissements, pourcentage: 100 },
-      { mois: 'Déc', valeur: Math.round(totalEtablissements * 1.05), pourcentage: 105 }
-    ];
-
-    // Statistiques de performance
-    const performance = {
-      croissance: mainItem.trends?.month?.value || 12.5,
-      satisfaction: Math.min(95, 82 + Math.random() * 13),
-      retention: Math.min(90, 70 + Math.random() * 20),
-      acquisition: Math.min(30, 12 + Math.random() * 18),
-      occupation: Math.min(85, 65 + Math.random() * 20),
-      conversion: Math.min(25, 8 + Math.random() * 17),
-      nps: Math.min(80, 45 + Math.random() * 35),
-      churn: Math.min(15, 5 + Math.random() * 10)
-    };
 
     return {
       totalEtablissements,
       typeStats,
-      detailedStats,
+      detailedStats: RAPPORT_DATA,
       radarData,
-      evolutionData,
-      performance,
-      tauxCroissance: performance.croissance,
-      isCroissant: performance.croissance > 0
+      evolutionData: RAPPORT_DATA.evolutionMensuelle,
+      performance: RAPPORT_DATA.performance,
+      tauxCroissance: RAPPORT_DATA.performance.croissance,
+      isCroissant: RAPPORT_DATA.performance.croissance > 0,
+      topRegions: RAPPORT_DATA.topRegions
     };
-  }, [adaptedIndicators]);
+  }, []);
 
   if (!stats) {
     return (
@@ -256,13 +267,13 @@ const MenuDiambra = memo(() => {
     },
     {
       id: 'occupation',
-      title: "Taux d'Occupation",
-      value: `${Math.round(stats.performance.occupation)}%`,
+      title: "Taux d'Activité",
+      value: `${Math.round((stats.detailedStats.activite.actifs / stats.totalEtablissements) * 100)}%`,
       icon: Users,
       color: CARD_COLORS.green,
       trend: 3.2,
-      subtitle: "taux d'occupation",
-      detail: `${stats.detailedStats.activite.occupes.toLocaleString()} occupés`
+      subtitle: "taux d'activité",
+      detail: `${stats.detailedStats.activite.actifs.toLocaleString()} actifs`
     },
     {
       id: 'satisfaction',
@@ -288,13 +299,14 @@ const MenuDiambra = memo(() => {
 
   // Onglets de navigation
   const tabs = [
-    { id: 'overview', label: 'Vue d\'ensemble', icon: calendar },
+    { id: 'overview', label: 'Vue d\'ensemble', icon: LineChart },
     { id: 'types', label: 'Types', icon: Building2 },
     { id: 'equipements', label: 'Équipements', icon: Wifi },
-    { id: 'satisfaction', label: 'Satisfaction', icon: Award }
+    { id: 'satisfaction', label: 'Satisfaction', icon: Award },
+    { id: 'regions', label: 'Régions', icon: Target }
   ] as const;
 
-  // Composant pour afficher la jauge de satisfaction
+  // Composant pour afficher la jauge
   const SatisfactionGauge = ({ value, label, color }: { value: number; label: string; color: string }) => (
     <div className="space-y-1">
       <div className="flex justify-between text-sm">
@@ -315,9 +327,9 @@ const MenuDiambra = memo(() => {
         <div className="w-full flex justify-between items-center">
           <BackButton onClick={handleBack} />
           <PDFDownloadButton
-            mainItem={adaptedIndicators.mainItem}
-            hotelItems={adaptedIndicators.subItems}
-            subItems={adaptedIndicators.subItems}
+            mainItem={adaptedIndicators?.mainItem || null}
+            hotelItems={adaptedIndicators?.subItems || []}
+            subItems={adaptedIndicators?.subItems || []}
           />
         </div>
 
@@ -333,9 +345,9 @@ const MenuDiambra = memo(() => {
               </div>
               <p className="text-blue-100 mt-2 flex items-center gap-2">
                 <Target className="w-4 h-4" />
-                Analyse complète du parc hôtelier
+                Analyse complète du parc hôtelier national
               </p>
-              <div className="flex items-center gap-4 mt-3 text-sm text-blue-200">
+              <div className="flex items-center gap-4 mt-3 text-sm text-blue-200 flex-wrap">
                 <span className="flex items-center gap-1">
                   <Calendar className="w-4 h-4" />
                   {new Date().toLocaleDateString('fr-FR', {
@@ -431,8 +443,9 @@ const MenuDiambra = memo(() => {
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
                     <LineChart className="w-5 h-5 text-blue-600" />
-                    Évolution des Établissements
+                    Évolution des Établissements (2024)
                   </h2>
+                  <span className="text-sm text-green-600 font-medium">+12.5% de croissance</span>
                 </div>
                 <div className="h-72">
                   <ResponsiveContainer width="100%" height="100%">
@@ -485,7 +498,7 @@ const MenuDiambra = memo(() => {
                   <p className="text-lg font-bold text-gray-800 mt-1">
                     {stats.detailedStats.parType.hotels.toLocaleString()}
                   </p>
-                  <p className="text-xs text-gray-500">{((stats.detailedStats.parType.hotels / stats.totalEtablissements) * 100).toFixed(1)}% du total</p>
+                  <p className="text-xs text-gray-500">45% du total</p>
                 </div>
 
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border border-green-100">
@@ -496,7 +509,7 @@ const MenuDiambra = memo(() => {
                   <p className="text-lg font-bold text-gray-800 mt-1">
                     {stats.detailedStats.parType.residences.toLocaleString()}
                   </p>
-                  <p className="text-xs text-gray-500">{((stats.detailedStats.parType.residences / stats.totalEtablissements) * 100).toFixed(1)}% du total</p>
+                  <p className="text-xs text-gray-500">30% du total</p>
                 </div>
 
                 <div className="bg-gradient-to-r from-yellow-50 to-amber-50 rounded-xl p-4 border border-yellow-100">
@@ -507,7 +520,7 @@ const MenuDiambra = memo(() => {
                   <p className="text-lg font-bold text-gray-800 mt-1">
                     {stats.detailedStats.parType.maisons.toLocaleString()}
                   </p>
-                  <p className="text-xs text-gray-500">{((stats.detailedStats.parType.maisons / stats.totalEtablissements) * 100).toFixed(1)}% du total</p>
+                  <p className="text-xs text-gray-500">25% du total</p>
                 </div>
 
                 <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-100">
@@ -559,6 +572,15 @@ const MenuDiambra = memo(() => {
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
+                <div className="mt-4 grid grid-cols-3 gap-2 text-center">
+                  {stats.typeStats.map((type) => (
+                    <div key={type.id} className={`${type.bg} rounded-lg p-2`}>
+                      <span className="text-2xl">{type.emoji}</span>
+                      <p className="text-xs font-bold text-gray-700">{type.name}</p>
+                      <p className="text-sm font-bold text-gray-900">{type.value.toLocaleString()}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Répartition par étoiles */}
@@ -587,6 +609,13 @@ const MenuDiambra = memo(() => {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
+                <div className="mt-4 flex justify-between text-sm text-gray-600">
+                  <span>1★: {stats.detailedStats.parEtoiles['1★']}</span>
+                  <span>2★: {stats.detailedStats.parEtoiles['2★']}</span>
+                  <span>3★: {stats.detailedStats.parEtoiles['3★']}</span>
+                  <span>4★: {stats.detailedStats.parEtoiles['4★']}</span>
+                  <span>5★: {stats.detailedStats.parEtoiles['5★']}</span>
+                </div>
               </div>
             </div>
           )}
@@ -601,27 +630,27 @@ const MenuDiambra = memo(() => {
                 </h3>
                 <div className="space-y-4">
                   <SatisfactionGauge
-                    value={Math.round(stats.detailedStats.equipements.wifi / stats.totalEtablissements * 100)}
+                    value={Math.round((stats.detailedStats.equipements.wifi / stats.totalEtablissements) * 100)}
                     label="Wi-Fi"
                     color="#0088FE"
                   />
                   <SatisfactionGauge
-                    value={Math.round(stats.detailedStats.equipements.parking / stats.totalEtablissements * 100)}
+                    value={Math.round((stats.detailedStats.equipements.parking / stats.totalEtablissements) * 100)}
                     label="Parking"
                     color="#00C49F"
                   />
                   <SatisfactionGauge
-                    value={Math.round(stats.detailedStats.equipements.restaurant / stats.totalEtablissements * 100)}
+                    value={Math.round((stats.detailedStats.equipements.restaurant / stats.totalEtablissements) * 100)}
                     label="Restaurant"
                     color="#FFBB28"
                   />
                   <SatisfactionGauge
-                    value={Math.round(stats.detailedStats.equipements.piscine / stats.totalEtablissements * 100)}
+                    value={Math.round((stats.detailedStats.equipements.piscine / stats.totalEtablissements) * 100)}
                     label="Piscine"
                     color="#FF8042"
                   />
                   <SatisfactionGauge
-                    value={Math.round(stats.detailedStats.equipements.spa / stats.totalEtablissements * 100)}
+                    value={Math.round((stats.detailedStats.equipements.spa / stats.totalEtablissements) * 100)}
                     label="Spa"
                     color="#8884D8"
                   />
@@ -631,7 +660,7 @@ const MenuDiambra = memo(() => {
               <div className="bg-white rounded-xl p-6 shadow-lg">
                 <h3 className="text-md font-bold text-gray-800 flex items-center gap-2 mb-4">
                   <Target className="w-5 h-5 text-indigo-600" />
-                  Radar des Équipements
+                  Radar des Indicateurs
                 </h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
@@ -691,6 +720,12 @@ const MenuDiambra = memo(() => {
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
+                <div className="mt-4 grid grid-cols-4 gap-2 text-center text-sm">
+                  <div><span className="text-green-500">●</span> {stats.detailedStats.satisfaction.excellent}</div>
+                  <div><span className="text-blue-500">●</span> {stats.detailedStats.satisfaction.bon}</div>
+                  <div><span className="text-yellow-500">●</span> {stats.detailedStats.satisfaction.moyen}</div>
+                  <div><span className="text-red-500">●</span> {stats.detailedStats.satisfaction.insuffisant}</div>
+                </div>
               </div>
 
               <div className="bg-white rounded-xl p-6 shadow-lg">
@@ -736,6 +771,57 @@ const MenuDiambra = memo(() => {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Régions */}
+          {activeTab === 'regions' && (
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h3 className="text-md font-bold text-gray-800 flex items-center gap-2 mb-4">
+                <Target className="w-5 h-5 text-indigo-600" />
+                Top 10 Régions les Plus Équipées
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b-2 border-gray-200">
+                      <th className="text-left py-2 px-4 text-sm font-semibold text-gray-600">Rang</th>
+                      <th className="text-left py-2 px-4 text-sm font-semibold text-gray-600">Région</th>
+                      <th className="text-right py-2 px-4 text-sm font-semibold text-gray-600">Établissements</th>
+                      <th className="text-right py-2 px-4 text-sm font-semibold text-gray-600">Croissance</th>
+                      <th className="text-right py-2 px-4 text-sm font-semibold text-gray-600">Saturation</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stats.topRegions.map((region) => (
+                      <tr key={region.rang} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                        <td className="py-2 px-4 text-sm font-bold text-gray-700">#{region.rang}</td>
+                        <td className="py-2 px-4 text-sm font-medium text-gray-800">{region.region}</td>
+                        <td className="py-2 px-4 text-sm text-right font-bold text-gray-800">{region.total.toLocaleString()}</td>
+                        <td className="py-2 px-4 text-sm text-right">
+                          <span className={region.croissance > 12 ? 'text-green-600 font-bold' : 'text-blue-600'}>
+                            +{region.croissance}%
+                          </span>
+                        </td>
+                        <td className="py-2 px-4 text-sm text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div 
+                                className={`h-full rounded-full ${
+                                  region.saturation > 70 ? 'bg-red-500' : 
+                                  region.saturation > 50 ? 'bg-yellow-500' : 'bg-green-500'
+                                }`}
+                                style={{ width: `${region.saturation}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-gray-500">{region.saturation}%</span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}

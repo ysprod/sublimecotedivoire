@@ -1,5 +1,6 @@
-import { CartoFiltre, ColorType, PeriodType } from '@/lib/libs/interface';
+import { CartoFiltre, ColorType, PeriodType, TrendConfig, TrendDirection } from '@/lib/libs/interface';
 import { Filtre } from "./interface";
+import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 export const APP_NAME = "DATAKWABA ANALYTICS";
 export const APP_DESCRIPTION = "Plateforme DATAKWABA";
@@ -181,8 +182,30 @@ export const PERIOD_SHORT = {
 } as const;
 
 export const PERIOD_BUTTONS: { id: PeriodType; label: string; icon: string }[] = [
-  { id: 'all', label: 'Vue d\'ensemble', icon: '📊' },
+  // { id: 'all', label: 'Vue d\'ensemble', icon: '📊' },
   { id: 'week', label: 'Cette semaine', icon: '📅' },
   { id: 'month', label: 'Ce mois', icon: '📆' },
   { id: 'year', label: 'Cette année', icon: '📈' },
 ];
+
+
+export const TREND_CONFIG: Record<TrendDirection, TrendConfig> = {
+    croissance: {
+        icon: TrendingUp,
+        bgColor: "bg-green-100",
+        color: "text-green-700",
+        label: "en hausse"
+    },
+    baisse: {
+        icon: TrendingDown,
+        bgColor: "bg-red-100",
+        color: "text-red-700",
+        label: "en baisse"
+    },
+    stable: {
+        icon: Minus,
+        bgColor: "bg-gray-100",
+        color: "text-gray-700",
+        label: "stable"
+    }
+} as const;
