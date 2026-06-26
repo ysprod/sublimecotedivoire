@@ -1,7 +1,7 @@
 import { ConnexionHistory } from '@/lib/libs/interface';
 
 const ivoirianFirstNames = ['Koffi', 'Ama', 'Yao', 'Mariam', 'Jean', 'Fatou'];
-const ivoirianLastNames = ['Kouassi', 'Traoré', 'Yao', 'Konaté', 'Bamba', 'Diop'];
+const ivoirianLastNames = ['Kouassi', 'Traoré', 'Yao', 'Konaté', 'Bamba', 'Diop', 'Gnahoré', 'Soro', 'Dosso', 'Kamara'];
 
 const citiesCI: { city: string; coords: [number, number] }[] = [
     { city: 'Abidjan', coords: [5.35995, -4.00896] },

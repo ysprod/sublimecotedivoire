@@ -1,10 +1,9 @@
 'use client';
+import { useSubMenuData } from "@/hooks/datakwaba/commons/useSubMenuData";
+import { navAnimation } from "@/lib/libs/constants";
+import { CartoFiltre, MenuItem } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { memo, useMemo } from "react";
-import { CartoFiltre, MenuItem } from "@/lib/libs/interface";
-import { navAnimation } from "@/lib/libs/constants";
-import InfoStatNavigation from "./InfoStatNavigation";
-import { useSubMenuData } from "@/hooks/datakwaba/commons/useSubMenuData";
 
 interface MenuDiambraProps {
     setSelectedMenuItem: (item: MenuItem | null) => void;
@@ -13,7 +12,7 @@ interface MenuDiambraProps {
     mainmenutitems: MenuItem[];
 }
 
-const EtablissementsDataNavigation = memo(({ setSelectedMenuItem, selectedMenuItem, carto, mainmenutitems }: MenuDiambraProps) => {
+const EtablissementsDataNavigation = memo(({ carto, mainmenutitems }: MenuDiambraProps) => {
 
     const mainMenuItem = useMemo(() => (
         mainmenutitems.find(item => item.tpsglobal === carto.tpsglobal) ?? mainmenutitems[0]
@@ -35,7 +34,7 @@ const EtablissementsDataNavigation = memo(({ setSelectedMenuItem, selectedMenuIt
 
     return (
         <motion.nav className="flex w-full" {...navAnimation} aria-label="Navigation">
-            {items.map((item) => (
+            {items.map(() => (
                 <></>
                 // <InfoStatNavigation
                 //     key={item.title}

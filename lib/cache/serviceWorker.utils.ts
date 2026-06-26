@@ -109,9 +109,6 @@ export async function getCacheSize(): Promise<number> {
   }
 }
 
-/**
- * Formate des octets en format lisible
- */
 export function formatBytes(bytes: number, decimals = 2): string {
   if (bytes === 0) return '0 octets';
   const k = 1024;
@@ -120,9 +117,6 @@ export function formatBytes(bytes: number, decimals = 2): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(decimals))} ${sizes[i]}`;
 }
 
-/**
- * Vérifie si le navigateur est en ligne
- */
 export function isOnline(): boolean {
   return typeof navigator !== 'undefined' && navigator.onLine;
 }

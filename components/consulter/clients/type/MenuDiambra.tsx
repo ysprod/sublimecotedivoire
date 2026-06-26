@@ -13,7 +13,7 @@ import StatsCategorySection from '../../commons/StatsCategorySection';
 const MenuDiambra = memo(function MenuDiambra() {
   const {
     handleClick, setActivePeriod, handleBack, handleRapportClick,
-    activeType, adaptedMainItem, adaptedTypeItems, submenutitems, tpsglobal, activePeriod,
+    activeType, adaptedMainItem, adaptedTypeItems, submenutitems, activePeriod,
   } = usePrincipale();
 
   return (
@@ -32,7 +32,7 @@ const MenuDiambra = memo(function MenuDiambra() {
           <InfoStat
             item={adaptedMainItem}
             inverse
-            tpsglobal={tpsglobal}
+            tpsglobal={0}
             onClick={handleClick}
           />
         </div>
@@ -41,7 +41,7 @@ const MenuDiambra = memo(function MenuDiambra() {
       <StatsCategorySection
         title={`Par Type d'établissement ${activeType ? `- ${activeType.charAt(0).toUpperCase() + activeType.slice(1)}` : ''}`}
         items={adaptedTypeItems}
-        tpsglobal={tpsglobal}
+        tpsglobal={0}
         periodMultiplier={1}
         onClick={handleClick}
         icon={Building2}

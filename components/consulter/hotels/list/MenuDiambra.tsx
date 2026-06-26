@@ -16,7 +16,7 @@ const MenuDiambra = memo(() => {
   if (isLoading) { return (<HistoriqueLoader texte={DATA_LOADING} />); }
 
   return (
-    <div className="flex flex-col w-full max-w-2xl mx-auto space-x-4 space-y-4">
+    <div className="flex flex-col w-full max-w-6xl mx-auto space-x-4 space-y-4">
       <Bandeau />
       <BackButton onClick={handleBackClick} />
       <TabButtonRender handleTabChange={handleTabChange} activeTab={activeTab} />

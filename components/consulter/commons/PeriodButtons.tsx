@@ -1,6 +1,4 @@
-// components/PeriodButtons.tsx
 'use client';
-
 import { PeriodType } from "@/lib/libs/interface";
 import clsx from "clsx";
 import { memo } from "react";
@@ -37,5 +35,3 @@ export const PeriodButtons = memo(({
     ))}
   </div>
 ));
-
-PeriodButtons.displayName = 'PeriodButtons';

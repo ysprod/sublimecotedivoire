@@ -1,11 +1,9 @@
 'use client';
-import { initialCarto } from "@/lib/libs/constants";
-import { valeurEntier } from "@/lib/libs/functions";
 import { MenuItem, PeriodType } from "@/lib/libs/interface";
 import { generateAllTrends } from "@/lib/libs/trends";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState, useTransition } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useSubMenuData } from "../../commons/useSubMenuData";
 
 const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
@@ -15,35 +13,33 @@ const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
   year: 0.8,
 };
 
-// ✅ Configuration des tranches d'âge avec leurs icônes (images)
 const AGE_GROUPS = [
-  { 
-    id: '18-25', 
-    label: '18-25 ANS', 
-    icon: '/icons/tranche1.png', // Chemin vers l'image
-    percentage: 0.20 
+  {
+    id: '18-25',
+    label: '18-25 ANS',
+    icon: '/icons/tranche1.png',
+    percentage: 0.20
   },
-  { 
-    id: '26-35', 
-    label: '26-35 ANS', 
-    icon: '/icons/tranche2.png', 
-    percentage: 0.30 
+  {
+    id: '26-35',
+    label: '26-35 ANS',
+    icon: '/icons/tranche2.png',
+    percentage: 0.30
   },
-  { 
-    id: '36-50', 
-    label: '36-50 ANS', 
-    icon: '/icons/tranche3.png', 
-    percentage: 0.25 
+  {
+    id: '36-50',
+    label: '36-50 ANS',
+    icon: '/icons/tranche3.png',
+    percentage: 0.25
   },
-  { 
-    id: '50+', 
-    label: '50+ ANS', 
-    icon: '/icons/tranche4.png', 
-    percentage: 0.25 
+  {
+    id: '50+',
+    label: '50+ ANS',
+    icon: '/icons/tranche4.png',
+    percentage: 0.25
   },
 ] as const;
 
-// ✅ Couleurs par tranche d'âge
 const AGE_COLORS = {
   '18-25': { bg: 'bg-blue-100', text: 'text-blue-600', border: 'border-blue-400' },
   '26-35': { bg: 'bg-green-100', text: 'text-green-600', border: 'border-green-400' },
@@ -51,7 +47,6 @@ const AGE_COLORS = {
   '50+': { bg: 'bg-orange-100', text: 'text-orange-600', border: 'border-orange-400' },
 } as const;
 
-// ✅ Fonction pour obtenir les couleurs
 const getAgeColors = (id: string) => {
   return AGE_COLORS[id as keyof typeof AGE_COLORS] || AGE_COLORS['18-25'];
 };
@@ -69,13 +64,13 @@ const createAgeGroupItem = (
   return {
     nbetablissements: count,
     title: `${count} ${baseTitle}`,
-    icon: iconPath, // Chemin vers l'image
+    icon: iconPath,
     tpsglobal,
     blackicon: iconPath,
     id: baseTitle.toLowerCase().replace(/\s/g, '_'),
     count,
     trendValue: trends.week.value,
-    iconSrc: iconPath, // Chemin vers l'image
+    iconSrc: iconPath,
     iconAlt: `Icône ${baseTitle}`,
     color: colors.text,
     bgColor: colors.bg,
@@ -89,19 +84,11 @@ const createAgeGroupItem = (
   };
 };
 
-// ============================================================================
-// HOOK PRINCIPAL
-// ============================================================================
-
 export const usePrincipale = () => {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
 
-  const currentItem = useMonEtoileStore((state) => state.currentItem);
+  const currentItem = useMonEtoileStore((state) => state.clientItem);
 
-  const tpsglobal = useMemo(() => valeurEntier(initialCarto.tpsglobal), []);
-
-  // ✅ Génération des items par tranche d'âge à partir du total
   const ageGroupItems = useMemo(() => {
     if (!currentItem) return [];
 
@@ -110,23 +97,22 @@ export const usePrincipale = () => {
     return AGE_GROUPS.map((ageGroup, index) => {
       const count = Math.round(totalClients * ageGroup.percentage);
       const tpsglobal = 9 + index; // 9, 10, 11, 12
-      
+
       return createAgeGroupItem(
         ageGroup.label,
         count,
         tpsglobal,
-        ageGroup.icon, // ✅ Passer le chemin de l'icône
-        ageGroup.id // ✅ Passer l'ID pour les couleurs
+        ageGroup.icon,
+        ageGroup.id
       );
     });
   }, [currentItem]);
 
   const { submenutitems } = useSubMenuData(currentItem?.nbetablissements || 0);
 
-  // ✅ Construction du mainMenuItem
   const mainMenuItem = useMemo(() => {
     if (!currentItem) return null;
-    
+
     const total = currentItem.nbetablissements || 0;
     const mainTrends = generateAllTrends(total);
 
@@ -145,17 +131,11 @@ export const usePrincipale = () => {
     };
   }, [currentItem]);
 
-  const handleBackClick = useCallback(() => {
-    startTransition(() => {
-      router.back();
-    });
-  }, [router]);
-
   const [activePeriod, setActivePeriod] = useState<PeriodType>('all');
 
   const handleBack = useCallback(() => {
-    handleBackClick?.();
-  }, [handleBackClick]);
+    window.history.back()
+  }, []);
 
   const handleRapportClick = () => {
     router.push('/consulter/clients/age/rapport');
@@ -163,10 +143,10 @@ export const usePrincipale = () => {
 
   const periodMultiplier = PERIOD_MULTIPLIERS[activePeriod];
 
-  // ✅ Adaptation des données selon la période
   const adaptedMainItem = useMemo(() => {
     if (!mainMenuItem) return null;
     const adaptedCount = Math.round(mainMenuItem.nbetablissements * periodMultiplier);
+
     return {
       ...mainMenuItem,
       nbetablissements: adaptedCount,
@@ -186,17 +166,7 @@ export const usePrincipale = () => {
   );
 
   return {
-    handleBackClick,
-    submenutitems,
-    tpsglobal,
-    mainMenuItem,
-    ageGroupItems,
-    isPending,
-    adaptedMainItem,
-    adaptedAgeGroupItems,
-    activePeriod,
-    setActivePeriod,
-    handleBack,
-    handleRapportClick
+    setActivePeriod, handleBack, handleRapportClick,
+    submenutitems, adaptedMainItem, adaptedAgeGroupItems, activePeriod,
   };
 };

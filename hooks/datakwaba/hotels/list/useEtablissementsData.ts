@@ -1,31 +1,22 @@
 'use client';
-import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { TAB_ETAB_CONFIG } from "@/lib/libs/constants";
 import { fetchData } from "@/lib/libs/functions";
 import { Etablissement, TabType } from "@/lib/libs/interface";
-
-const DEFAULT_COUNT = 10000;
+import { useMonEtoileStore } from "@/lib/store/monetoile.store";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export function useEtablissementsData() {
-  const searchParams = useSearchParams();
+  const etablissementItem = useMonEtoileStore((state) => state.etablissementItem);
 
   const [etablissements, setEtablissements] = useState<Etablissement[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabType>('all');
 
-  const nbetablissements = useMemo(() => {
-    const param = searchParams?.get('nbetablissements');
-    if (!param) return DEFAULT_COUNT;
-    const parsed = parseInt(param, 10);
-    return isNaN(parsed) ? DEFAULT_COUNT : parsed;
-  }, [searchParams]);
-
   const fetchDataetablissemnts = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await fetchData<Etablissement[]>(
-        `/api/etablissements?nbetablissements=${nbetablissements}`
+        `/api/etablissements?nbetablissements=${etablissementItem?.nbetablissements}`
       );
       setEtablissements(response);
     } catch {
@@ -33,15 +24,12 @@ export function useEtablissementsData() {
     } finally {
       setIsLoading(false);
     }
-  }, [nbetablissements]);
+  }, [etablissementItem?.nbetablissements]);
 
   useEffect(() => {
     fetchDataetablissemnts();
   }, [fetchDataetablissemnts]);
 
-  const filterByLocation = useCallback((etab: Etablissement) =>
-    etab.type === 'Hôtel',
-    []);
 
   const filterByStatus = useCallback((etab: Etablissement) => {
     if (activeTab === 'upToDate') return etab.cotisation === 'À jour';
@@ -51,9 +39,9 @@ export function useEtablissementsData() {
 
   const filteredEtablissements = useMemo(() =>
     etablissements.filter(
-      etab => filterByLocation(etab) && filterByStatus(etab)
+      etab => filterByStatus(etab)
     ),
-    [etablissements, filterByLocation, filterByStatus]
+    [etablissements, filterByStatus]
   );
 
   const handleTabChange = useCallback((tab: TabType) => {

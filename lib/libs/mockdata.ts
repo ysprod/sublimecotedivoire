@@ -26,7 +26,7 @@ export const regionsData: RegionsDataType =
         "g": "-MysNGzJ4JJGSWSo5e-v",
         "h": "3/23/22, 8:04 PM",
         "i": "https://firebasestorage.googleapis.com/v0/b/cotedivoire-love.appspot.com/o/photospresidentsconseil%2F-MysNGzJ4JJGSWSo5e-v%2FDSC_8880%20(1).jpg?alt=media&token=23f9e7fb-7831-4fe5-845a-b314be3a68c4",
-        "l": "TRAORÉ ADAM KOLIA",
+        "l": "TRAORÉ KOLIA ADAM",
         "m": "https://firebasestorage.googleapis.com/v0/b/cotedivoire-love.appspot.com/o/logosconseils%2F-MysNGzJ4JJGSWSo5e-v%2F48681284-38122103.jpg?alt=media&token=ee3b2d3a-db55-4aae-b21d-74accded84af"
     },
     "-MysO8zbimN4Kw4GutaZ": {

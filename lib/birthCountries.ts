@@ -5,7 +5,6 @@ export const birthCountries = [
   'Azerbaïdjan', 'Bulgarie', 'Burkina Faso', 'Burundi',
   'Bahamas', 'Bahreïn', 'Bangladesh', 'Barbade', 'Belgique', 'Belize', 'Bénin', 'Bhoutan',
   'Biélorussie', 'Birmanie', 'Bolivie', 'Bosnie-Herzégovine', 'Botswana', 'Brésil', 'Brunei',
-
   'Cambodge', 'Cameroun', 'Canada', 'Cap-Vert', 'République centrafricaine', 'Chili', 'Chine',
   'Chypre', 'Colombie', 'Comores', 'Congo', 'République démocratique du Congo', 'Corée du Nord',
   'Corée du Sud', 'Costa Rica', 'Croatie', 'Cuba', 'États-Unis', 'Éthiopie',
@@ -28,9 +27,8 @@ export const birthCountries = [
   'Saint-Kitts-et-Nevis', 'Saint-Marin', 'Saint-Vincent-et-les-Grenadines', 'Sainte-Lucie',
   'Salvador', 'Samoa', 'Sao Tomé-et-Principe', 'Sénégal', 'Serbie', 'Seychelles', 'Sierra Leone',
   'Singapour', 'Slovaquie', 'Slovénie', 'Somalie', 'Soudan', 'Soudan du Sud', 'Sri Lanka', 'Suède',
-  'Suisse', 'Suriname', 'Syrie', 'Haïti', 'Honduras', 'Hongrie',
+  'Suisse', 'Suriname', 'Syrie', 'Haïti', 'Honduras', 'Hongrie', 'Viêt Nam',
   'Tadjikistan', 'Tanzanie', 'Tchad', 'République tchèque', 'Thaïlande', 'Timor oriental',
   'Togo', 'Tonga', 'Trinité-et-Trinidade', 'Tunisie', 'Turkménistan', 'Turquie', 'Tuvalu',
-  'Ukraine', 'Uruguay', 'Vanuatu', 'Vatican', 'Venezuela', 'Viêt Nam',
-  'Autre',
+  'Ukraine', 'Uruguay', 'Vanuatu', 'Vatican', 'Venezuela', 'Autre',
 ];

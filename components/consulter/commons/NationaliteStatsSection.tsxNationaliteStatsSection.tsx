@@ -1,9 +1,6 @@
-// components/NationaliteStatsSection.tsx
 'use client';
-
-import { memo } from "react";
-import { InfoStat } from "./InfoStat";
 import Image from "next/image";
+import { memo } from "react";
 
 interface NationaliteStatsSectionProps {
   items: any[];
@@ -13,23 +10,19 @@ interface NationaliteStatsSectionProps {
 
 export const NationaliteStatsSection = memo(({
   items,
-  tpsglobal,
   onClick
 }: NationaliteStatsSectionProps) => {
   if (items.length === 0) return null;
 
-  // ✅ Séparer les 4 premières nationalités + Autre
   const topNationalities = items.slice(0, 4);
   const otherNationalities = items.slice(4);
 
-  // ✅ Composant pour afficher le drapeau ou le globe
   const renderFlag = (item: any) => {
     const isGlobe = item.id === 'autre' || item.description?.includes('AUTRE');
     const flagUrl = item.iconSrc || item.icon || item.blackicon;
 
     if (isGlobe) {
-      // 🌍 Globe généré par IA en SVG
-      return (
+          return (
         <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 border-2 border-blue-200">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +44,6 @@ export const NationaliteStatsSection = memo(({
       );
     }
 
-    // 🏳️ Drapeau du pays
     if (flagUrl) {
       return (
         <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200 shadow-sm flex-shrink-0 bg-gray-50">
@@ -67,7 +59,6 @@ export const NationaliteStatsSection = memo(({
       );
     }
 
-    // Fallback : emoji drapeau
     return (
       <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 border-2 border-gray-200">
         <span className="text-xl">🏳️</span>
@@ -75,7 +66,6 @@ export const NationaliteStatsSection = memo(({
     );
   };
 
-  // ✅ InfoStat personnalisé avec drapeau
   const CustomInfoStat = ({ item }: { item: any }) => {
     const count = item.nbetablissements || item.count || 0;
     const total = items.reduce((sum, i) => sum + (i.nbetablissements || i.count || 0), 0);
@@ -102,13 +92,6 @@ export const NationaliteStatsSection = memo(({
               </span>
             </div>
           </div>
-          {/* Barre de progression */}
-          <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full transition-all duration-1000"
-              style={{ width: `${Math.min(percentage, 100)}%` }}
-            />
-          </div>
         </div>
       </div>
     );
@@ -122,15 +105,14 @@ export const NationaliteStatsSection = memo(({
       </h3>
 
       {/* Top 4 nationalités */}
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
         {topNationalities.map((item) => (
           <CustomInfoStat key={item.id || item.title} item={item} />
         ))}
       </div>
 
-      {/* Autre nationalité */}
       {otherNationalities.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mt-2">
           {otherNationalities.map((item) => (
             <CustomInfoStat key={item.id || item.title} item={item} />
           ))}

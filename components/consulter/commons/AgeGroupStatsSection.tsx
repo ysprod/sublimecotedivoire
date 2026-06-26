@@ -1,9 +1,6 @@
-// components/AgeGroupStatsSection.tsx
 'use client';
-
-import { memo } from "react";
 import Image from "next/image";
-import { InfoStat } from "./InfoStat";
+import { memo } from "react";
 
 interface AgeGroupStatsSectionProps {
   items: any[];
@@ -13,7 +10,6 @@ interface AgeGroupStatsSectionProps {
 
 export const AgeGroupStatsSection = memo(({
   items,
-  tpsglobal,
   onClick
 }: AgeGroupStatsSectionProps) => {
   if (items.length === 0) return null;
@@ -21,22 +17,21 @@ export const AgeGroupStatsSection = memo(({
   // ✅ Composant pour afficher l'icône de la tranche d'âge
   const AgeIcon = ({ item }: { item: any }) => {
     const iconPath = item.iconSrc || item.icon || item.blackicon;
-    
+
     if (iconPath) {
       return (
-        <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-gray-200 shadow-sm flex items-center justify-center">
+        <div className="w-24 h-24   flex items-center justify-center">
           <Image
             src={iconPath}
             alt={item.iconAlt || `Icône ${item.description}`}
-            width={32}
-            height={32}
+            width={64}
+            height={64}
             className="object-contain"
           />
         </div>
       );
     }
 
-    // Fallback : emoji
     return (
       <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gray-100 border-2 border-gray-200">
         <span className="text-2xl">👤</span>
@@ -44,7 +39,7 @@ export const AgeGroupStatsSection = memo(({
     );
   };
 
-  // ✅ InfoStat personnalisé avec l'icône d'âge
+
   const CustomInfoStat = ({ item }: { item: any }) => {
     const count = item.nbetablissements || item.count || 0;
     const total = items.reduce((sum, i) => sum + (i.nbetablissements || i.count || 0), 0);
@@ -55,8 +50,9 @@ export const AgeGroupStatsSection = memo(({
         className={`bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border border-gray-100 hover:border-blue-300`}
         onClick={() => onClick(item)}
       >
+        <AgeIcon item={item} />
         <div className="flex items-center gap-3">
-          <AgeIcon item={item} />
+
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-gray-800 truncate">
               {item.description || item.title?.replace(/^\d+\s/, '') || 'Inconnu'}
@@ -70,13 +66,6 @@ export const AgeGroupStatsSection = memo(({
               </span>
             </div>
           </div>
-          {/* Barre de progression */}
-          <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full transition-all duration-1000"
-              style={{ width: `${Math.min(percentage, 100)}%` }}
-            />
-          </div>
         </div>
       </div>
     );
@@ -88,7 +77,7 @@ export const AgeGroupStatsSection = memo(({
         <span>📊</span>
         Par Tranche d'Âge
       </h3>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {items.map((item) => (
           <CustomInfoStat key={item.id || item.title} item={item} />

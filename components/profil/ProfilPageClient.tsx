@@ -1,6 +1,6 @@
 'use client';
 import { useProfilUser } from "@/hooks/profil/useProfilUser";
-import { formatNumber } from "@/lib/functions";
+import { formatNumber } from "@/lib/libs/functions";
 import { motion } from 'framer-motion';
 import { AlertCircle, Eye, TrendingUp, Users } from "lucide-react";
 import React, { useMemo } from 'react';

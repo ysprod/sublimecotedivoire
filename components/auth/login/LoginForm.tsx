@@ -66,7 +66,7 @@ const LoginForm = memo(function LoginForm() {
         </div>
 
         <p className="mb-16 mt-6 text-center text-xs text-gray-400">
-          © 2026 DATAKWABA. Tous droits réservés.
+          © 2026 DATAKWABA - Tous droits réservés.
         </p>
       </div>
     </div>

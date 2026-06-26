@@ -22,7 +22,7 @@ export const useLoginForm = (login: (email: string, password: string) => Promise
     try {
       await login(email, password);
     } catch (error) {
-      setError('Une erreur est survenue' + error);
+      setError('Une erreur est survenue :' + error);
     } finally {
       setIsLoading(false);
     }

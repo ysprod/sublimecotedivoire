@@ -66,7 +66,6 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
-      // NOUVEAU : Ajout de randomuser.me
       {
         protocol: 'https',
         hostname: 'randomuser.me',

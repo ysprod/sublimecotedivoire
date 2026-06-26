@@ -1,11 +1,27 @@
+// hooks/datakwaba/hotes/usePrincipale.ts
+'use client';
+
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { CartoFiltre, Etablissement, MenuItem } from "@/lib/libs/interface";
+import { 
+  CartoFiltre, 
+  Etablissement, 
+  MenuItem, 
+  TrendData,
+  AllTrends,
+  Region,
+  Departement,
+  RegionsDataType,
+  DepartementDataType
+} from "@/lib/libs/interface";
 import { initialCarto } from "@/lib/libs/constants";
 import { useRegionsDepartements } from "../carto/useRegionsDepartements";
 import { getRandomCount, valeurEntier } from "@/lib/libs/functions";
 import { useSubMenuData } from "../commons/useSubMenuData";
 
-// ============ CONSTANTES ============
+// ============================================================================
+// CONSTANTES
+// ============================================================================
+
 const ICONS = {
   HOTELS: "/icons/hotel.png",
   CLIENTS: "/icons/lesclients.png",
@@ -13,53 +29,142 @@ const ICONS = {
   FEMMES: "/icons/cliente.png",
 } as const;
 
-// ============ FONCTIONS UTILITAIRES ============
+const DEFAULT_COUNT = 10000;
+
+// ============================================================================
+// TYPES
+// ============================================================================
+
+interface AppState {
+  tpsglobal: number;
+  startDate: string;
+  endDate: string;
+  selectedRegionLabel: string;
+  selectedDepartementLabel: string;
+  shouldShowDataNavigation: boolean;
+  etablissements: Etablissement[];
+  showfiltreconsulter: boolean;
+}
+
+interface StatsData {
+  hotelsClients: number;
+  previousHotelsClients: number;
+  totalClients: number;
+  previousTotalClients: number;
+  hommesCount: number;
+  previousHommesCount: number;
+  femmesCount: number;
+  previousFemmesCount: number;
+}
+
+// ============================================================================
+// FONCTIONS DE GÉNÉRATION DE TRENDS
+// ============================================================================
+
+const generateTrends = (baseValue: number): AllTrends => {
+  const periods = ['day', 'week', 'month', 'year'] as const;
+  const periodFactors = {
+    day: { min: -15, max: 15, threshold: 3 },
+    week: { min: -25, max: 25, threshold: 5 },
+    month: { min: -40, max: 40, threshold: 8 },
+    year: { min: -60, max: 60, threshold: 10 }
+  };
+  const periodLabels = {
+    day: 'hier',
+    week: 'la semaine dernière',
+    month: 'le mois dernier',
+    year: 'l\'année dernière'
+  };
+
+  const result = {} as AllTrends;
+
+  for (const period of periods) {
+    const factor = periodFactors[period];
+    const variation = (Math.sin(baseValue * 0.1 + Math.random() * 0.5) * factor.max * 0.5) +
+      (Math.random() * (factor.max - factor.min) + factor.min);
+    const roundedVariation = Math.round(variation * 10) / 10;
+
+    let direction: 'croissance' | 'baisse' | 'stable';
+    let label: string;
+
+    if (roundedVariation > factor.threshold) {
+      direction = 'croissance';
+      label = `+${roundedVariation}% par rapport à ${periodLabels[period]}`;
+    } else if (roundedVariation < -factor.threshold) {
+      direction = 'baisse';
+      label = `${roundedVariation}% par rapport à ${periodLabels[period]}`;
+    } else {
+      direction = 'stable';
+      label = `stable par rapport à ${periodLabels[period]}`;
+    }
+
+    result[period] = {
+      direction,
+      value: Math.abs(roundedVariation),
+      label
+    };
+  }
+
+  return result;
+};
+
+// ============================================================================
+// FONCTIONS UTILITAIRES
+// ============================================================================
+
 const createMenuItem = (
   baseTitle: string,
   count: number,
   icon: string,
   tpsglobal: number,
-  blackicon: string
-): MenuItem => ({
-  nbetablissements: count,
-  title: `${count} ${baseTitle}`,
-  icon,
-  tpsglobal,
-  blackicon,
-   id: baseTitle.toLowerCase().replace(/\s/g, '_'),
-  count,
-  trendValue: 0,
-  iconSrc: icon,
-  iconAlt: `Icône ${baseTitle}`,
-  color: "text-black",
-  bgColor: "bg-white",
-  description: baseTitle
-});
-
-const calculateTrend = (current: number, previous: number) => {
-  if (previous === 0) return { value: 0, direction: 'stable' as const };
-  const variation = ((current - previous) / previous) * 100;
+  blackicon: string,
+  trend?: { value: number; direction: 'croissance' | 'baisse' | 'stable' }
+): MenuItem => {
+  const trends = generateTrends(count);
+  
   return {
-    value: Math.abs(Math.round(variation * 10) / 10),
-    direction: variation > 0 ? 'up' as const : variation < 0 ? 'down' as const : 'stable' as const
+    id: baseTitle.toLowerCase().replace(/\s/g, '_'),
+    title: `${count} ${baseTitle}`,
+    count,
+    trendValue: trend?.value || 0,
+    iconSrc: icon,
+    iconAlt: `Icône ${baseTitle}`,
+    color: "text-black",
+    bgColor: "bg-white",
+    description: baseTitle,
+    nbetablissements: count,
+    icon,
+    tpsglobal,
+    blackicon,
+    trends,
+    trend: trend ? {
+      value: trend.value,
+      direction: trend.direction,
+      label: `${trend.value}%`
+    } : undefined,
   };
 };
 
-const generateStats = () => {
-  // Total des clients dans les hôtels
+const calculateTrend = (current: number, previous: number): { value: number; direction: 'croissance' | 'baisse' | 'stable' } => {
+  if (previous === 0) return { value: 0, direction: 'stable' };
+  const variation = ((current - previous) / previous) * 100;
+  return {
+    value: Math.abs(Math.round(variation * 10) / 10),
+    direction: variation > 0 ? 'croissance' : variation < 0 ? 'baisse' : 'stable'
+  };
+};
+
+const generateStats = (): StatsData => {
   const hotelsClients = getRandomCount(5000, 20000);
   const previousHotelsClients = Math.floor(hotelsClients * (1 + (Math.random() * 0.2 - 0.1)));
-  
+
   const totalClients = hotelsClients;
   const previousTotalClients = previousHotelsClients;
 
-  // Répartition par genre
   const hommesCount = Math.floor(totalClients * getRandomCount(45, 55) / 100);
   const previousHommesCount = Math.floor(previousTotalClients * getRandomCount(45, 55) / 100);
   const femmesCount = totalClients - hommesCount;
   const previousFemmesCount = previousTotalClients - previousHommesCount;
-
-  // Répartition par nationalité
 
   return {
     hotelsClients,
@@ -73,48 +178,47 @@ const generateStats = () => {
   };
 };
 
-// ============ HOOK MENU DATA ============
+// ============================================================================
+// HOOK DE DONNÉES DU MENU
+// ============================================================================
+
 const useMenuData = () => {
-  const menuData = useMemo(() => {
+  return useMemo(() => {
     const stats = generateStats();
 
-    return {
-      MAIN_MENU_ITEMS: [
-        // Total des clients dans les hôtels (indicateur principal)
-        {
-          ...createMenuItem("CLIENTS HÔTES", stats.totalClients, ICONS.CLIENTS, 1, ICONS.CLIENTS),
-          trend: calculateTrend(stats.totalClients, stats.previousTotalClients)
-        },
-        // Détail : Clients hommes
-        {
-          ...createMenuItem("HOMMES", stats.hommesCount, ICONS.HOMMES, 2, ICONS.HOMMES),
-          trend: calculateTrend(stats.hommesCount, stats.previousHommesCount)
-        },
-        // Détail : Clients femmes
-        {
-          ...createMenuItem("FEMMES", stats.femmesCount, ICONS.FEMMES, 3, ICONS.FEMMES),
-          trend: calculateTrend(stats.femmesCount, stats.previousFemmesCount)
-        },       
-      ]
-    };
+    return [
+      createMenuItem(
+        "CLIENTS HÔTELS",
+        stats.totalClients,
+        ICONS.CLIENTS,
+        1,
+        ICONS.CLIENTS,
+        calculateTrend(stats.totalClients, stats.previousTotalClients)
+      ),
+      createMenuItem(
+        "HOMMES",
+        stats.hommesCount,
+        ICONS.HOMMES,
+        2,
+        ICONS.HOMMES,
+        calculateTrend(stats.hommesCount, stats.previousHommesCount)
+      ),
+      createMenuItem(
+        "FEMMES",
+        stats.femmesCount,
+        ICONS.FEMMES,
+        3,
+        ICONS.FEMMES,
+        calculateTrend(stats.femmesCount, stats.previousFemmesCount)
+      ),
+    ];
   }, []);
-
-  return { mainmenutitems: menuData };
 };
 
-// ============ TYPES ============
-interface AppState {
-  tpsglobal: number;
-  startDate: string;
-  endDate: string;
-  selectedRegionLabel: string;
-  selectedDepartementLabel: string;
-  shouldShowDataNavigation: boolean;
-  etablissements: Etablissement[];
-  showfiltreconsulter: boolean;
-}
+// ============================================================================
+// HOOK PRINCIPAL
+// ============================================================================
 
-// ============ HOOK PRINCIPAL ============
 export function usePrincipale() {
   const {
     loading,
@@ -139,30 +243,48 @@ export function usePrincipale() {
   });
 
   const [carto, setCarto] = useState<CartoFiltre>(initialCarto);
+  const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
+
+  // ============================================================================
+  // ACTIONS
+  // ============================================================================
 
   const updateCarto = useCallback((updates: Partial<CartoFiltre>) => {
     setCarto(prev => ({ ...prev, ...updates }));
   }, []);
 
-  // Chargement des régions/départements
+  const setshouldShowDataNavigation = useCallback((value: boolean) => {
+    setState(prev => ({ ...prev, shouldShowDataNavigation: value }));
+  }, []);
+
+  const setShowfiltreconsulter = useCallback((value: boolean) => {
+    setState(prev => ({ ...prev, showfiltreconsulter: value }));
+  }, []);
+
+  const handleBackClick = useCallback(() => {
+    window.history.back();
+  }, []);
+
+  // ============================================================================
+  // EFFETS
+  // ============================================================================
+
   useEffect(() => {
     loadRegionsAndDepartements();
   }, [loadRegionsAndDepartements]);
 
-  // Mise à jour des labels
   useEffect(() => {
     if (!carto.regionId) return;
     const { departements } = getDepartementsForRegion(carto.regionId);
-    const selectedDepartement = departements.find(dep => dep.d === carto.departementId);
+    const selectedDepartement = departements.find((dep: Departement) => dep.d === carto.departementId);
 
     setState(prev => ({
       ...prev,
-      selectedRegionLabel: regionsData[carto.regionId!]?.c || '',
+      selectedRegionLabel: (regionsData as RegionsDataType)[carto.regionId!]?.c || '',
       selectedDepartementLabel: selectedDepartement?.a || ''
     }));
   }, [carto.regionId, carto.departementId, regionsData, getDepartementsForRegion]);
 
-  // Synchronisation carto
   useEffect(() => {
     updateCarto({
       region: state.selectedRegionLabel,
@@ -170,87 +292,70 @@ export function usePrincipale() {
     });
   }, [state.selectedRegionLabel, state.selectedDepartementLabel, updateCarto]);
 
-  // Données du menu
-  const { mainmenutitems } = useMenuData();
-  const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
+  // ============================================================================
+  // DONNÉES
+  // ============================================================================
 
-  // Gestion du retour
-  const handleBackClick = useCallback(() => {
-    window.history.back();
-  }, []);
+  const allMenuItems = useMenuData();
 
-  // Tpsglobal
-  const tpsglobal = useMemo(() => valeurEntier(carto.tpsglobal), [carto.tpsglobal]);
+  const mymainMenuItem = useMemo(() => allMenuItems[0] || null, [allMenuItems]);
 
-  // Récupération de tous les items du menu
-  const allMenuItems = useMemo(() => {
-    return mainmenutitems.MAIN_MENU_ITEMS || [];
-  }, [mainmenutitems]);
+  const subMenuItems = useMemo(() => allMenuItems.slice(1), [allMenuItems]);
 
-  // Item principal : Total des clients dans les hôtels (premier item)
-  const mymainMenuItem = useMemo(() => {
-    return allMenuItems[0] || null;
-  }, [allMenuItems]);
+  const { submenutitems } = useSubMenuData(mymainMenuItem?.nbetablissements || DEFAULT_COUNT);
 
-  // Sous-items : Hommes, Femmes, 
-  const subMenuItems = useMemo(() => {
-    return allMenuItems.slice(1);
-  }, [allMenuItems]);
-
-  // Utilisation de useSubMenuData avec le nombre de clients total
-  const { submenutitems } = useSubMenuData(mymainMenuItem?.nbetablissements || 10000);
-
-  // Item principal enrichi avec le total des sous-items
   const mainMenuItem = useMemo(() => {
     if (!mymainMenuItem || !submenutitems.length) return null;
     const total = submenutitems.reduce((sum, item) => sum + (item.nbetablissements || 0), 0);
-    const textPart = "CLIENTS HÔTELS";
-
     return {
       ...mymainMenuItem,
       nbetablissements: total,
-      title: `${total} ${textPart}`
+      title: `${total} CLIENTS HÔTELS`
     };
   }, [mymainMenuItem, submenutitems]);
 
-  // Filtrage des items pour l'affichage (Hommes, Femmes,)
   const detailItems = useMemo(() => {
-    return submenutitems.filter(item =>
+    return submenutitems.filter((item: MenuItem) =>
       item.title?.includes('HOMMES') ||
-      item.title?.includes('FEMMES') 
+      item.title?.includes('FEMMES')
     );
   }, [submenutitems]);
+
+  const tpsglobal = useMemo(() => valeurEntier(carto.tpsglobal), [carto.tpsglobal]);
+
+  // ============================================================================
+  // RETURN
+  // ============================================================================
 
   return {
     // États
     ...state,
     loading,
     errorMessage,
-    regionsData,
-    departementData,
+    regionsData: regionsData as RegionsDataType,
+    departementData: departementData as DepartementDataType,
     regions,
     regionOptions,
     carto,
+    selectedMenuItem,
+    tpsglobal,
 
     // Actions
     updateCarto,
-    getDepartementsForRegion: getDepartementsForRegion(carto.regionId || ''),
-    setshouldShowDataNavigation: (value: boolean) =>
-      setState(prev => ({ ...prev, shouldShowDataNavigation: value })),
-    setShowfiltreconsulter: (value: boolean) =>
-      setState(prev => ({ ...prev, showfiltreconsulter: value })),
-
-    // Données
-    mainmenutitems,
-    selectedMenuItem,
+    setshouldShowDataNavigation,
+    setShowfiltreconsulter,
     setSelectedMenuItem,
     handleBackClick,
+
+    // Données
+    allMenuItems,
+    subMenuItems,
     submenutitems,
     mymainMenuItem,
     mainMenuItem,
     detailItems,
-    tpsglobal,
-    allMenuItems,
-    subMenuItems
+
+    // Utilitaires
+    getDepartementsForRegion: getDepartementsForRegion(carto.regionId || ''),
   };
 }

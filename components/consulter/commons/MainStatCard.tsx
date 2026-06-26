@@ -1,6 +1,4 @@
-// components/MainStatCard.tsx
 'use client';
-
 import { MenuItem } from "@/lib/libs/interface";
 import { memo } from "react";
 import { InfoStat } from "./InfoStat";

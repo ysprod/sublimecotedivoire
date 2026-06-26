@@ -1,10 +1,11 @@
-"use client";
-import { memo } from "react";
-import MenuDiambra from "@/components/consulter/clients/MenuDiambra";
+import ClientsDashboard from '@/components/consulter/clients/ClientsDashboard';
+import { Metadata } from 'next';
 
-const Principale = memo(function Principale() {
+export const metadata: Metadata = {
+    title: 'Statistiques des Clients - DATAKWABA',
+    description: 'Consultez les statistiques détaillées des clients au plan national',
+};
 
-    return (<MenuDiambra />);
-});
-
-export default Principale;
+export default function Page() {
+    return <ClientsDashboard />;
+}

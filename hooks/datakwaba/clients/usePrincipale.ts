@@ -1,6 +1,4 @@
 'use client';
-import { initialCarto } from "@/lib/libs/constants";
-import { valeurEntier } from "@/lib/libs/functions";
 import { PeriodType } from "@/lib/libs/interface";
 import { generateAllTrends } from "@/lib/libs/trends";
 import { useMonEtoileStore } from "@/lib/store/monetoile.store";
@@ -17,25 +15,27 @@ const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
 
 export const usePrincipale = () => {
   const router = useRouter();
+
   const [activePeriod, setActivePeriod] = useState<PeriodType>('all');
 
-  const currentItem = useMonEtoileStore((state) => state.currentItem);
+  const clientItem = useMonEtoileStore((state) => state.clientItem);
 
   const mainItem = useMemo(() => {
-    if (!currentItem) return null;
+    if (!clientItem) return null;
     return {
-      ...currentItem,
-      trends: currentItem.trends || generateAllTrends(currentItem.nbetablissements || 10000),
+      ...clientItem,
+      trends: clientItem.trends || generateAllTrends(clientItem.nbetablissements || 10000),
     };
-  }, [currentItem]);
+  }, [clientItem]);
 
-  const { submenutitems } = useSubMenuData(currentItem?.nbetablissements || 0);
+  const { submenutitems } = useSubMenuData(clientItem?.nbetablissements || 0);
 
   const adaptedMainItem = useMemo(() => {
     if (!mainItem) return null;
 
     const multiplier = PERIOD_MULTIPLIERS[activePeriod];
     const adaptedCount = Math.round(mainItem.nbetablissements * multiplier);
+    
     const mainTrends = generateAllTrends(adaptedCount);
 
     return {
@@ -55,8 +55,6 @@ export const usePrincipale = () => {
 
   const periodMultiplier = PERIOD_MULTIPLIERS[activePeriod];
 
-  const tpsglobal = useMemo(() => valeurEntier(initialCarto.tpsglobal), []);
-
   const handleBack = useCallback(() => {
     window.history.back();
   }, []);
@@ -67,6 +65,6 @@ export const usePrincipale = () => {
 
   return {
     activePeriod, setActivePeriod, mainMenuItem: adaptedMainItem,
-    submenutitems, handleBack, handleRapportClick, periodMultiplier, tpsglobal,
+    submenutitems, handleBack, handleRapportClick, periodMultiplier, tpsglobal: 0,
   };
 };

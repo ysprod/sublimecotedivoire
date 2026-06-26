@@ -20,7 +20,6 @@ export interface User {
   city?: string;
   profilePicture?: string;
   isActive?: boolean;
-  premium?: boolean;
   resetPasswordToken?: string;
   resetPasswordExpires?: Date;
   lastLogin?: Date;
@@ -29,7 +28,6 @@ export interface User {
     notifications?: boolean;
     newsletter?: boolean;
   };
-  rating?: number;
   credits?: number;
   status?: string;
   avatar?: string;

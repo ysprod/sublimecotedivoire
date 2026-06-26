@@ -12,7 +12,6 @@ interface AppState {
 }
 
 export function useEtablissements() {
-
   const { loading, errorMessage, regionsData, departementData, regions, regionOptions,
     loadRegionsAndDepartements, getDepartementsForRegion } = useRegionsDepartements();
 

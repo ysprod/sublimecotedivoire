@@ -15,14 +15,12 @@ export const queryClient = new QueryClient({
 
 export const QUERY_KEYS = {
   AUTH_ME: ['auth', 'me'],
- NOTIFICATIONS: ['notifications'],
- 
+  NOTIFICATIONS: ['notifications'],
 };
 
 export function clearPersistedQueryCache() {
   if (typeof window === 'undefined') {
     return;
   }
-
   window.localStorage.removeItem(PERSISTED_QUERY_CACHE_KEY);
 }

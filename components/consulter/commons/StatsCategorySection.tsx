@@ -1,6 +1,6 @@
 'use client';
-import { memo } from "react";
 import { InfoStat } from "./InfoStat"; 
+import { memo } from "react";
 
 const StatsCategorySection = memo(({
   title,

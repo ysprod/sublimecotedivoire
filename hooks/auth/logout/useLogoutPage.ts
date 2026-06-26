@@ -21,7 +21,7 @@ export function useLogoutPage() {
   const errorTimeoutRef = useRef<NodeJS.Timeout | number | null>(null);
   const logoutCompletedRef = useRef(false);
 
-   if (typeof document !== 'undefined') {
+  if (typeof document !== 'undefined') {
     document.cookie = 'monetoile_access_token=; Max-Age=0; path=/;';
   }
 
@@ -59,7 +59,7 @@ export function useLogoutPage() {
         }, SUCCESS_REDIRECT_DELAY);
         return;
       }
-      
+
       try {
         progressIntervalRef.current = setInterval(() => {
           setProgress((prev) => {

@@ -5,8 +5,8 @@ import { MenuItem } from "@/lib/libs/interface";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import BackButton from "../commons/BackButton";
 import Bandeau from "../commons/Bandeau";
-import ConsulterEtablissementsContent from "./ConsulterEtablissementsContent";
-import EnteteRapport from "./EnteteRapport";
+import ConsulterEtablissementsContent from "./components/ConsulterEtablissementsContent";
+import EnteteRapport from "./components/EnteteRapport";
 
 const createMenuItem = (
   baseTitle: string,

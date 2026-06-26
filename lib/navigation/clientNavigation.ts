@@ -24,7 +24,7 @@ export function dispatchLoginNavigation(returnTo?: string) {
 
   dispatchClientNavigation({
     href: params.size ? `/auth/login?${params.toString()}` : '/auth/login',
-    replace: true,
     refresh: true,
+    replace: true,
   });
 }

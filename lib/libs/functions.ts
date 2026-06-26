@@ -46,7 +46,6 @@ export const fetchData = async <T>(url: string, method: string = 'GET', body?: u
     }
 
     const result = await response.json();
-
     if (!result.data) {
       throw new Error("Format non reconnue des données");
     }
@@ -153,7 +152,6 @@ export const getTrendHistory = (months: number = 6): TrendResult[] => {
   let lastTrend: TrendType | null = null;
 
   for (let i = 0; i < months; i++) {
-    // Éviter plus de 3 fois la même tendance consécutive
     let trend: TrendResult;
     do {
       trend = getRandomTrend({ bias: "neutral" });
@@ -198,3 +196,13 @@ export const calculateTrend = (oldValue: number, newValue: number): TrendResult 
     };
   }
 };
+
+export function cx(...v: Array<string | false | null | undefined>) {
+  return v.filter(Boolean).join(" ");
+}
+
+export const formatNumber = (num: number): string => {
+  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
+  return num.toString();
+};  

@@ -138,7 +138,6 @@ export interface Etablissement {
   telephone: string;
   email: string;
   cotisation: 'À jour' | 'Pas à jour';
-
   owner: {
     nom: string;
     prenom: string;
@@ -251,6 +250,7 @@ export interface MenuItem {
 
 export type FilterType = "all" | "hotel" | "residence" | "maison hote";
 export type ColorType = 'blue' | 'green' | 'red' | 'primary' | 'secondary';
+
 export type TabType = 'all' | 'upToDate' | 'notUpToDate';
 export type EtablissementType = 'hotels' | 'residences' | 'maisons' | null;
 
@@ -381,10 +381,6 @@ export interface ConnexionHistory {
   };
 }
 
-// ============================================================================
-// TYPES UTILITAIRES
-// ============================================================================
-
 export interface OptionValue {
   value: string;
   label: string;
@@ -425,4 +421,30 @@ export interface TrendResult {
   icon: "trending-up" | "trending-down" | "minus";
   color: string;
   description: string;
+}
+
+export type LogoutState = 'loading' | 'success' | 'error';
+
+export type TrendDirection = 'croissance' | 'baisse' | 'stable';
+
+export interface TrendConfig {
+  icon: React.ElementType;
+  bgColor: string;
+  color: string;
+  label: string;
+}
+
+export interface CategoryStyle {
+  color: string;
+  bgColor: string;
+  borderColor: string;
+  iconContainerBg: string;
+  gradient: string;
+}
+
+export interface FilterConfig {
+  id: string;
+  label: string;
+  icon: React.ElementType;
+  path: string;
 }

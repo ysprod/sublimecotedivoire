@@ -15,7 +15,6 @@ interface AppState {
 }
 
 export function usePrincipale() {
-
   const { loading, errorMessage, regionsData, departementData, regions, regionOptions,
     loadRegionsAndDepartements, getDepartementsForRegion } = useRegionsDepartements();
 

@@ -178,7 +178,7 @@ export function useRegisterForm() {
 
   useEffect(() => {
     setMounted(true);
-  }, []); 
+  }, []);
 
   return {
     showPassword, showConfirmPassword, isSubmitDisabled, isLoading, isPending,

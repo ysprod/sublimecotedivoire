@@ -1,5 +1,6 @@
 "use client";
-import { cx } from "@/lib/functions";
+ 
+import { cx } from "@/lib/libs/functions";
 import { motion, useReducedMotion } from "framer-motion";
 import { Award, CalendarDays, MapPin, UserRound } from "lucide-react";
 import { memo, type ReactNode } from "react";

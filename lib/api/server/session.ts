@@ -173,10 +173,8 @@ export function buildBackendHeaders(request: NextRequest, accessToken?: string |
   if (accept) {
     headers.set('Accept', accept);
   }
-
   if (accessToken) {
     headers.set('Authorization', `Bearer ${accessToken}`);
   }
-
   return headers;
 }

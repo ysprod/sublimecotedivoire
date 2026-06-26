@@ -223,7 +223,7 @@ export default function TourismDashboard() {
   }
 
   return (
-    <div className="flex flex-col items-center w-full mx-auto px-4 py-4 space-y-4">
+    <div className="flex flex-col items-center w-full mx-auto px-2 py-2 space-y-2">
       <Bandeau />
 
       <div className="w-full max-w-4xl">

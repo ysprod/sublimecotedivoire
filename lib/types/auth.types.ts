@@ -10,18 +10,18 @@ export interface LoginDto {
   password: string;
 }
 
-export interface AuthResponse {
-  user: User;
-  accessToken?: string;
-  refreshToken?: string;
-}
-
 export interface TokenPayload {
   sub: string;
   email: string;
   role: Role;
   iat: number;
   exp: number;
+}
+
+export interface AuthResponse {
+  user: User;
+  accessToken?: string;
+  refreshToken?: string;
 }
 
 export type { Permission };

@@ -1,7 +1,7 @@
 import { Role } from '@/lib/interfaces';
 import { useAuthStore } from '@/lib/store/auth.store';
 import { useScroll, useTransform } from 'framer-motion';
-import { MessageCircle, User } from 'lucide-react';
+import { User } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -92,19 +92,19 @@ export function useHeaderState() {
     if (hasRole(Role.ADMIN) || hasRole(Role.SUPER_ADMIN)) {
       return { text: 'Admin ⚡', label: 'Membre Admin' };
     }
+    
     return { text: 'Premium ⭐', label: 'Membre Premium' };
   }, [user?.grade, hasRole]);
 
   const navItems = useMemo(() => [
     { href: "/star/monprofil", label: "Profil", icon: User },
-    { href: "/star/messagerie", label: "Inbox", icon: MessageCircle },
   ], []);
 
   const hasMountedUser = mounted && Boolean(user);
 
   return {
-    handleLogout, setMobileMenuOpen, setShowUserMenu, closeMobileMenu, toggleTheme,
-    user, theme, mounted, mobileMenuOpen, isScrolled, showUserMenu,
-    scrollY, progressWidth, userBadge, navItems, hasMountedUser,
+    user, theme, mounted, mobileMenuOpen, isScrolled, showUserMenu, hasMountedUser,
+    scrollY, userBadge, navItems, progressWidth, setMobileMenuOpen,
+    setShowUserMenu, handleLogout, closeMobileMenu, toggleTheme,
   };
 }

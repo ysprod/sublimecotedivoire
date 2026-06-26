@@ -4,7 +4,6 @@ export function useNotificationSound(url: string) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const unlockedRef = useRef(false);
 
-  // Crée l'élément audio une seule fois
   useEffect(() => {
     if (!audioRef.current && typeof window !== 'undefined') {
       audioRef.current = new window.Audio(url);
@@ -12,7 +11,6 @@ export function useNotificationSound(url: string) {
     }
   }, [url]);
 
-  // Débloque l'audio sur Safari/iOS après la première interaction utilisateur
   useEffect(() => {
     if (typeof window === 'undefined' || !audioRef.current) return;
     if (unlockedRef.current) return;
@@ -21,7 +19,7 @@ export function useNotificationSound(url: string) {
       if (!audioRef.current) return;
       // Un minuscule play/stop pour "débloquer" l'audio
       audioRef.current.muted = true;
-      audioRef.current.play().catch(() => {});
+      audioRef.current.play().catch(() => { });
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       audioRef.current.muted = false;
@@ -44,7 +42,7 @@ export function useNotificationSound(url: string) {
   const play = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => {});
+      audioRef.current.play().catch(() => { });
     }
   }, []);
 

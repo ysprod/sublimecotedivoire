@@ -24,6 +24,7 @@ export function useStatsDataWithCache() {
     queryFn: async () => {
       const res = await api.post<StatsResponse>('/stats');
       if (!res.data) throw new Error('Aucune donnée reçue');
+
       return {
         subscribers: res.data.subscribers ?? 0,
         visits: res.data.visits ?? 0,
@@ -33,12 +34,5 @@ export function useStatsDataWithCache() {
     gcTime: 1000 * 60 * 60,   // 30 min
   });
 
-  return {
-    stats,
-    isLoading,
-    isError,
-    isSuccess,
-    error,
-    refetch,
-  };
+  return { refetch, stats, isLoading, isError, isSuccess, error, };
 }

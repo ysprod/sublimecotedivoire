@@ -78,8 +78,8 @@ const ViewHotelsButton = memo(({
 
 const MenuDiambra = () => {
   const {
-    handleBack, setActivePeriod, handleViewHotels,
-    isViewHotelsLoading, adaptedIndicators, activePeriod,handleRapportClick,
+    handleRapportClick, handleBack, setActivePeriod, handleViewHotels,
+    isViewHotelsLoading, adaptedIndicators, activePeriod,
   } = usePrincipale();
 
   return (
@@ -138,7 +138,7 @@ const MenuDiambra = () => {
             isLoading={isViewHotelsLoading}
           />
 
-           <ReportButton onClick={handleRapportClick} />
+          <ReportButton onClick={handleRapportClick} />
         </div>
       </section>
     </div>

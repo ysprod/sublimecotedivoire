@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { memo } from "react";
 import type { MenuItem } from "@/lib/libs/interface";
 import { DATA_LOADING, fadeInUp } from "@/lib/libs/constants";
-import AfficheEtablissements from "../etablissemts/AfficheEtablissements";
-import HistoriqueLoader from "../commons/HistoriqueLoader";
+import AfficheEtablissements from "../../etablissemts/AfficheEtablissements";
+import HistoriqueLoader from "../../commons/HistoriqueLoader";
 import { useEtablissementsData } from "@/hooks/datakwaba/recherche/useEtablissementsData";
 import InfoStat from "./InfoStat";
 

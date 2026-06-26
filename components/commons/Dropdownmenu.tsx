@@ -1,9 +1,9 @@
 'use client';
-import { memo, useCallback, SetStateAction } from 'react';
-import { useRouter } from 'next/navigation';
-import { FiLogOut, FiClock, FiUser } from 'react-icons/fi';
-import { motion } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { memo, SetStateAction, useCallback } from 'react';
+import { FiLogOut, FiUser } from 'react-icons/fi';
 
 interface DropdownMenuProps {
     setIsOpen: (value: SetStateAction<boolean>) => void;

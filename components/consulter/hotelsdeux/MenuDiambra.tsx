@@ -2,7 +2,6 @@
 import Charte from "@/components/charts/Charte";
 import { usePrincipale } from "@/hooks/datakwaba/hotels/usePrincipale";
 import dynamic from 'next/dynamic';
-import { memo } from "react";
 import { PeriodButtons, ViewHotelsButton } from "./Features";
 import InfoStat from "./InfoStat";
 import PDFDownloadButton from "./ReportPDF";

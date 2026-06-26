@@ -2,7 +2,7 @@
 
 import type { MenuItem } from "@/lib/libs/interface";
 import clsx from "clsx";
-import { Download, FileText } from "lucide-react";
+import { Download, FileText, Loader2 } from "lucide-react";
 import { memo, useEffect, useState } from "react";
 
 // ============ COMPOSANT DE CHARGEMENT ============
@@ -16,7 +16,7 @@ const LoadingButton = memo(() => (
       "w-full sm:w-auto"
     )}
   >
-    <FileText size={20} />
+    <Loader2 size={20} className="animate-spin" />
     <span>Chargement du PDF...</span>
     <Download size={18} />
   </button>
@@ -36,12 +36,15 @@ const PDFDownloadButton = memo(({
 }) => {
   const [isClient, setIsClient] = useState(false);
   const [PDFComponent, setPDFComponent] = useState<React.ComponentType<any> | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsClient(true);
 
     const loadPDF = async () => {
       try {
+        setIsLoading(true);
+        
         // Import dynamique de react-pdf
         const pdfModule = await import('@react-pdf/renderer');
         const { Document, Page, Text, View, StyleSheet, PDFDownloadLink } = pdfModule;
@@ -151,7 +154,6 @@ const PDFDownloadButton = memo(({
             borderWidth: 1,
             borderColor: '#c4b5fd',
           },
-          // Nouveaux styles pour les statistiques avancées
           statRow: {
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -224,15 +226,16 @@ const PDFDownloadButton = memo(({
           const totalClients = mainItem?.nbetablissements || 0;
           const stats = calculateStats(subItems);
 
-          // Filtrer les items par catégorie
           const typeItems = subItems.filter((item: MenuItem) =>
             item.title?.includes('HÔTELS') ||
             item.title?.includes('RÉSIDENCES') ||
             item.title?.includes('MAISONS')
           );
 
-
-          // Items principaux
+          // Séparer les items par catégorie pour éviter les doublons
+          const uniqueItems = subItems.filter((item: MenuItem, index: number, self: MenuItem[]) =>
+            index === self.findIndex(i => i.title === item.title)
+          );
 
           return (
             <Document>
@@ -282,6 +285,12 @@ const PDFDownloadButton = memo(({
                           <Text style={pdfStyles.statLabel}>Femmes</Text>
                           <Text style={pdfStyles.statValue}>{stats.femmes.toLocaleString('fr-FR')}</Text>
                         </View>
+                        <View style={pdfStyles.statRow}>
+                          <Text style={pdfStyles.statLabel}>Ratio H/F</Text>
+                          <Text style={pdfStyles.statValue}>
+                            {stats.hommes > 0 ? (stats.hommes / (stats.femmes || 1)).toFixed(2) : 'N/A'}
+                          </Text>
+                        </View>
                       </View>
                     </View>
                     <View style={pdfStyles.column}>
@@ -305,72 +314,75 @@ const PDFDownloadButton = memo(({
                 </View>
 
                 {/* Détails par Catégorie */}
-                <View style={pdfStyles.section}>
-                  <Text style={pdfStyles.sectionTitle}>📋 Détails par Catégorie</Text>
-                  <View style={pdfStyles.grid}>
-                    {typeItems.map((item: MenuItem, index: number) => {
-                      const trend = getTrend(item.nbetablissements);
-                      const trendStyle = trend.direction === 'up'
-                        ? pdfStyles.trendUp
-                        : trend.direction === 'down'
-                          ? pdfStyles.trendDown
-                          : pdfStyles.trendStable;
-                      return (
-                        <View key={index} style={[pdfStyles.card, pdfStyles.gridItem]}>
-                          <View style={pdfStyles.cardRow}>
-                            <Text style={pdfStyles.cardLabel}>
-                              {item.title?.replace(/^\d+\s/, '') || 'Catégorie'}
-                            </Text>
+                {typeItems.length > 0 && (
+                  <View style={pdfStyles.section}>
+                    <Text style={pdfStyles.sectionTitle}>📋 Détails par Catégorie</Text>
+                    <View style={pdfStyles.grid}>
+                      {typeItems.map((item: MenuItem, index: number) => {
+                        const trend = getTrend(item.nbetablissements);
+                        const trendStyle = trend.direction === 'up'
+                          ? pdfStyles.trendUp
+                          : trend.direction === 'down'
+                            ? pdfStyles.trendDown
+                            : pdfStyles.trendStable;
+                        return (
+                          <View key={index} style={[pdfStyles.card, pdfStyles.gridItem]}>
+                            <View style={pdfStyles.cardRow}>
+                              <Text style={pdfStyles.cardLabel}>
+                                {item.title?.replace(/^\d+\s/, '') || 'Catégorie'}
+                              </Text>
+                            </View>
+                            <View style={pdfStyles.cardRow}>
+                              <Text style={pdfStyles.cardValue}>
+                                {item.nbetablissements?.toLocaleString('fr-FR') || 0}
+                              </Text>
+                              <Text style={[pdfStyles.trendBadge, trendStyle]}>
+                                {trend.direction === 'up' ? '↑' : trend.direction === 'down' ? '↓' : '→'} {trend.value}%
+                              </Text>
+                            </View>
+                            <View style={pdfStyles.progressBar}>
+                              <View style={[pdfStyles.progressFill, {
+                                width: `${totalClients > 0 ? (item.nbetablissements / totalClients) * 100 : 0}%`
+                              }]} />
+                            </View>
                           </View>
-                          <View style={pdfStyles.cardRow}>
-                            <Text style={pdfStyles.cardValue}>
-                              {item.nbetablissements?.toLocaleString('fr-FR') || 0}
-                            </Text>
-                            <Text style={[pdfStyles.trendBadge, trendStyle]}>
-                              {trend.direction === 'up' ? '↑' : trend.direction === 'down' ? '↓' : '→'} {trend.value}%
-                            </Text>
-                          </View>
-                          {/* Barre de progression */}
-                          <View style={pdfStyles.progressBar}>
-                            <View style={[pdfStyles.progressFill, {
-                              width: `${totalClients > 0 ? (item.nbetablissements / totalClients) * 100 : 0}%`
-                            }]} />
-                          </View>
-                        </View>
-                      );
-                    })}
+                        );
+                      })}
+                    </View>
                   </View>
-                </View>
+                )}
 
                 {/* Statistiques Complètes */}
-                <View style={pdfStyles.section}>
-                  <Text style={pdfStyles.sectionTitle}>📊 Statistiques Complètes</Text>
-                  <View style={pdfStyles.card}>
-                    {subItems.map((item: MenuItem, index: number) => {
-                      const trend = getTrend(item.nbetablissements);
-                      const trendStyle = trend.direction === 'up'
-                        ? pdfStyles.trendUp
-                        : trend.direction === 'down'
-                          ? pdfStyles.trendDown
-                          : pdfStyles.trendStable;
-                      return (
-                        <View key={index} style={pdfStyles.cardRow}>
-                          <Text style={pdfStyles.cardLabel}>
-                            {item.title?.replace(/^\d+\s/, '') || `Item ${index + 1}`}
-                          </Text>
-                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                            <Text style={pdfStyles.cardValue}>
-                              {item.nbetablissements?.toLocaleString('fr-FR') || 0}
+                {uniqueItems.length > 0 && (
+                  <View style={pdfStyles.section}>
+                    <Text style={pdfStyles.sectionTitle}>📊 Statistiques Complètes</Text>
+                    <View style={pdfStyles.card}>
+                      {uniqueItems.map((item: MenuItem, index: number) => {
+                        const trend = getTrend(item.nbetablissements);
+                        const trendStyle = trend.direction === 'up'
+                          ? pdfStyles.trendUp
+                          : trend.direction === 'down'
+                            ? pdfStyles.trendDown
+                            : pdfStyles.trendStable;
+                        return (
+                          <View key={index} style={pdfStyles.cardRow}>
+                            <Text style={pdfStyles.cardLabel}>
+                              {item.title?.replace(/^\d+\s/, '') || `Item ${index + 1}`}
                             </Text>
-                            <Text style={[pdfStyles.trendBadge, trendStyle]}>
-                              {trend.direction === 'up' ? '↑' : trend.direction === 'down' ? '↓' : '→'} {trend.value}%
-                            </Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                              <Text style={pdfStyles.cardValue}>
+                                {item.nbetablissements?.toLocaleString('fr-FR') || 0}
+                              </Text>
+                              <Text style={[pdfStyles.trendBadge, trendStyle]}>
+                                {trend.direction === 'up' ? '↑' : trend.direction === 'down' ? '↓' : '→'} {trend.value}%
+                              </Text>
+                            </View>
                           </View>
-                        </View>
-                      );
-                    })}
+                        );
+                      })}
+                    </View>
                   </View>
-                </View>
+                )}
 
                 {/* Pied de page */}
                 <View style={pdfStyles.footer}>
@@ -390,7 +402,6 @@ const PDFDownloadButton = memo(({
               document={
                 <ReportPDF
                   mainItem={mainItem}
-                  hotelItems={hotelItems}
                   subItems={subItems}
                   generatedAt={new Date().toISOString()}
                 />
@@ -408,7 +419,11 @@ const PDFDownloadButton = memo(({
             >
               {({ loading }: { loading: boolean }) => (
                 <>
-                  <FileText size={20} />
+                  {loading ? (
+                    <Loader2 size={20} className="animate-spin" />
+                  ) : (
+                    <FileText size={20} />
+                  )}
                   <span>{loading ? "Préparation du PDF..." : "📊 Télécharger le PDF"}</span>
                   <Download size={18} />
                 </>
@@ -418,8 +433,10 @@ const PDFDownloadButton = memo(({
         };
 
         setPDFComponent(() => PDFDownloadWrapper);
+        setIsLoading(false);
       } catch (error) {
         console.error('Erreur de chargement du PDF:', error);
+        setIsLoading(false);
       }
     };
 
@@ -427,7 +444,7 @@ const PDFDownloadButton = memo(({
   }, [mainItem, hotelItems, subItems]);
 
   // Rendu côté serveur ou pendant le chargement
-  if (!isClient || !PDFComponent) {
+  if (!isClient || isLoading || !PDFComponent) {
     return <LoadingButton />;
   }
 

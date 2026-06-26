@@ -128,7 +128,7 @@ const ContentSection = memo(function ContentSection() {
 const TourismDashboard = memo(function TourismDashboard() {
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4">
+    <div className="mx-auto w-full max-w-6xl px-4">
       <Bandeau />
       <ContentSection />
     </div>

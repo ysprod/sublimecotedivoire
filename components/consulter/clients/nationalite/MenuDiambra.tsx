@@ -12,15 +12,15 @@ import { PeriodButtons } from "../../commons/PeriodButtons";
 const MenuDiambra = memo(() => {
   const {
     handleRapportClick, setActivePeriod, handleBack,
-    submenutitems, tpsglobal, activePeriod, adaptedMainItem, adaptedNationaliteItems,
+    submenutitems, activePeriod, adaptedMainItem, adaptedNationaliteItems,
   } = usePrincipale();
 
   return (
-    <div className="bg-white flex flex-col items-center w-full max-w-8xl mx-auto p-4 space-y-6">
+    <div className="bg-white flex flex-col items-center w-full max-w-4xl mx-auto p-4 space-y-6 mb-8">
       <Bandeau />
       <BackButton onClick={handleBack} />
 
-      <div className="flex flex-col items-center w-full space-y-6">
+      <div className="flex flex-col items-center w-full max-w-2xl  space-y-6 mb-8">
         <h1 className="text-xl uppercase font-bold text-gray-800 text-center">
           Statistiques des clients par nationalité
         </h1>
@@ -31,12 +31,12 @@ const MenuDiambra = memo(() => {
         />
 
         {adaptedMainItem && (
-          <MainStatCard item={adaptedMainItem} tpsglobal={tpsglobal} />
+          <MainStatCard item={adaptedMainItem} tpsglobal={0} />
         )}
 
         <NationaliteStatsSection
           items={adaptedNationaliteItems}
-          tpsglobal={tpsglobal}
+          tpsglobal={0}
           onClick={() => { }}
         />
         {submenutitems.length > 0 && (

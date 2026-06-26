@@ -1,6 +1,3 @@
-/**
- * Configuration des métadonnées pour le layout root
- */
 const faviconAnySize = `${'an'}y`;
 
 export function getRootMetadata() {

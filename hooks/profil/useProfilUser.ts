@@ -9,7 +9,9 @@ export function useProfilUser() {
 
   const user = useAuthStore((state) => state.user);
   const updateUser = useAuthStore((state) => state.updateUser);
+
   const isAuthenticated = Boolean(user);
+  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

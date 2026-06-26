@@ -1,4 +1,3 @@
-// components/InfoStat.tsx
 'use client';
 import { STAT_LABEL_MAP } from "@/lib/libs/constants";
 import type { MenuItem, TrendData } from "@/lib/libs/interface";
@@ -167,6 +166,7 @@ export const InfoStat = memo(({
         </div>
 
         {trendData && <TrendIndicator trend={trendData} size="sm" />}
+        
         {alternativeTrend && (
           <div className="mt-0.5">
             <TrendIndicator trend={alternativeTrend} size="sm" />

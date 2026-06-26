@@ -34,7 +34,7 @@ const createMenuItem = (
   icon,
   tpsglobal,
   blackicon,
-   id: baseTitle.toLowerCase().replace(/\s/g, '_'),
+  id: baseTitle.toLowerCase().replace(/\s/g, '_'),
   count,
   trendValue: 0,
   iconSrc: icon,
@@ -182,7 +182,5 @@ export function usePrincipale() {
     router.push(`${route}?tpsglobal=${item.tpsglobal}`);
   }, [router]);
 
-  return {
-    hotelItems, tpsglobal, mainMenuItem, handleClick, handleBack,
-  };
+  return { hotelItems, tpsglobal, mainMenuItem, handleClick, handleBack, };
 }

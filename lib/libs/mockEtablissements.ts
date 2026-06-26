@@ -11,7 +11,9 @@ const nomsEtablissements = [
     "Le Wafa", "La Perle", "Les Cocotiers", "Ivoire Lodge", "Sunset",
     "Palm Beach", "Savana", "Ebène", "Baobab", "Lagune Bleue",
     "Royal", "Paradise", "Jardin d'Eden", "Les Almadies", "Toubabou",
-    "La Maison Bleue", "Le Domanial", "Les Bougainvilliers", "Le N'Zassa", "Awale"
+    "La Maison Bleue", "Le Domanial", "Les Bougainvilliers", "Le N'Zassa", "Awale",
+    "Le Jardin des Plantes", "Le Jardin des Arbres", "Le Jardin des Plantes", "Le Jardin des Arbres",
+    "Calao",
 ];
 
 const prenoms = ["Jean", "Marie", "Koffi", "Aïcha", "Mohamed", "Fatou", "Paul", "Adjoua", "Yves", "Amélie"];

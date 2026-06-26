@@ -18,7 +18,6 @@ export const DEFAULT_PAGINATION_COUNT = 10;
 export const RESPONSE_CACHE_CONTROL = 'public, max-age=3600, stale-while-revalidate=1800';
 export const ERROR_RESPONSE_OPTIONS = { status: 500, headers: { 'Content-Type': 'application/problem+json' } };
 export const METHOD_NOT_ALLOWED_OPTIONS = { status: 405 };
-
 export const MAX_PAGINATION_COUNT = 10000;
 export const API_DELAY_MS = 500;
 export const CACHE_TTL = 3600;
@@ -39,15 +38,6 @@ export const API_HEADERS_EXTENDED = {
   'Content-Type': 'application/json',
   'X-API-Version': '1.0'
 };
-
-export const RAPPORTS = [
-  "RAPPORT DES DONNÉES SUR LE NOMBRE DES DIFFÉRENTS TYPES D'ÉTABLISSEMENTS HÔTELIERS DE CÔTE D'IVOIRE",
-  "RAPPORT DES DONNÉES SUR LE NOMBRE DE CLIENTS DANS LES DIFFÉRENTS TYPES D'ÉTABLISSEMENTS HÔTELIERS DE CÔTE D'IVOIRE",
-  "RAPPORT DES DONNÉES SUR LE NOMBRE DE CLIENTS MASCULINS DANS LES DIFFÉRENTS TYPES D'ÉTABLISSEMENTS HÔTELIERS DE CÔTE D'IVOIRE",
-  "RAPPORT DES DONNÉES SUR LE NOMBRE DE CLIENTS FÉMININS DANS LES DIFFÉRENTS TYPES D'ÉTABLISSEMENTS HÔTELIERS DE CÔTE D'IVOIRE",
-  "RAPPORT DES DONNÉES SUR LE NOMBRE DE CLIENTS IVOIRIENS DANS LES DIFFÉRENTS TYPES D'ÉTABLISSEMENTS HÔTELIERS DE CÔTE D'IVOIRE",
-  "RAPPORT DES DONNÉES SUR LE NOMBRE DE CLIENTS ÉTRANGERS DANS LES DIFFÉRENTS TYPES D'ÉTABLISSEMENTS HÔTELIERS DE CÔTE D'IVOIRE"
-] as const;
 
 export const MONTHS = [
   { value: '01', label: 'Janvier' },
@@ -112,7 +102,6 @@ export const ETAB_STAT_LABEL_MAP: Record<number, string> = {
   3: "FEMMES",
 };
 
-
 export const fadeInUp = {
   initial: { opacity: 0, y: -20 },
   animate: { opacity: 1, y: 0 },
@@ -152,13 +141,6 @@ export const initialCarto: CartoFiltre = {
   tpsglobal: 0
 };
 
-export const diambraMoov = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
-  transition: { duration: 0.3, ease: "easeInOut" },
-};
-
 export const APP_ICONS = [
   { rel: "icon", url: "/favicon.ico" },
   { rel: "icon", url: "/icons/icon-192x192.png" },
@@ -174,15 +156,6 @@ export const TAB_ETAB_CONFIG = {
   notUpToDate: { label: 'Pas à jour des cotisations', color: 'red' }
 } as const;
 
-export const tabAnimation = {
-  ...fadeInUp, transition: { ...fadeInUp.transition, delay: 0.2, duration: 0.5 }
-};
-
-export const filtremoov = {
-  ...fadeInUp,
-  transition: { ...fadeInUp.transition, delay: 0.1 }
-};
-
 export const COLOR_CLASSES: Record<ColorType, { text: string; border: string }> = {
   blue: { text: 'text-blue-600', border: 'border-blue-600' },
   green: { text: 'text-green-600', border: 'border-green-600' },
@@ -194,20 +167,19 @@ export const COLOR_CLASSES: Record<ColorType, { text: string; border: string }> 
 export const PERIODS = ['day', 'week', 'month', 'year'] as const;
 
 export const PERIOD_LABELS = {
-    day: 'par rapport à hier',
-    week: 'par rapport à la semaine dernière',
-    month: 'par rapport au mois dernier',
-    year: 'par rapport à l\'année dernière'
+  day: 'par rapport à hier',
+  week: 'par rapport à la semaine dernière',
+  month: 'par rapport au mois dernier',
+  year: 'par rapport à l\'année dernière'
 } as const;
-
 
 export const PERIOD_SHORT = {
-    day: 'J',
-    week: 'S',
-    month: 'M',
-    year: 'A'
+  day: 'J',
+  week: 'S',
+  month: 'M',
+  year: 'A'
 } as const;
- 
+
 export const PERIOD_BUTTONS: { id: PeriodType; label: string; icon: string }[] = [
   { id: 'all', label: 'Vue d\'ensemble', icon: '📊' },
   { id: 'week', label: 'Cette semaine', icon: '📅' },

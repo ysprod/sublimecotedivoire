@@ -79,7 +79,7 @@ export function useLoginForm() {
       setErrors(validationErrors);
       return;
     }
-    
+
     try {
       await login(formData);
       await new Promise(resolve => setTimeout(resolve, 10));
@@ -127,6 +127,6 @@ export function useLoginForm() {
   }), [formData.password, errors.password, showPassword, togglePassword, handleChange]);
 
   return {
-   handleSubmit, error, isSubmitDisabled, isLoading, isPending, isHydrated, usernameProps, passwordProps,
+    handleSubmit, error, isSubmitDisabled, isLoading, isPending, isHydrated, usernameProps, passwordProps,
   };
 }

@@ -3,8 +3,8 @@ import { MenuItem } from "@/lib/libs/interface";
 import { memo } from "react";
 import { CHART_LOADING } from "@/lib/libs/constants";
 import { ApexOptions } from "apexcharts";
-import dynamic from "next/dynamic";
 import { useMemo } from "react";
+import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), {
     ssr: false,

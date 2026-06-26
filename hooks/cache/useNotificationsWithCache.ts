@@ -8,7 +8,7 @@ export function useNotificationsWithCache() {
   const queryClient = useQueryClient();
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = Boolean(user);
-  
+
   const {
     data,
     isLoading,
@@ -27,8 +27,8 @@ export function useNotificationsWithCache() {
         unreadCount: data.unreadCount || 0,
       };
     },
-    staleTime: 1000 * 60 * 5, // 5 min
-    gcTime: 1000 * 60 * 30,   // 30 min
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 
   return {
@@ -65,6 +65,7 @@ export function useNotificationsWithCache() {
     },
     markAllAsRead: async () => {
       await notificationsService.markAllAsRead();
+
       await queryClient.setQueryData(
         QUERY_KEYS.NOTIFICATIONS,
         (previous: NotificationResponse | undefined) => {

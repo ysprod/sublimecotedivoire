@@ -12,7 +12,7 @@ import { PeriodButtons } from "../../commons/PeriodButtons";
 const MenuDiambra = memo(() => {
   const {
     setActivePeriod, handleBack, handleRapportClick,
-    submenutitems, tpsglobal, adaptedMainItem, adaptedAgeGroupItems, activePeriod,
+    submenutitems, adaptedMainItem, adaptedAgeGroupItems, activePeriod,
   } = usePrincipale();
 
   return (
@@ -31,12 +31,12 @@ const MenuDiambra = memo(() => {
         />
 
         {adaptedMainItem && (
-          <MainStatCard item={adaptedMainItem} tpsglobal={tpsglobal} />
+          <MainStatCard item={adaptedMainItem} tpsglobal={0} />
         )}
 
         <AgeGroupStatsSection
           items={adaptedAgeGroupItems}
-          tpsglobal={tpsglobal}
+          tpsglobal={0}
           onClick={() => { }}
         />
 

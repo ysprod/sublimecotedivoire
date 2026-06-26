@@ -43,6 +43,7 @@ export async function clearClientApplicationState() {
   }
 
   clearMonetoileStorage(window.localStorage);
+  
   clearMonetoileStorage(window.sessionStorage);
 
   try {

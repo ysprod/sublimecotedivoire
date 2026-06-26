@@ -9,7 +9,6 @@ export const endpoints = {
   },
   users: {
     list: '/users',
-    consultants: '/users/consultants',
     byId: (id: string) => `/users/${id}`,
     stats: (id: string) => `/users/${id}/stats`,
     role: (id: string) => `/users/${id}/role`,
@@ -37,9 +36,6 @@ export const endpoints = {
   userAccess: {
     mySubscription: '/user-access/subscription-info',
     checkAccess: (rubriqueId: string) => `/user-access/check-access/${rubriqueId}`,
-    activatePremium: '/user-access/activate-premium',
-    activateIntegral: '/user-access/activate-integral',
-    cancelSubscription: '/user-access/cancel-subscription',
   },
 };
 

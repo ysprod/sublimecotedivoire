@@ -1,17 +1,11 @@
-// hooks/datakwaba/clients/type/usePrincipale.ts
 'use client';
-
-import { initialCarto } from "@/lib/libs/constants";
-import { getRandomCount, valeurEntier } from "@/lib/libs/functions";
+import { getRandomCount } from "@/lib/libs/functions";
 import { EtablissementType, MenuItem, PeriodType } from "@/lib/libs/interface";
 import { generateAllTrends } from "@/lib/libs/trends";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { useSubMenuData } from "../../commons/useSubMenuData";
-
-// ============================================================================
-// CONSTANTES
-// ============================================================================
+import { useMonEtoileStore } from "@/lib/store/monetoile.store";
 
 const ICONS = {
   CLIENTS: "/icons/lesclients.png",
@@ -26,10 +20,6 @@ const PERIOD_MULTIPLIERS: Record<PeriodType, number> = {
   month: 0.5,
   year: 0.8,
 };
-
-// ============================================================================
-// CRÉATION DES ITEMS AVEC TRENDS
-// ============================================================================
 
 const createMenuItemWithTrends = (
   baseTitle: string,
@@ -63,10 +53,6 @@ const createMenuItemWithTrends = (
   };
 };
 
-// ============================================================================
-// GÉNÉRATION DES STATISTIQUES
-// ============================================================================
-
 const generateStats = () => {
   const hommesCount = getRandomCount(2000, 10000);
   const femmesCount = getRandomCount(2000, 1000);
@@ -84,17 +70,14 @@ const generateStats = () => {
   };
 };
 
-// ============================================================================
-// HOOK PRINCIPAL
-// ============================================================================
-
 export function usePrincipale() {
   const router = useRouter();
+
+  const clientItem = useMonEtoileStore((state) => state.clientItem);
+
   const [activePeriod, setActivePeriod] = useState<PeriodType>('all');
   const [activeType, setActiveType] = useState<EtablissementType>(null);
-  const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
 
-  // ✅ Génération des données de base avec trends
   const baseMenuItems = useMemo(() => {
     const stats = generateStats();
     return [
@@ -105,16 +88,12 @@ export function usePrincipale() {
     ];
   }, []);
 
-  const tpsglobal = useMemo(() => valeurEntier(initialCarto.tpsglobal), []);
-
-  // ✅ Élément principal adapté
   const mymainMenuItem = useMemo(() => {
-    return baseMenuItems.find(item => item.tpsglobal === initialCarto.tpsglobal) ?? baseMenuItems[0];
+    return baseMenuItems.find(item => item.tpsglobal === 0) ?? baseMenuItems[0];
   }, [baseMenuItems]);
 
-  const { submenutitems } = useSubMenuData(mymainMenuItem?.nbetablissements || 0);
+  const { submenutitems } = useSubMenuData(clientItem?.nbetablissements || 0);
 
-  // ✅ Construction du mainMenuItem avec trends
   const mainMenuItem = useMemo(() => {
     if (!mymainMenuItem || !submenutitems.length) return null;
     const total = submenutitems.reduce((sum, item) => sum + (item.nbetablissements || 0), 0);
@@ -138,7 +117,6 @@ export function usePrincipale() {
 
   const periodMultiplier = PERIOD_MULTIPLIERS[activePeriod];
 
-  // ✅ Adaptation du main item avec la période
   const adaptedMainItem = useMemo(() => {
     if (!mainMenuItem) return null;
     const adaptedCount = Math.round(mainMenuItem.nbetablissements * periodMultiplier);
@@ -159,7 +137,6 @@ export function usePrincipale() {
     };
   }, [mainMenuItem, periodMultiplier]);
 
-  // ✅ Filtrage par type d'établissement
   const typeItems = useMemo(() => {
     return submenutitems.filter(item =>
       item.title?.includes('HÔTELS') ||
@@ -182,8 +159,8 @@ export function usePrincipale() {
     );
   }, [typeItems, activeType]);
 
-  // ✅ Adaptation des items de type avec la période
   const adaptedTypeItems = useMemo(() => {
+
     return filteredTypeItems.map(item => {
       const adaptedCount = Math.round(item.nbetablissements * periodMultiplier);
       const trends = generateAllTrends(adaptedCount);
@@ -206,16 +183,14 @@ export function usePrincipale() {
     });
   }, [filteredTypeItems, periodMultiplier]);
 
-  // ✅ Handlers
   const handleClick = useCallback((item: MenuItem) => {
-    setSelectedMenuItem(item);
     const routeMap: Record<number, string> = {
-      2: '/consulter/hotels',
-      3: '/consulter/residences',
-      4: '/consulter/hotes',
+      200: '/consulter/hotels',
+      100: '/consulter/residences',
+      46: '/consulter/hotes',
     };
     const basePath = routeMap[item.tpsglobal ?? 0] || '/consulter';
-    router.push(`${basePath}?tpsglobal=${item.tpsglobal}`);
+    router.push(`${basePath}`);
   }, [router]);
 
   const handleBack = useCallback(() => {
@@ -227,26 +202,7 @@ export function usePrincipale() {
   };
 
   return {
-    // États
-    activePeriod,
-    setActivePeriod,
-    activeType,
-    setActiveType,
-    selectedMenuItem,
-    setSelectedMenuItem,
-    // Données adaptées
-    adaptedMainItem,
-    adaptedTypeItems,
-    submenutitems,
-    // Handlers
-    handleClick,
-    handleBack,
-    handleRapportClick,
-    // Utilitaires
-    tpsglobal,
-    periodMultiplier,
-    // Legacy (pour compatibilité)
-    mainMenuItem: adaptedMainItem,
-    filteredTypeItems: adaptedTypeItems,
+    handleClick, setActivePeriod, handleBack, handleRapportClick, setActiveType,
+    activeType, adaptedMainItem, adaptedTypeItems, submenutitems, activePeriod,
   };
 }

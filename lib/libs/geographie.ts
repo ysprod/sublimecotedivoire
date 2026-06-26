@@ -1,6 +1,3 @@
-// lib/data/geographie.ts
-
-// Données des régions (GeoJSON simplifié)
 export const REGIONS_DATA = [
   {
     id: 'abidjan',

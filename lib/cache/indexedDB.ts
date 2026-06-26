@@ -18,7 +18,6 @@ export async function getFromCache(store: string, key: string) {
 }
 
 async function openDB() {
-  // Utilise idb-keyval ou idb (npm install idb)
   const { openDB } = await import('idb');
   return openDB('monetoile-cache', 1, {
     upgrade(db) {

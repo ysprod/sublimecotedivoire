@@ -3,7 +3,7 @@ import { fadeInUp } from "@/lib/libs/constants";
 import { MenuItem } from "@/lib/libs/interface";
 import { motion } from "framer-motion";
 import { memo, useMemo } from "react";
-import Charte from "../charts/Charte";
+import Charte from "../../charts/Charte";
 import InfoStat from "./InfoStat";
 
 interface MenuDiambraProps {

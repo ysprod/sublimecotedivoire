@@ -3,8 +3,8 @@ import { default as CacheLink } from '@/components/commons/CacheLink';
 import { useRegisterForm } from '@/hooks/auth/register/useRegisterForm';
 import { motion } from "framer-motion";
 import { AlertCircle, Check, Eye, EyeOff, Loader2, Lock, Shield, User, X } from 'lucide-react';
-import Image from "next/image";
 import { memo, default as React } from 'react';
+import Image from "next/image";
 
 const PASSWORD_STRENGTH_CONFIG = {
   0: { color: 'bg-gray-200', text: '', textColor: '' },

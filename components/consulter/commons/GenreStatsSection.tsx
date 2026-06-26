@@ -1,6 +1,4 @@
-// components/GenreStatsSection.tsx
 'use client';
-
 import { memo } from "react";
 import { InfoStat } from "./InfoStat";
 

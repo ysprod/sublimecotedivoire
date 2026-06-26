@@ -1,7 +1,7 @@
 import { User } from '@/lib/interfaces';
 import type { LoginDto, RegisterDto, AuthResponse } from '@/lib/types/auth.types';
 import { getBackendApiUrl } from '../server/session';
- 
+
 const AUTH_ROUTES = {
   login: getBackendApiUrl('auth/login'), // `${API_BASE}/auth/login`,
   register: getBackendApiUrl('auth/register'), // `${API_BASE}/auth/register`,
@@ -124,10 +124,6 @@ export const authService = {
 
     return ensureUserPayload(payload);
   },
-
-  /**
-   * Déconnexion utilisateur
-   */
   logout: async (): Promise<void> => {
     await requestAuthRoute<{ success: boolean }>(AUTH_ROUTES.logout, {
       method: 'POST',

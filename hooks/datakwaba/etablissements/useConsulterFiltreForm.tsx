@@ -23,7 +23,6 @@ export const useConsulterFiltreForm = ({ carto, updateCarto }: ConsulterFiltreFo
         (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
             const value = e.target.value;
             const updates: Partial<CartoFiltre> = { [field]: value };
-
             if (field === 'regionId') {
                 updates.departementId = '';
                 updates.localite = '';
